@@ -1,0 +1,45 @@
+{
+  "name": "greencode-api",
+  "version": "1.0.0",
+  "description": "API backend da plataforma GreenCode desenvolvida em Node.js com Fastify e Prisma",
+  "main": "dist/main.js",
+  "scripts": {
+    "dev": "tsx src/main.ts",
+    "build": "tsc && tsc-alias",
+    "start": "node dist/main.js",
+    "lint": "eslint ."
+  },
+  "keywords": [
+    "logistica-reversa",
+    "rastreamento",
+    "fastify",
+    "prisma",
+    "ddd"
+  ],
+  "author": "Kelwin",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "@types/node": "^26.6.5",
+    "@types/pg": "^8.23.1",
+    "globals": "^15.0.0",
+    "prettier": "^3.9.10",
+    "prisma": "^7.10.1",
+    "tsc-alias": "^1.9.9",
+    "tsx": "^4.23.15",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.0.0"
+  },
+  "dependencies": {
+    "@fastify/jwt": "^10.2.5",
+    "@fastify/swagger": "^9.9.2",
+    "@fastify/swagger-ui": "^5.2.6",
+    "@prisma/adapter-pg": "^7.10.1",
+    "@prisma/client": "^7.10.1",
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^18.0.8",
+    "fastify": "^5.12.7",
+    "pg": "^8.23.1"
+  }
+}
