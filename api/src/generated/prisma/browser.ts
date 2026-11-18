@@ -62,3 +62,38 @@ export type Lote = Prisma.LoteModel
  * 
  */
 export type Organizacao = Prisma.OrganizacaoModel
+/**
+ * Model HistoricoStatusLote
+ * 
+ */
+export type HistoricoStatusLote = Prisma.HistoricoStatusLoteModel
+/**
+ * Model HistoricoEstadoFisico
+ * 
+ */
+export type HistoricoEstadoFisico = Prisma.HistoricoEstadoFisicoModel
+/**
+ * Model PrevisaoVidaUtil
+ * 
+ */
+export type PrevisaoVidaUtil = Prisma.PrevisaoVidaUtilModel
+/**
+ * Model ValidacaoPrevisao
+ * 
+ */
+export type ValidacaoPrevisao = Prisma.ValidacaoPrevisaoModel
+/**
+ * Model ParceiroApi
+ * 
+ */
+export type ParceiroApi = Prisma.ParceiroApiModel
+/**
+ * Model ChaveApi
+ * 
+ */
+export type ChaveApi = Prisma.ChaveApiModel
+/**
+ * Model SolicitacaoRelatorio
+ * 
+ */
+export type SolicitacaoRelatorio = Prisma.SolicitacaoRelatorioModel

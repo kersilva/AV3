@@ -185,7 +185,7 @@ export class EquipamentoService {
       dataHora: m.dataHora,
       origem: m.origem,
       destino: m.destino,
-      responsavel: m.responsavel,
+      responsavelId: m.responsavelId,
       observacao: m.observacao,
     }));
   }
@@ -202,7 +202,7 @@ export class EquipamentoService {
       const movimentacao = equipamento.registrarMovimentacao({
         id: randomUUID(),
         destino: dados.destino,
-        responsavel: ator.usuario,
+        responsavelId: ator.id,
         ...(dados.observacao ? { observacao: dados.observacao } : {}),
       });
 
@@ -213,7 +213,7 @@ export class EquipamentoService {
         dataHora: salva.dataHora,
         origem: salva.origem,
         destino: salva.destino,
-        responsavel: salva.responsavel,
+        responsavelId: salva.responsavelId,
         observacao: salva.observacao,
       };
 
@@ -254,7 +254,7 @@ export class EquipamentoService {
         dataHora: m.dataHora,
         origem: m.origem,
         destino: m.destino,
-        responsavel: m.responsavel,
+        responsavelId: m.responsavelId,
         observacao: m.observacao,
       })),
     };

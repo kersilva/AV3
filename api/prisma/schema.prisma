@@ -13,7 +13,7 @@ datasource db {
 }
 
 // ====================
-// ENUMS
+// ENUMS — existentes (AV1/AV2)
 // ====================
 
 enum PapelUsuario {
@@ -64,7 +64,45 @@ enum TipoEquipamento {
 }
 
 // ====================
-// MODELS
+// ENUMS — novos (AV3)
+// ====================
+
+// Metodologia usada para gerar uma previsão de vida útil.
+// Persistir qual método foi usado permite comparar a qualidade dos modelos.
+enum MetodologiaPrevisao {
+  REGRESSAO_OLS
+  SUAVIZACAO_EXPONENCIAL
+}
+
+// Estado de uma solicitação de relatório assíncrona.
+// Acompanha o ciclo de vida da intenção de negócio no Postgres;
+// o estado do job em si (em fila, em execução, retentando) fica no Redis/BullMQ.
+enum StatusSolicitacao {
+  PENDENTE
+  PROCESSANDO
+  CONCLUIDO
+  FALHOU
+  CANCELADO
+}
+
+enum TipoRelatorio {
+  EFICIENCIA_OPERACIONAL
+  RENTABILIDADE_POR_TIPO
+  PREVISAO_VIDA_UTIL
+  COMPLETO
+}
+
+// Escopos de uma chave de API. Enum em vez de String[] para evitar o mesmo
+// problema de typos que corrigimos em Movimentacao.origem/destino: permissões
+// diferentes por erro de digitação, sem erro em runtime.
+enum EscopoApi {
+  RASTREABILIDADE_LEITURA
+  LOTE_ESCRITA
+  RELATORIO_LEITURA
+}
+
+// ====================
+// MODELS — Camada transacional (AV1/AV2, preservada)
 // ====================
 
 model Usuario {
@@ -76,7 +114,11 @@ model Usuario {
   ativo        Boolean      @default(true)
   versao       Int          @default(1)
 
-  journalTransacoes JournalTransacao[]
+  journalTransacoes     JournalTransacao[]
+  movimentacoes         Movimentacao[]
+  historicoStatusLote   HistoricoStatusLote[]
+  historicoEstadoFisico HistoricoEstadoFisico[]
+  solicitacoesRelatorio SolicitacaoRelatorio[]
 }
 
 model JournalTransacao {
@@ -104,18 +146,28 @@ model ConfiguracaoSistema {
 }
 
 model Movimentacao {
-  id            String   @id
+  id            String             @id
   equipamentoId String
   dataHora      DateTime
-  origem        String
-  destino       String
-  responsavel   String
+  // AV3: antes eram String livre — viraram enum para evitar fragmentação
+  // em GROUP BY (typos como "EM_DESMONTE" vs "em_desmonte" quebravam qualquer
+  // agregação por etapa do fluxo de rastreamento).
+  origem        StatusRastreamento
+  destino       StatusRastreamento
+  // AV3: antes era `responsavel String` (texto livre, o nome do operador).
+  // Virou FK para Usuario para uniformizar com HistoricoStatusLote/HistoricoEstadoFisico
+  // e permitir JOIN entre as três tabelas na análise por operador. Nullable porque
+  // uma movimentação pode ser disparada pelo sistema (ex.: rotina automática).
+  responsavelId String?
   observacao    String?
-  versao        Int      @default(1)
+  versao        Int                @default(1)
 
   equipamento Equipamento @relation(fields: [equipamentoId], references: [id])
+  responsavel Usuario?    @relation(fields: [responsavelId], references: [id])
 
   @@index([equipamentoId])
+  @@index([destino, dataHora])
+  @@index([responsavelId])
 }
 
 model ClausulaContrato {
@@ -145,6 +197,13 @@ model Contrato {
 model Equipamento {
   posicaoNoLote         Int
   historicoMovimentacao Movimentacao[]
+  // AV3: trajetória de estado físico por equipamento.
+  // Alimenta a análise preditiva (idade na morte por tipo) e, ao mesmo tempo,
+  // satisfaz a regra da AV1/AV2 de justificativa obrigatória em queda >= 2 categorias.
+  historicoEstadoFisico HistoricoEstadoFisico[]
+  // AV3: validações de previsão — quando um equipamento vira INSERVIVEL após
+  // dataPrevisao de uma PrevisaoVidaUtil, registra-se aqui o erro cometido.
+  validacoesPrevisao    ValidacaoPrevisao[]
 
   id                  String             @id
   codigoBarrasInterno String             @unique
@@ -159,9 +218,22 @@ model Equipamento {
   versao              Int                @default(1)
   excluidoEm          DateTime?
 
+  // AV3: rentabilidade — abordagem híbrida.
+  //   valorEstimadoRecuperacao  -> preenchido na triagem (com base em tipo/estado/marca/modelo)
+  //   valorRealizadoRecuperacao -> preenchido no desmonte (valor efetivo)
+  // A diferença entre os dois vira métrica analítica: precisão da estimativa por tipo.
+  // NOTA PARA O RELATÓRIO: valorRealizadoRecuperacao é BRUTO. Para rentabilidade
+  // líquida, o service deve descontar aliquotaImposto (ConfiguracaoSistema) e custos
+  // de processo. Decidir e declarar explicitamente qual versão está sendo reportada.
+  valorEstimadoRecuperacao  Decimal?  @db.Decimal(10, 2)
+  valorRealizadoRecuperacao Decimal?  @db.Decimal(10, 2)
+  dataEstimativa            DateTime?
+  dataRealizacao            DateTime?
+
   lote Lote @relation(fields: [loteId], references: [id])
 
   @@unique([loteId, posicaoNoLote])
+  @@index([tipo, marca, modelo])
 }
 
 model Lote {
@@ -176,6 +248,11 @@ model Lote {
   observacoes         String?
   versao              Int           @default(1)
   excluidoEm          DateTime?
+
+  // AV3: histórico de transições de status do lote.
+  // statusProcessamento é apenas a foto do presente; este array alimenta
+  // a análise de eficiência (tempo entrada -> triagem concluída, por operador, por período).
+  historicoStatus HistoricoStatusLote[]
 
   organizacao Organizacao @relation(fields: [organizacaoId], references: [id])
 
@@ -196,4 +273,225 @@ model Organizacao {
 
   contratoVigente Contrato[]
   lotes           Lote[]
+}
+
+// ====================
+// MODELS — Camada temporal (NOVO — AV3)
+//
+// O schema transacional guarda apenas o valor presente de cada estado.
+// A camada analítica precisa do "quando" cada estado foi assumido, porque
+// quase tudo que ela calcula é uma diferença de tempo ou uma tendência.
+// Estas tabelas registram o que só existia no momento da transição.
+// ====================
+
+// Cada mudança de statusProcessamento de um Lote.
+// Regra de preenchimento (no service, dentro de $transaction):
+//   toda atualização de Lote.statusProcessamento deve inserir uma linha aqui
+//   com statusAnterior = valor antes da mudança (ou null na criação inicial),
+//   statusNovo = valor depois.
+// statusAnterior é NULLABLE: a primeira linha, registrada no momento da criação
+// do lote, tem statusAnterior = null.
+//
+// Tempo de triagem de UM lote:
+//   (primeiro timestamp com statusNovo = TRIAGEM_CONCLUIDA)
+//   - (primeiro timestamp com statusNovo = EM_TRIAGEM)
+//   calculado separadamente para cada loteId.
+// A média é calculada sobre os lotes, nunca subtraindo timestamps de lotes diferentes.
+// Tempo total de entrada até a conclusão: use o timestamp da linha com
+// statusAnterior = null como início, em vez de Lote.dataEntrada, se quiser
+// medir desde o registro no sistema.
+
+model HistoricoStatusLote {
+  id             String      @id
+  loteId         String
+  statusAnterior StatusLote?
+  statusNovo     StatusLote
+  timestamp      DateTime    @default(now())
+  responsavelId  String? // nullable: transições automáticas (cron, sistema) não têm usuário
+  observacao     String?
+
+  lote        Lote     @relation(fields: [loteId], references: [id])
+  responsavel Usuario? @relation(fields: [responsavelId], references: [id])
+
+  @@index([loteId, timestamp])
+  @@index([statusNovo, timestamp])
+  @@index([responsavelId])
+}
+
+// Cada mudança de estadoFisico de um Equipamento.
+// Regra de preenchimento (no service, dentro de $transaction):
+//   toda atualização de Equipamento.estadoFisico deve inserir uma linha aqui.
+//   Se |ordem(estadoNovo) - ordem(estadoAnterior)| >= 2 (queda de 2+ categorias),
+//   justificativa passa a ser obrigatória — validação no service, não no banco.
+// IMPORTANTE: a ordem canônica dos estados NÃO deve ser inferida da ordem de
+// declaração do enum no schema. Defina explicitamente no service:
+//   const ORDEM_ESTADO: Record<EstadoFisico, number> = { NOVO: 0, BOM_ESTADO: 1, ... };
+// estadoAnterior é NULLABLE pelo mesmo motivo que statusAnterior: na criação do
+// equipamento registra-se a primeira linha com null.
+// Esta mesma tabela satisfaz a regra da AV1/AV2 que estava apenas "operacional"
+// (registrada no JournalTransacao como diff JSON), e agora fica modelada e
+// consultável analiticamente.
+model HistoricoEstadoFisico {
+  id             String        @id
+  equipamentoId  String
+  estadoAnterior EstadoFisico?
+  estadoNovo     EstadoFisico
+  timestamp      DateTime      @default(now())
+  responsavelId  String?
+  justificativa  String?
+
+  equipamento Equipamento @relation(fields: [equipamentoId], references: [id])
+  responsavel Usuario?    @relation(fields: [responsavelId], references: [id])
+
+  @@index([equipamentoId, timestamp])
+  @@index([estadoNovo, timestamp])
+  @@index([responsavelId])
+}
+
+// ====================
+// MODELS — Persistência de resultados analíticos (NOVO — AV3)
+//
+// O enunciado exige que os relatórios analíticos fiquem disponíveis para
+// consulta histórica e que as previsões possam ser confrontadas com o
+// realizado posteriormente. Sem estas tabelas, o número calculado some quando
+// a consulta termina — e a comparação previsão vs. realizado é impossível.
+// ====================
+
+// Uma previsão de vida útil por (tipo, marca?, modelo?).
+// Alvo da regressão é o TIPO, não a unidade — cada equipamento que já virou
+// INSERVIVEL contribui com um ponto (idade na morte) na regressão daquele tipo.
+model PrevisaoVidaUtil {
+  id                     String              @id
+  tipoEquipamento        TipoEquipamento
+  marca                  String?
+  modelo                 String?
+  dataPrevisao           DateTime            @default(now())
+  metodologia            MetodologiaPrevisao
+  vidaUtilEstimadaMeses  Int
+  r2                     Decimal?            @db.Decimal(6, 4) // coeficiente de determinação
+  amostras               Int // n que alimentou a regressão
+  parametros             Json // slope, intercept, etc — transparência
+  solicitacaoRelatorioId String? // se veio de um job assíncrono
+
+  solicitacao SolicitacaoRelatorio? @relation(fields: [solicitacaoRelatorioId], references: [id])
+  validacoes  ValidacaoPrevisao[]
+
+  @@index([tipoEquipamento, marca, modelo, dataPrevisao])
+}
+
+// Resultado da comparação entre uma previsão e um óbito real.
+//
+// Regra metodológica CRÍTICA (entra no relatório): um equipamento que estava
+// no conjunto de TREINO da regressão (virou INSERVIVEL antes de dataPrevisao)
+// NÃO pode ser usado para validar o modelo — seria usar dado de treino como
+// teste. Só são elegíveis para validação os equipamentos cujo óbito
+// (timestamp em HistoricoEstadoFisico com estadoNovo = INSERVIVEL) ocorreu
+// DEPOIS de PrevisaoVidaUtil.dataPrevisao.
+//
+// Viés de sobrevivência (relatório): a regressão treina apenas com equipamentos
+// que já morreram, ignorando os ainda em uso que já passaram da idade estimada.
+// Tende a subestimar a vida útil. Reportar n de óbitos vs n em serviço acima
+// da previsão; Kaplan-Meier seria a técnica correta para observações censuradas.
+//
+// Base de idade (relatório): usar Lote.dataEntrada como "nascimento em custódia"
+// — mede tempo em estoque, não vida desde fabricação. anoFabricacao é ano-preciso
+// e fica como dado descritivo, não como base de cálculo.
+model ValidacaoPrevisao {
+  id                String   @id
+  previsaoId        String
+  equipamentoId     String
+  idadeRealMeses    Int // idade do equipamento no óbito, em meses
+  erroAbsolutoMeses Int // |idadeReal - vidaUtilEstimada| da previsão
+  registradaEm      DateTime @default(now())
+
+  previsao    PrevisaoVidaUtil @relation(fields: [previsaoId], references: [id])
+  equipamento Equipamento      @relation(fields: [equipamentoId], references: [id])
+
+  @@unique([previsaoId, equipamentoId])
+  @@index([previsaoId])
+}
+
+// ====================
+// MODELS — Camada de integração: API pública (NOVO — AV3)
+//
+// Endpoint público exige identidade de parceiro (para aplicar permissões
+// e rate limit por cliente). JWT continua sendo para humanos (API interna);
+// a chave de API é para sistemas externos.
+// ====================
+
+model ParceiroApi {
+  id           String   @id
+  nome         String
+  emailContato String
+  ativo        Boolean  @default(true)
+  dataCriacao  DateTime @default(now())
+
+  chaves       ChaveApi[]
+  solicitacoes SolicitacaoRelatorio[]
+}
+
+// Padrão Stripe/GitHub: a chave crua é mostrada uma única vez na geração;
+// guardamos apenas o hash SHA-256 (para lookup em O(1) no auth) e um prefixo
+// legível para identificar a chave em logs sem expor o segredo.
+// escopos: enum EscopoApi[] — granularidade por contrato comercial, sem risco
+// de typos criarem permissões fantasmas.
+model ChaveApi {
+  id            String      @id
+  parceiroId    String
+  chaveHash     String      @unique
+  prefixo       String      @unique
+  escopos       EscopoApi[]
+  dataCriacao   DateTime    @default(now())
+  dataRevogacao DateTime?
+  ultimaVez     DateTime?
+
+  parceiro ParceiroApi @relation(fields: [parceiroId], references: [id])
+
+  @@index([parceiroId])
+}
+
+// ====================
+// MODELS — Orquestração assíncrona (NOVO — AV3)
+//
+// Postgres é a fonte da verdade da intenção de negócio; BullMQ/Redis apenas
+// executam. O fluxo:
+//   1. POST /api/v1/public/relatorios -> cria SolicitacaoRelatorio (PENDENTE)
+//                                         + publica job no BullMQ -> 202 + id
+//   2. Worker pega o job, atualiza status para PROCESSANDO
+//   3. Worker executa o service analítico, gera o arquivo
+//   4. Worker faz $transaction atualizando status=CONCLUIDO + resultUrl
+//   5. Cliente consulta GET /status/{id} (polling) ou recebe webhook
+// Em caso de falha: tentativas++ e status=FALHOU após esgotar política de retry.
+// Nunca sincronizar nos dois sentidos — Redis pode queimar sem perder a intenção.
+//
+// Idempotência: chaveIdempotencia recebida via header Idempotency-Key.
+// @@unique([parceiroId, chaveIdempotencia]) com ambos nullable: em Postgres,
+// NULL != NULL, então múltiplas linhas sem chave são permitidas; a unicidade
+// só se aplica quando o parceiro envia a chave. Para usuários internos
+// (parceiroId null) a idempotência não é aplicada — eles não têm header.
+// ====================
+
+model SolicitacaoRelatorio {
+  id                String            @id
+  parceiroId        String? // se veio pela API pública
+  usuarioId         String? // se veio por usuário interno
+  tipoRelatorio     TipoRelatorio
+  parametros        Json // filtros: organizacaoId?, periodo?, etc.
+  status            StatusSolicitacao @default(PENDENTE)
+  jobIdFila         String? // ID do BullMQ, para correlação
+  resultUrl         String? // onde baixar quando pronto
+  erroMensagem      String?
+  tentativas        Int               @default(0)
+  criadoEm          DateTime          @default(now())
+  concluidoEm       DateTime?
+  chaveIdempotencia String? // header Idempotency-Key do parceiro
+
+  parceiro  ParceiroApi?       @relation(fields: [parceiroId], references: [id])
+  usuario   Usuario?           @relation(fields: [usuarioId], references: [id])
+  previsoes PrevisaoVidaUtil[]
+
+  @@unique([parceiroId, chaveIdempotencia])
+  @@index([parceiroId, status])
+  @@index([usuarioId, status])
+  @@index([status, criadoEm])
 }

@@ -176,19 +176,20 @@ export class Equipamento {
   registrarMovimentacao(dados: {
     id: string;
     destino: string;
-    responsavel: string;
+    responsavelId: string | null;
     observacao?: string;
     dataHora?: Date;
   }): Movimentacao {
-    const origem = this._historicoMovimentacao.at(-1)?.destino ?? '';
+    const origem = this._statusRastreamento;
+    const destino = dados.destino as StatusRastreamento;
     const movimentacao = Movimentacao.criar({
       id: dados.id,
       equipamentoId: this._id,
       dataHora: dados.dataHora ?? new Date(),
       origem,
-      destino: dados.destino,
-      responsavel: dados.responsavel,
-      observacao: dados.observacao ?? '',
+      destino,
+      responsavelId: dados.responsavelId,
+      observacao: dados.observacao ?? null,
     });
     this._historicoMovimentacao.push(movimentacao);
     return movimentacao;

@@ -31,6 +31,8 @@ export type EquipamentoAvgAggregateOutputType = {
   anoFabricacao: number | null
   pesoQuilogramas: runtime.Decimal | null
   versao: number | null
+  valorEstimadoRecuperacao: runtime.Decimal | null
+  valorRealizadoRecuperacao: runtime.Decimal | null
 }
 
 export type EquipamentoSumAggregateOutputType = {
@@ -38,6 +40,8 @@ export type EquipamentoSumAggregateOutputType = {
   anoFabricacao: number | null
   pesoQuilogramas: runtime.Decimal | null
   versao: number | null
+  valorEstimadoRecuperacao: runtime.Decimal | null
+  valorRealizadoRecuperacao: runtime.Decimal | null
 }
 
 export type EquipamentoMinAggregateOutputType = {
@@ -54,6 +58,10 @@ export type EquipamentoMinAggregateOutputType = {
   statusRastreamento: $Enums.StatusRastreamento | null
   versao: number | null
   excluidoEm: Date | null
+  valorEstimadoRecuperacao: runtime.Decimal | null
+  valorRealizadoRecuperacao: runtime.Decimal | null
+  dataEstimativa: Date | null
+  dataRealizacao: Date | null
 }
 
 export type EquipamentoMaxAggregateOutputType = {
@@ -70,6 +78,10 @@ export type EquipamentoMaxAggregateOutputType = {
   statusRastreamento: $Enums.StatusRastreamento | null
   versao: number | null
   excluidoEm: Date | null
+  valorEstimadoRecuperacao: runtime.Decimal | null
+  valorRealizadoRecuperacao: runtime.Decimal | null
+  dataEstimativa: Date | null
+  dataRealizacao: Date | null
 }
 
 export type EquipamentoCountAggregateOutputType = {
@@ -86,6 +98,10 @@ export type EquipamentoCountAggregateOutputType = {
   statusRastreamento: number
   versao: number
   excluidoEm: number
+  valorEstimadoRecuperacao: number
+  valorRealizadoRecuperacao: number
+  dataEstimativa: number
+  dataRealizacao: number
   _all: number
 }
 
@@ -95,6 +111,8 @@ export type EquipamentoAvgAggregateInputType = {
   anoFabricacao?: true
   pesoQuilogramas?: true
   versao?: true
+  valorEstimadoRecuperacao?: true
+  valorRealizadoRecuperacao?: true
 }
 
 export type EquipamentoSumAggregateInputType = {
@@ -102,6 +120,8 @@ export type EquipamentoSumAggregateInputType = {
   anoFabricacao?: true
   pesoQuilogramas?: true
   versao?: true
+  valorEstimadoRecuperacao?: true
+  valorRealizadoRecuperacao?: true
 }
 
 export type EquipamentoMinAggregateInputType = {
@@ -118,6 +138,10 @@ export type EquipamentoMinAggregateInputType = {
   statusRastreamento?: true
   versao?: true
   excluidoEm?: true
+  valorEstimadoRecuperacao?: true
+  valorRealizadoRecuperacao?: true
+  dataEstimativa?: true
+  dataRealizacao?: true
 }
 
 export type EquipamentoMaxAggregateInputType = {
@@ -134,6 +158,10 @@ export type EquipamentoMaxAggregateInputType = {
   statusRastreamento?: true
   versao?: true
   excluidoEm?: true
+  valorEstimadoRecuperacao?: true
+  valorRealizadoRecuperacao?: true
+  dataEstimativa?: true
+  dataRealizacao?: true
 }
 
 export type EquipamentoCountAggregateInputType = {
@@ -150,6 +178,10 @@ export type EquipamentoCountAggregateInputType = {
   statusRastreamento?: true
   versao?: true
   excluidoEm?: true
+  valorEstimadoRecuperacao?: true
+  valorRealizadoRecuperacao?: true
+  dataEstimativa?: true
+  dataRealizacao?: true
   _all?: true
 }
 
@@ -253,6 +285,10 @@ export type EquipamentoGroupByOutputType = {
   statusRastreamento: $Enums.StatusRastreamento
   versao: number
   excluidoEm: Date | null
+  valorEstimadoRecuperacao: runtime.Decimal | null
+  valorRealizadoRecuperacao: runtime.Decimal | null
+  dataEstimativa: Date | null
+  dataRealizacao: Date | null
   _count: EquipamentoCountAggregateOutputType | null
   _avg: EquipamentoAvgAggregateOutputType | null
   _sum: EquipamentoSumAggregateOutputType | null
@@ -292,7 +328,13 @@ export type EquipamentoWhereInput = {
   statusRastreamento?: Prisma.EnumStatusRastreamentoFilter<"Equipamento"> | $Enums.StatusRastreamento
   versao?: Prisma.IntFilter<"Equipamento"> | number
   excluidoEm?: Prisma.DateTimeNullableFilter<"Equipamento"> | Date | string | null
+  valorEstimadoRecuperacao?: Prisma.DecimalNullableFilter<"Equipamento"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRealizadoRecuperacao?: Prisma.DecimalNullableFilter<"Equipamento"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dataEstimativa?: Prisma.DateTimeNullableFilter<"Equipamento"> | Date | string | null
+  dataRealizacao?: Prisma.DateTimeNullableFilter<"Equipamento"> | Date | string | null
   historicoMovimentacao?: Prisma.MovimentacaoListRelationFilter
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoListRelationFilter
+  validacoesPrevisao?: Prisma.ValidacaoPrevisaoListRelationFilter
   lote?: Prisma.XOR<Prisma.LoteScalarRelationFilter, Prisma.LoteWhereInput>
 }
 
@@ -310,7 +352,13 @@ export type EquipamentoOrderByWithRelationInput = {
   statusRastreamento?: Prisma.SortOrder
   versao?: Prisma.SortOrder
   excluidoEm?: Prisma.SortOrderInput | Prisma.SortOrder
+  valorEstimadoRecuperacao?: Prisma.SortOrderInput | Prisma.SortOrder
+  valorRealizadoRecuperacao?: Prisma.SortOrderInput | Prisma.SortOrder
+  dataEstimativa?: Prisma.SortOrderInput | Prisma.SortOrder
+  dataRealizacao?: Prisma.SortOrderInput | Prisma.SortOrder
   historicoMovimentacao?: Prisma.MovimentacaoOrderByRelationAggregateInput
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoOrderByRelationAggregateInput
+  validacoesPrevisao?: Prisma.ValidacaoPrevisaoOrderByRelationAggregateInput
   lote?: Prisma.LoteOrderByWithRelationInput
 }
 
@@ -332,7 +380,13 @@ export type EquipamentoWhereUniqueInput = Prisma.AtLeast<{
   statusRastreamento?: Prisma.EnumStatusRastreamentoFilter<"Equipamento"> | $Enums.StatusRastreamento
   versao?: Prisma.IntFilter<"Equipamento"> | number
   excluidoEm?: Prisma.DateTimeNullableFilter<"Equipamento"> | Date | string | null
+  valorEstimadoRecuperacao?: Prisma.DecimalNullableFilter<"Equipamento"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRealizadoRecuperacao?: Prisma.DecimalNullableFilter<"Equipamento"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dataEstimativa?: Prisma.DateTimeNullableFilter<"Equipamento"> | Date | string | null
+  dataRealizacao?: Prisma.DateTimeNullableFilter<"Equipamento"> | Date | string | null
   historicoMovimentacao?: Prisma.MovimentacaoListRelationFilter
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoListRelationFilter
+  validacoesPrevisao?: Prisma.ValidacaoPrevisaoListRelationFilter
   lote?: Prisma.XOR<Prisma.LoteScalarRelationFilter, Prisma.LoteWhereInput>
 }, "id" | "codigoBarrasInterno" | "loteId_posicaoNoLote">
 
@@ -350,6 +404,10 @@ export type EquipamentoOrderByWithAggregationInput = {
   statusRastreamento?: Prisma.SortOrder
   versao?: Prisma.SortOrder
   excluidoEm?: Prisma.SortOrderInput | Prisma.SortOrder
+  valorEstimadoRecuperacao?: Prisma.SortOrderInput | Prisma.SortOrder
+  valorRealizadoRecuperacao?: Prisma.SortOrderInput | Prisma.SortOrder
+  dataEstimativa?: Prisma.SortOrderInput | Prisma.SortOrder
+  dataRealizacao?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.EquipamentoCountOrderByAggregateInput
   _avg?: Prisma.EquipamentoAvgOrderByAggregateInput
   _max?: Prisma.EquipamentoMaxOrderByAggregateInput
@@ -374,6 +432,10 @@ export type EquipamentoScalarWhereWithAggregatesInput = {
   statusRastreamento?: Prisma.EnumStatusRastreamentoWithAggregatesFilter<"Equipamento"> | $Enums.StatusRastreamento
   versao?: Prisma.IntWithAggregatesFilter<"Equipamento"> | number
   excluidoEm?: Prisma.DateTimeNullableWithAggregatesFilter<"Equipamento"> | Date | string | null
+  valorEstimadoRecuperacao?: Prisma.DecimalNullableWithAggregatesFilter<"Equipamento"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRealizadoRecuperacao?: Prisma.DecimalNullableWithAggregatesFilter<"Equipamento"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dataEstimativa?: Prisma.DateTimeNullableWithAggregatesFilter<"Equipamento"> | Date | string | null
+  dataRealizacao?: Prisma.DateTimeNullableWithAggregatesFilter<"Equipamento"> | Date | string | null
 }
 
 export type EquipamentoCreateInput = {
@@ -389,7 +451,13 @@ export type EquipamentoCreateInput = {
   statusRastreamento: $Enums.StatusRastreamento
   versao?: number
   excluidoEm?: Date | string | null
+  valorEstimadoRecuperacao?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRealizadoRecuperacao?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dataEstimativa?: Date | string | null
+  dataRealizacao?: Date | string | null
   historicoMovimentacao?: Prisma.MovimentacaoCreateNestedManyWithoutEquipamentoInput
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoCreateNestedManyWithoutEquipamentoInput
+  validacoesPrevisao?: Prisma.ValidacaoPrevisaoCreateNestedManyWithoutEquipamentoInput
   lote: Prisma.LoteCreateNestedOneWithoutEquipamentosInput
 }
 
@@ -407,7 +475,13 @@ export type EquipamentoUncheckedCreateInput = {
   statusRastreamento: $Enums.StatusRastreamento
   versao?: number
   excluidoEm?: Date | string | null
+  valorEstimadoRecuperacao?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRealizadoRecuperacao?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dataEstimativa?: Date | string | null
+  dataRealizacao?: Date | string | null
   historicoMovimentacao?: Prisma.MovimentacaoUncheckedCreateNestedManyWithoutEquipamentoInput
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoUncheckedCreateNestedManyWithoutEquipamentoInput
+  validacoesPrevisao?: Prisma.ValidacaoPrevisaoUncheckedCreateNestedManyWithoutEquipamentoInput
 }
 
 export type EquipamentoUpdateInput = {
@@ -423,7 +497,13 @@ export type EquipamentoUpdateInput = {
   statusRastreamento?: Prisma.EnumStatusRastreamentoFieldUpdateOperationsInput | $Enums.StatusRastreamento
   versao?: Prisma.IntFieldUpdateOperationsInput | number
   excluidoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  valorEstimadoRecuperacao?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRealizadoRecuperacao?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dataEstimativa?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dataRealizacao?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   historicoMovimentacao?: Prisma.MovimentacaoUpdateManyWithoutEquipamentoNestedInput
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoUpdateManyWithoutEquipamentoNestedInput
+  validacoesPrevisao?: Prisma.ValidacaoPrevisaoUpdateManyWithoutEquipamentoNestedInput
   lote?: Prisma.LoteUpdateOneRequiredWithoutEquipamentosNestedInput
 }
 
@@ -441,7 +521,13 @@ export type EquipamentoUncheckedUpdateInput = {
   statusRastreamento?: Prisma.EnumStatusRastreamentoFieldUpdateOperationsInput | $Enums.StatusRastreamento
   versao?: Prisma.IntFieldUpdateOperationsInput | number
   excluidoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  valorEstimadoRecuperacao?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRealizadoRecuperacao?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dataEstimativa?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dataRealizacao?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   historicoMovimentacao?: Prisma.MovimentacaoUncheckedUpdateManyWithoutEquipamentoNestedInput
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoUncheckedUpdateManyWithoutEquipamentoNestedInput
+  validacoesPrevisao?: Prisma.ValidacaoPrevisaoUncheckedUpdateManyWithoutEquipamentoNestedInput
 }
 
 export type EquipamentoCreateManyInput = {
@@ -458,6 +544,10 @@ export type EquipamentoCreateManyInput = {
   statusRastreamento: $Enums.StatusRastreamento
   versao?: number
   excluidoEm?: Date | string | null
+  valorEstimadoRecuperacao?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRealizadoRecuperacao?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dataEstimativa?: Date | string | null
+  dataRealizacao?: Date | string | null
 }
 
 export type EquipamentoUpdateManyMutationInput = {
@@ -473,6 +563,10 @@ export type EquipamentoUpdateManyMutationInput = {
   statusRastreamento?: Prisma.EnumStatusRastreamentoFieldUpdateOperationsInput | $Enums.StatusRastreamento
   versao?: Prisma.IntFieldUpdateOperationsInput | number
   excluidoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  valorEstimadoRecuperacao?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRealizadoRecuperacao?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dataEstimativa?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dataRealizacao?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type EquipamentoUncheckedUpdateManyInput = {
@@ -489,6 +583,10 @@ export type EquipamentoUncheckedUpdateManyInput = {
   statusRastreamento?: Prisma.EnumStatusRastreamentoFieldUpdateOperationsInput | $Enums.StatusRastreamento
   versao?: Prisma.IntFieldUpdateOperationsInput | number
   excluidoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  valorEstimadoRecuperacao?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRealizadoRecuperacao?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dataEstimativa?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dataRealizacao?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type EquipamentoScalarRelationFilter = {
@@ -515,6 +613,10 @@ export type EquipamentoCountOrderByAggregateInput = {
   statusRastreamento?: Prisma.SortOrder
   versao?: Prisma.SortOrder
   excluidoEm?: Prisma.SortOrder
+  valorEstimadoRecuperacao?: Prisma.SortOrder
+  valorRealizadoRecuperacao?: Prisma.SortOrder
+  dataEstimativa?: Prisma.SortOrder
+  dataRealizacao?: Prisma.SortOrder
 }
 
 export type EquipamentoAvgOrderByAggregateInput = {
@@ -522,6 +624,8 @@ export type EquipamentoAvgOrderByAggregateInput = {
   anoFabricacao?: Prisma.SortOrder
   pesoQuilogramas?: Prisma.SortOrder
   versao?: Prisma.SortOrder
+  valorEstimadoRecuperacao?: Prisma.SortOrder
+  valorRealizadoRecuperacao?: Prisma.SortOrder
 }
 
 export type EquipamentoMaxOrderByAggregateInput = {
@@ -538,6 +642,10 @@ export type EquipamentoMaxOrderByAggregateInput = {
   statusRastreamento?: Prisma.SortOrder
   versao?: Prisma.SortOrder
   excluidoEm?: Prisma.SortOrder
+  valorEstimadoRecuperacao?: Prisma.SortOrder
+  valorRealizadoRecuperacao?: Prisma.SortOrder
+  dataEstimativa?: Prisma.SortOrder
+  dataRealizacao?: Prisma.SortOrder
 }
 
 export type EquipamentoMinOrderByAggregateInput = {
@@ -554,6 +662,10 @@ export type EquipamentoMinOrderByAggregateInput = {
   statusRastreamento?: Prisma.SortOrder
   versao?: Prisma.SortOrder
   excluidoEm?: Prisma.SortOrder
+  valorEstimadoRecuperacao?: Prisma.SortOrder
+  valorRealizadoRecuperacao?: Prisma.SortOrder
+  dataEstimativa?: Prisma.SortOrder
+  dataRealizacao?: Prisma.SortOrder
 }
 
 export type EquipamentoSumOrderByAggregateInput = {
@@ -561,6 +673,8 @@ export type EquipamentoSumOrderByAggregateInput = {
   anoFabricacao?: Prisma.SortOrder
   pesoQuilogramas?: Prisma.SortOrder
   versao?: Prisma.SortOrder
+  valorEstimadoRecuperacao?: Prisma.SortOrder
+  valorRealizadoRecuperacao?: Prisma.SortOrder
 }
 
 export type EquipamentoListRelationFilter = {
@@ -595,8 +709,12 @@ export type EnumEstadoFisicoFieldUpdateOperationsInput = {
   set?: $Enums.EstadoFisico
 }
 
-export type EnumStatusRastreamentoFieldUpdateOperationsInput = {
-  set?: $Enums.StatusRastreamento
+export type NullableDecimalFieldUpdateOperationsInput = {
+  set?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type EquipamentoCreateNestedManyWithoutLoteInput = {
@@ -641,6 +759,34 @@ export type EquipamentoUncheckedUpdateManyWithoutLoteNestedInput = {
   deleteMany?: Prisma.EquipamentoScalarWhereInput | Prisma.EquipamentoScalarWhereInput[]
 }
 
+export type EquipamentoCreateNestedOneWithoutHistoricoEstadoFisicoInput = {
+  create?: Prisma.XOR<Prisma.EquipamentoCreateWithoutHistoricoEstadoFisicoInput, Prisma.EquipamentoUncheckedCreateWithoutHistoricoEstadoFisicoInput>
+  connectOrCreate?: Prisma.EquipamentoCreateOrConnectWithoutHistoricoEstadoFisicoInput
+  connect?: Prisma.EquipamentoWhereUniqueInput
+}
+
+export type EquipamentoUpdateOneRequiredWithoutHistoricoEstadoFisicoNestedInput = {
+  create?: Prisma.XOR<Prisma.EquipamentoCreateWithoutHistoricoEstadoFisicoInput, Prisma.EquipamentoUncheckedCreateWithoutHistoricoEstadoFisicoInput>
+  connectOrCreate?: Prisma.EquipamentoCreateOrConnectWithoutHistoricoEstadoFisicoInput
+  upsert?: Prisma.EquipamentoUpsertWithoutHistoricoEstadoFisicoInput
+  connect?: Prisma.EquipamentoWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.EquipamentoUpdateToOneWithWhereWithoutHistoricoEstadoFisicoInput, Prisma.EquipamentoUpdateWithoutHistoricoEstadoFisicoInput>, Prisma.EquipamentoUncheckedUpdateWithoutHistoricoEstadoFisicoInput>
+}
+
+export type EquipamentoCreateNestedOneWithoutValidacoesPrevisaoInput = {
+  create?: Prisma.XOR<Prisma.EquipamentoCreateWithoutValidacoesPrevisaoInput, Prisma.EquipamentoUncheckedCreateWithoutValidacoesPrevisaoInput>
+  connectOrCreate?: Prisma.EquipamentoCreateOrConnectWithoutValidacoesPrevisaoInput
+  connect?: Prisma.EquipamentoWhereUniqueInput
+}
+
+export type EquipamentoUpdateOneRequiredWithoutValidacoesPrevisaoNestedInput = {
+  create?: Prisma.XOR<Prisma.EquipamentoCreateWithoutValidacoesPrevisaoInput, Prisma.EquipamentoUncheckedCreateWithoutValidacoesPrevisaoInput>
+  connectOrCreate?: Prisma.EquipamentoCreateOrConnectWithoutValidacoesPrevisaoInput
+  upsert?: Prisma.EquipamentoUpsertWithoutValidacoesPrevisaoInput
+  connect?: Prisma.EquipamentoWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.EquipamentoUpdateToOneWithWhereWithoutValidacoesPrevisaoInput, Prisma.EquipamentoUpdateWithoutValidacoesPrevisaoInput>, Prisma.EquipamentoUncheckedUpdateWithoutValidacoesPrevisaoInput>
+}
+
 export type EquipamentoCreateWithoutHistoricoMovimentacaoInput = {
   posicaoNoLote: number
   id: string
@@ -654,6 +800,12 @@ export type EquipamentoCreateWithoutHistoricoMovimentacaoInput = {
   statusRastreamento: $Enums.StatusRastreamento
   versao?: number
   excluidoEm?: Date | string | null
+  valorEstimadoRecuperacao?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRealizadoRecuperacao?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dataEstimativa?: Date | string | null
+  dataRealizacao?: Date | string | null
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoCreateNestedManyWithoutEquipamentoInput
+  validacoesPrevisao?: Prisma.ValidacaoPrevisaoCreateNestedManyWithoutEquipamentoInput
   lote: Prisma.LoteCreateNestedOneWithoutEquipamentosInput
 }
 
@@ -671,6 +823,12 @@ export type EquipamentoUncheckedCreateWithoutHistoricoMovimentacaoInput = {
   statusRastreamento: $Enums.StatusRastreamento
   versao?: number
   excluidoEm?: Date | string | null
+  valorEstimadoRecuperacao?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRealizadoRecuperacao?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dataEstimativa?: Date | string | null
+  dataRealizacao?: Date | string | null
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoUncheckedCreateNestedManyWithoutEquipamentoInput
+  validacoesPrevisao?: Prisma.ValidacaoPrevisaoUncheckedCreateNestedManyWithoutEquipamentoInput
 }
 
 export type EquipamentoCreateOrConnectWithoutHistoricoMovimentacaoInput = {
@@ -702,6 +860,12 @@ export type EquipamentoUpdateWithoutHistoricoMovimentacaoInput = {
   statusRastreamento?: Prisma.EnumStatusRastreamentoFieldUpdateOperationsInput | $Enums.StatusRastreamento
   versao?: Prisma.IntFieldUpdateOperationsInput | number
   excluidoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  valorEstimadoRecuperacao?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRealizadoRecuperacao?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dataEstimativa?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dataRealizacao?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoUpdateManyWithoutEquipamentoNestedInput
+  validacoesPrevisao?: Prisma.ValidacaoPrevisaoUpdateManyWithoutEquipamentoNestedInput
   lote?: Prisma.LoteUpdateOneRequiredWithoutEquipamentosNestedInput
 }
 
@@ -719,6 +883,12 @@ export type EquipamentoUncheckedUpdateWithoutHistoricoMovimentacaoInput = {
   statusRastreamento?: Prisma.EnumStatusRastreamentoFieldUpdateOperationsInput | $Enums.StatusRastreamento
   versao?: Prisma.IntFieldUpdateOperationsInput | number
   excluidoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  valorEstimadoRecuperacao?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRealizadoRecuperacao?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dataEstimativa?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dataRealizacao?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoUncheckedUpdateManyWithoutEquipamentoNestedInput
+  validacoesPrevisao?: Prisma.ValidacaoPrevisaoUncheckedUpdateManyWithoutEquipamentoNestedInput
 }
 
 export type EquipamentoCreateWithoutLoteInput = {
@@ -734,7 +904,13 @@ export type EquipamentoCreateWithoutLoteInput = {
   statusRastreamento: $Enums.StatusRastreamento
   versao?: number
   excluidoEm?: Date | string | null
+  valorEstimadoRecuperacao?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRealizadoRecuperacao?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dataEstimativa?: Date | string | null
+  dataRealizacao?: Date | string | null
   historicoMovimentacao?: Prisma.MovimentacaoCreateNestedManyWithoutEquipamentoInput
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoCreateNestedManyWithoutEquipamentoInput
+  validacoesPrevisao?: Prisma.ValidacaoPrevisaoCreateNestedManyWithoutEquipamentoInput
 }
 
 export type EquipamentoUncheckedCreateWithoutLoteInput = {
@@ -750,7 +926,13 @@ export type EquipamentoUncheckedCreateWithoutLoteInput = {
   statusRastreamento: $Enums.StatusRastreamento
   versao?: number
   excluidoEm?: Date | string | null
+  valorEstimadoRecuperacao?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRealizadoRecuperacao?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dataEstimativa?: Date | string | null
+  dataRealizacao?: Date | string | null
   historicoMovimentacao?: Prisma.MovimentacaoUncheckedCreateNestedManyWithoutEquipamentoInput
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoUncheckedCreateNestedManyWithoutEquipamentoInput
+  validacoesPrevisao?: Prisma.ValidacaoPrevisaoUncheckedCreateNestedManyWithoutEquipamentoInput
 }
 
 export type EquipamentoCreateOrConnectWithoutLoteInput = {
@@ -796,6 +978,218 @@ export type EquipamentoScalarWhereInput = {
   statusRastreamento?: Prisma.EnumStatusRastreamentoFilter<"Equipamento"> | $Enums.StatusRastreamento
   versao?: Prisma.IntFilter<"Equipamento"> | number
   excluidoEm?: Prisma.DateTimeNullableFilter<"Equipamento"> | Date | string | null
+  valorEstimadoRecuperacao?: Prisma.DecimalNullableFilter<"Equipamento"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRealizadoRecuperacao?: Prisma.DecimalNullableFilter<"Equipamento"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dataEstimativa?: Prisma.DateTimeNullableFilter<"Equipamento"> | Date | string | null
+  dataRealizacao?: Prisma.DateTimeNullableFilter<"Equipamento"> | Date | string | null
+}
+
+export type EquipamentoCreateWithoutHistoricoEstadoFisicoInput = {
+  posicaoNoLote: number
+  id: string
+  codigoBarrasInterno: string
+  tipo: $Enums.TipoEquipamento
+  marca: string
+  modelo: string
+  anoFabricacao: number
+  estadoFisico: $Enums.EstadoFisico
+  pesoQuilogramas: runtime.Decimal | runtime.DecimalJsLike | number | string
+  statusRastreamento: $Enums.StatusRastreamento
+  versao?: number
+  excluidoEm?: Date | string | null
+  valorEstimadoRecuperacao?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRealizadoRecuperacao?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dataEstimativa?: Date | string | null
+  dataRealizacao?: Date | string | null
+  historicoMovimentacao?: Prisma.MovimentacaoCreateNestedManyWithoutEquipamentoInput
+  validacoesPrevisao?: Prisma.ValidacaoPrevisaoCreateNestedManyWithoutEquipamentoInput
+  lote: Prisma.LoteCreateNestedOneWithoutEquipamentosInput
+}
+
+export type EquipamentoUncheckedCreateWithoutHistoricoEstadoFisicoInput = {
+  posicaoNoLote: number
+  id: string
+  codigoBarrasInterno: string
+  tipo: $Enums.TipoEquipamento
+  marca: string
+  modelo: string
+  anoFabricacao: number
+  estadoFisico: $Enums.EstadoFisico
+  pesoQuilogramas: runtime.Decimal | runtime.DecimalJsLike | number | string
+  loteId: string
+  statusRastreamento: $Enums.StatusRastreamento
+  versao?: number
+  excluidoEm?: Date | string | null
+  valorEstimadoRecuperacao?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRealizadoRecuperacao?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dataEstimativa?: Date | string | null
+  dataRealizacao?: Date | string | null
+  historicoMovimentacao?: Prisma.MovimentacaoUncheckedCreateNestedManyWithoutEquipamentoInput
+  validacoesPrevisao?: Prisma.ValidacaoPrevisaoUncheckedCreateNestedManyWithoutEquipamentoInput
+}
+
+export type EquipamentoCreateOrConnectWithoutHistoricoEstadoFisicoInput = {
+  where: Prisma.EquipamentoWhereUniqueInput
+  create: Prisma.XOR<Prisma.EquipamentoCreateWithoutHistoricoEstadoFisicoInput, Prisma.EquipamentoUncheckedCreateWithoutHistoricoEstadoFisicoInput>
+}
+
+export type EquipamentoUpsertWithoutHistoricoEstadoFisicoInput = {
+  update: Prisma.XOR<Prisma.EquipamentoUpdateWithoutHistoricoEstadoFisicoInput, Prisma.EquipamentoUncheckedUpdateWithoutHistoricoEstadoFisicoInput>
+  create: Prisma.XOR<Prisma.EquipamentoCreateWithoutHistoricoEstadoFisicoInput, Prisma.EquipamentoUncheckedCreateWithoutHistoricoEstadoFisicoInput>
+  where?: Prisma.EquipamentoWhereInput
+}
+
+export type EquipamentoUpdateToOneWithWhereWithoutHistoricoEstadoFisicoInput = {
+  where?: Prisma.EquipamentoWhereInput
+  data: Prisma.XOR<Prisma.EquipamentoUpdateWithoutHistoricoEstadoFisicoInput, Prisma.EquipamentoUncheckedUpdateWithoutHistoricoEstadoFisicoInput>
+}
+
+export type EquipamentoUpdateWithoutHistoricoEstadoFisicoInput = {
+  posicaoNoLote?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  codigoBarrasInterno?: Prisma.StringFieldUpdateOperationsInput | string
+  tipo?: Prisma.EnumTipoEquipamentoFieldUpdateOperationsInput | $Enums.TipoEquipamento
+  marca?: Prisma.StringFieldUpdateOperationsInput | string
+  modelo?: Prisma.StringFieldUpdateOperationsInput | string
+  anoFabricacao?: Prisma.IntFieldUpdateOperationsInput | number
+  estadoFisico?: Prisma.EnumEstadoFisicoFieldUpdateOperationsInput | $Enums.EstadoFisico
+  pesoQuilogramas?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  statusRastreamento?: Prisma.EnumStatusRastreamentoFieldUpdateOperationsInput | $Enums.StatusRastreamento
+  versao?: Prisma.IntFieldUpdateOperationsInput | number
+  excluidoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  valorEstimadoRecuperacao?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRealizadoRecuperacao?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dataEstimativa?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dataRealizacao?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  historicoMovimentacao?: Prisma.MovimentacaoUpdateManyWithoutEquipamentoNestedInput
+  validacoesPrevisao?: Prisma.ValidacaoPrevisaoUpdateManyWithoutEquipamentoNestedInput
+  lote?: Prisma.LoteUpdateOneRequiredWithoutEquipamentosNestedInput
+}
+
+export type EquipamentoUncheckedUpdateWithoutHistoricoEstadoFisicoInput = {
+  posicaoNoLote?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  codigoBarrasInterno?: Prisma.StringFieldUpdateOperationsInput | string
+  tipo?: Prisma.EnumTipoEquipamentoFieldUpdateOperationsInput | $Enums.TipoEquipamento
+  marca?: Prisma.StringFieldUpdateOperationsInput | string
+  modelo?: Prisma.StringFieldUpdateOperationsInput | string
+  anoFabricacao?: Prisma.IntFieldUpdateOperationsInput | number
+  estadoFisico?: Prisma.EnumEstadoFisicoFieldUpdateOperationsInput | $Enums.EstadoFisico
+  pesoQuilogramas?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  loteId?: Prisma.StringFieldUpdateOperationsInput | string
+  statusRastreamento?: Prisma.EnumStatusRastreamentoFieldUpdateOperationsInput | $Enums.StatusRastreamento
+  versao?: Prisma.IntFieldUpdateOperationsInput | number
+  excluidoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  valorEstimadoRecuperacao?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRealizadoRecuperacao?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dataEstimativa?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dataRealizacao?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  historicoMovimentacao?: Prisma.MovimentacaoUncheckedUpdateManyWithoutEquipamentoNestedInput
+  validacoesPrevisao?: Prisma.ValidacaoPrevisaoUncheckedUpdateManyWithoutEquipamentoNestedInput
+}
+
+export type EquipamentoCreateWithoutValidacoesPrevisaoInput = {
+  posicaoNoLote: number
+  id: string
+  codigoBarrasInterno: string
+  tipo: $Enums.TipoEquipamento
+  marca: string
+  modelo: string
+  anoFabricacao: number
+  estadoFisico: $Enums.EstadoFisico
+  pesoQuilogramas: runtime.Decimal | runtime.DecimalJsLike | number | string
+  statusRastreamento: $Enums.StatusRastreamento
+  versao?: number
+  excluidoEm?: Date | string | null
+  valorEstimadoRecuperacao?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRealizadoRecuperacao?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dataEstimativa?: Date | string | null
+  dataRealizacao?: Date | string | null
+  historicoMovimentacao?: Prisma.MovimentacaoCreateNestedManyWithoutEquipamentoInput
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoCreateNestedManyWithoutEquipamentoInput
+  lote: Prisma.LoteCreateNestedOneWithoutEquipamentosInput
+}
+
+export type EquipamentoUncheckedCreateWithoutValidacoesPrevisaoInput = {
+  posicaoNoLote: number
+  id: string
+  codigoBarrasInterno: string
+  tipo: $Enums.TipoEquipamento
+  marca: string
+  modelo: string
+  anoFabricacao: number
+  estadoFisico: $Enums.EstadoFisico
+  pesoQuilogramas: runtime.Decimal | runtime.DecimalJsLike | number | string
+  loteId: string
+  statusRastreamento: $Enums.StatusRastreamento
+  versao?: number
+  excluidoEm?: Date | string | null
+  valorEstimadoRecuperacao?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRealizadoRecuperacao?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dataEstimativa?: Date | string | null
+  dataRealizacao?: Date | string | null
+  historicoMovimentacao?: Prisma.MovimentacaoUncheckedCreateNestedManyWithoutEquipamentoInput
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoUncheckedCreateNestedManyWithoutEquipamentoInput
+}
+
+export type EquipamentoCreateOrConnectWithoutValidacoesPrevisaoInput = {
+  where: Prisma.EquipamentoWhereUniqueInput
+  create: Prisma.XOR<Prisma.EquipamentoCreateWithoutValidacoesPrevisaoInput, Prisma.EquipamentoUncheckedCreateWithoutValidacoesPrevisaoInput>
+}
+
+export type EquipamentoUpsertWithoutValidacoesPrevisaoInput = {
+  update: Prisma.XOR<Prisma.EquipamentoUpdateWithoutValidacoesPrevisaoInput, Prisma.EquipamentoUncheckedUpdateWithoutValidacoesPrevisaoInput>
+  create: Prisma.XOR<Prisma.EquipamentoCreateWithoutValidacoesPrevisaoInput, Prisma.EquipamentoUncheckedCreateWithoutValidacoesPrevisaoInput>
+  where?: Prisma.EquipamentoWhereInput
+}
+
+export type EquipamentoUpdateToOneWithWhereWithoutValidacoesPrevisaoInput = {
+  where?: Prisma.EquipamentoWhereInput
+  data: Prisma.XOR<Prisma.EquipamentoUpdateWithoutValidacoesPrevisaoInput, Prisma.EquipamentoUncheckedUpdateWithoutValidacoesPrevisaoInput>
+}
+
+export type EquipamentoUpdateWithoutValidacoesPrevisaoInput = {
+  posicaoNoLote?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  codigoBarrasInterno?: Prisma.StringFieldUpdateOperationsInput | string
+  tipo?: Prisma.EnumTipoEquipamentoFieldUpdateOperationsInput | $Enums.TipoEquipamento
+  marca?: Prisma.StringFieldUpdateOperationsInput | string
+  modelo?: Prisma.StringFieldUpdateOperationsInput | string
+  anoFabricacao?: Prisma.IntFieldUpdateOperationsInput | number
+  estadoFisico?: Prisma.EnumEstadoFisicoFieldUpdateOperationsInput | $Enums.EstadoFisico
+  pesoQuilogramas?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  statusRastreamento?: Prisma.EnumStatusRastreamentoFieldUpdateOperationsInput | $Enums.StatusRastreamento
+  versao?: Prisma.IntFieldUpdateOperationsInput | number
+  excluidoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  valorEstimadoRecuperacao?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRealizadoRecuperacao?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dataEstimativa?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dataRealizacao?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  historicoMovimentacao?: Prisma.MovimentacaoUpdateManyWithoutEquipamentoNestedInput
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoUpdateManyWithoutEquipamentoNestedInput
+  lote?: Prisma.LoteUpdateOneRequiredWithoutEquipamentosNestedInput
+}
+
+export type EquipamentoUncheckedUpdateWithoutValidacoesPrevisaoInput = {
+  posicaoNoLote?: Prisma.IntFieldUpdateOperationsInput | number
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  codigoBarrasInterno?: Prisma.StringFieldUpdateOperationsInput | string
+  tipo?: Prisma.EnumTipoEquipamentoFieldUpdateOperationsInput | $Enums.TipoEquipamento
+  marca?: Prisma.StringFieldUpdateOperationsInput | string
+  modelo?: Prisma.StringFieldUpdateOperationsInput | string
+  anoFabricacao?: Prisma.IntFieldUpdateOperationsInput | number
+  estadoFisico?: Prisma.EnumEstadoFisicoFieldUpdateOperationsInput | $Enums.EstadoFisico
+  pesoQuilogramas?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  loteId?: Prisma.StringFieldUpdateOperationsInput | string
+  statusRastreamento?: Prisma.EnumStatusRastreamentoFieldUpdateOperationsInput | $Enums.StatusRastreamento
+  versao?: Prisma.IntFieldUpdateOperationsInput | number
+  excluidoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  valorEstimadoRecuperacao?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRealizadoRecuperacao?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dataEstimativa?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dataRealizacao?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  historicoMovimentacao?: Prisma.MovimentacaoUncheckedUpdateManyWithoutEquipamentoNestedInput
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoUncheckedUpdateManyWithoutEquipamentoNestedInput
 }
 
 export type EquipamentoCreateManyLoteInput = {
@@ -811,6 +1205,10 @@ export type EquipamentoCreateManyLoteInput = {
   statusRastreamento: $Enums.StatusRastreamento
   versao?: number
   excluidoEm?: Date | string | null
+  valorEstimadoRecuperacao?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRealizadoRecuperacao?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dataEstimativa?: Date | string | null
+  dataRealizacao?: Date | string | null
 }
 
 export type EquipamentoUpdateWithoutLoteInput = {
@@ -826,7 +1224,13 @@ export type EquipamentoUpdateWithoutLoteInput = {
   statusRastreamento?: Prisma.EnumStatusRastreamentoFieldUpdateOperationsInput | $Enums.StatusRastreamento
   versao?: Prisma.IntFieldUpdateOperationsInput | number
   excluidoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  valorEstimadoRecuperacao?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRealizadoRecuperacao?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dataEstimativa?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dataRealizacao?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   historicoMovimentacao?: Prisma.MovimentacaoUpdateManyWithoutEquipamentoNestedInput
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoUpdateManyWithoutEquipamentoNestedInput
+  validacoesPrevisao?: Prisma.ValidacaoPrevisaoUpdateManyWithoutEquipamentoNestedInput
 }
 
 export type EquipamentoUncheckedUpdateWithoutLoteInput = {
@@ -842,7 +1246,13 @@ export type EquipamentoUncheckedUpdateWithoutLoteInput = {
   statusRastreamento?: Prisma.EnumStatusRastreamentoFieldUpdateOperationsInput | $Enums.StatusRastreamento
   versao?: Prisma.IntFieldUpdateOperationsInput | number
   excluidoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  valorEstimadoRecuperacao?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRealizadoRecuperacao?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dataEstimativa?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dataRealizacao?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   historicoMovimentacao?: Prisma.MovimentacaoUncheckedUpdateManyWithoutEquipamentoNestedInput
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoUncheckedUpdateManyWithoutEquipamentoNestedInput
+  validacoesPrevisao?: Prisma.ValidacaoPrevisaoUncheckedUpdateManyWithoutEquipamentoNestedInput
 }
 
 export type EquipamentoUncheckedUpdateManyWithoutLoteInput = {
@@ -858,6 +1268,10 @@ export type EquipamentoUncheckedUpdateManyWithoutLoteInput = {
   statusRastreamento?: Prisma.EnumStatusRastreamentoFieldUpdateOperationsInput | $Enums.StatusRastreamento
   versao?: Prisma.IntFieldUpdateOperationsInput | number
   excluidoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  valorEstimadoRecuperacao?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  valorRealizadoRecuperacao?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  dataEstimativa?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dataRealizacao?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -867,10 +1281,14 @@ export type EquipamentoUncheckedUpdateManyWithoutLoteInput = {
 
 export type EquipamentoCountOutputType = {
   historicoMovimentacao: number
+  historicoEstadoFisico: number
+  validacoesPrevisao: number
 }
 
 export type EquipamentoCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   historicoMovimentacao?: boolean | EquipamentoCountOutputTypeCountHistoricoMovimentacaoArgs
+  historicoEstadoFisico?: boolean | EquipamentoCountOutputTypeCountHistoricoEstadoFisicoArgs
+  validacoesPrevisao?: boolean | EquipamentoCountOutputTypeCountValidacoesPrevisaoArgs
 }
 
 /**
@@ -890,6 +1308,20 @@ export type EquipamentoCountOutputTypeCountHistoricoMovimentacaoArgs<ExtArgs ext
   where?: Prisma.MovimentacaoWhereInput
 }
 
+/**
+ * EquipamentoCountOutputType without action
+ */
+export type EquipamentoCountOutputTypeCountHistoricoEstadoFisicoArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.HistoricoEstadoFisicoWhereInput
+}
+
+/**
+ * EquipamentoCountOutputType without action
+ */
+export type EquipamentoCountOutputTypeCountValidacoesPrevisaoArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ValidacaoPrevisaoWhereInput
+}
+
 
 export type EquipamentoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   posicaoNoLote?: boolean
@@ -905,7 +1337,13 @@ export type EquipamentoSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   statusRastreamento?: boolean
   versao?: boolean
   excluidoEm?: boolean
+  valorEstimadoRecuperacao?: boolean
+  valorRealizadoRecuperacao?: boolean
+  dataEstimativa?: boolean
+  dataRealizacao?: boolean
   historicoMovimentacao?: boolean | Prisma.Equipamento$historicoMovimentacaoArgs<ExtArgs>
+  historicoEstadoFisico?: boolean | Prisma.Equipamento$historicoEstadoFisicoArgs<ExtArgs>
+  validacoesPrevisao?: boolean | Prisma.Equipamento$validacoesPrevisaoArgs<ExtArgs>
   lote?: boolean | Prisma.LoteDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.EquipamentoCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["equipamento"]>
@@ -924,6 +1362,10 @@ export type EquipamentoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   statusRastreamento?: boolean
   versao?: boolean
   excluidoEm?: boolean
+  valorEstimadoRecuperacao?: boolean
+  valorRealizadoRecuperacao?: boolean
+  dataEstimativa?: boolean
+  dataRealizacao?: boolean
   lote?: boolean | Prisma.LoteDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["equipamento"]>
 
@@ -941,6 +1383,10 @@ export type EquipamentoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   statusRastreamento?: boolean
   versao?: boolean
   excluidoEm?: boolean
+  valorEstimadoRecuperacao?: boolean
+  valorRealizadoRecuperacao?: boolean
+  dataEstimativa?: boolean
+  dataRealizacao?: boolean
   lote?: boolean | Prisma.LoteDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["equipamento"]>
 
@@ -958,11 +1404,17 @@ export type EquipamentoSelectScalar = {
   statusRastreamento?: boolean
   versao?: boolean
   excluidoEm?: boolean
+  valorEstimadoRecuperacao?: boolean
+  valorRealizadoRecuperacao?: boolean
+  dataEstimativa?: boolean
+  dataRealizacao?: boolean
 }
 
-export type EquipamentoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"posicaoNoLote" | "id" | "codigoBarrasInterno" | "tipo" | "marca" | "modelo" | "anoFabricacao" | "estadoFisico" | "pesoQuilogramas" | "loteId" | "statusRastreamento" | "versao" | "excluidoEm", ExtArgs["result"]["equipamento"]>
+export type EquipamentoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"posicaoNoLote" | "id" | "codigoBarrasInterno" | "tipo" | "marca" | "modelo" | "anoFabricacao" | "estadoFisico" | "pesoQuilogramas" | "loteId" | "statusRastreamento" | "versao" | "excluidoEm" | "valorEstimadoRecuperacao" | "valorRealizadoRecuperacao" | "dataEstimativa" | "dataRealizacao", ExtArgs["result"]["equipamento"]>
 export type EquipamentoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   historicoMovimentacao?: boolean | Prisma.Equipamento$historicoMovimentacaoArgs<ExtArgs>
+  historicoEstadoFisico?: boolean | Prisma.Equipamento$historicoEstadoFisicoArgs<ExtArgs>
+  validacoesPrevisao?: boolean | Prisma.Equipamento$validacoesPrevisaoArgs<ExtArgs>
   lote?: boolean | Prisma.LoteDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.EquipamentoCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -977,6 +1429,8 @@ export type $EquipamentoPayload<ExtArgs extends runtime.Types.Extensions.Interna
   name: "Equipamento"
   objects: {
     historicoMovimentacao: Prisma.$MovimentacaoPayload<ExtArgs>[]
+    historicoEstadoFisico: Prisma.$HistoricoEstadoFisicoPayload<ExtArgs>[]
+    validacoesPrevisao: Prisma.$ValidacaoPrevisaoPayload<ExtArgs>[]
     lote: Prisma.$LotePayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -993,6 +1447,10 @@ export type $EquipamentoPayload<ExtArgs extends runtime.Types.Extensions.Interna
     statusRastreamento: $Enums.StatusRastreamento
     versao: number
     excluidoEm: Date | null
+    valorEstimadoRecuperacao: runtime.Decimal | null
+    valorRealizadoRecuperacao: runtime.Decimal | null
+    dataEstimativa: Date | null
+    dataRealizacao: Date | null
   }, ExtArgs["result"]["equipamento"]>
   composites: {}
 }
@@ -1388,6 +1846,8 @@ readonly fields: EquipamentoFieldRefs;
 export interface Prisma__EquipamentoClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   historicoMovimentacao<T extends Prisma.Equipamento$historicoMovimentacaoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Equipamento$historicoMovimentacaoArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MovimentacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  historicoEstadoFisico<T extends Prisma.Equipamento$historicoEstadoFisicoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Equipamento$historicoEstadoFisicoArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HistoricoEstadoFisicoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  validacoesPrevisao<T extends Prisma.Equipamento$validacoesPrevisaoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Equipamento$validacoesPrevisaoArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ValidacaoPrevisaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   lote<T extends Prisma.LoteDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.LoteDefaultArgs<ExtArgs>>): Prisma.Prisma__LoteClient<runtime.Types.Result.GetResult<Prisma.$LotePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1431,6 +1891,10 @@ export interface EquipamentoFieldRefs {
   readonly statusRastreamento: Prisma.FieldRef<"Equipamento", 'StatusRastreamento'>
   readonly versao: Prisma.FieldRef<"Equipamento", 'Int'>
   readonly excluidoEm: Prisma.FieldRef<"Equipamento", 'DateTime'>
+  readonly valorEstimadoRecuperacao: Prisma.FieldRef<"Equipamento", 'Decimal'>
+  readonly valorRealizadoRecuperacao: Prisma.FieldRef<"Equipamento", 'Decimal'>
+  readonly dataEstimativa: Prisma.FieldRef<"Equipamento", 'DateTime'>
+  readonly dataRealizacao: Prisma.FieldRef<"Equipamento", 'DateTime'>
 }
     
 
@@ -1853,6 +2317,54 @@ export type Equipamento$historicoMovimentacaoArgs<ExtArgs extends runtime.Types.
   take?: number
   skip?: number
   distinct?: Prisma.MovimentacaoScalarFieldEnum | Prisma.MovimentacaoScalarFieldEnum[]
+}
+
+/**
+ * Equipamento.historicoEstadoFisico
+ */
+export type Equipamento$historicoEstadoFisicoArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the HistoricoEstadoFisico
+   */
+  select?: Prisma.HistoricoEstadoFisicoSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the HistoricoEstadoFisico
+   */
+  omit?: Prisma.HistoricoEstadoFisicoOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.HistoricoEstadoFisicoInclude<ExtArgs> | null
+  where?: Prisma.HistoricoEstadoFisicoWhereInput
+  orderBy?: Prisma.HistoricoEstadoFisicoOrderByWithRelationInput | Prisma.HistoricoEstadoFisicoOrderByWithRelationInput[]
+  cursor?: Prisma.HistoricoEstadoFisicoWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.HistoricoEstadoFisicoScalarFieldEnum | Prisma.HistoricoEstadoFisicoScalarFieldEnum[]
+}
+
+/**
+ * Equipamento.validacoesPrevisao
+ */
+export type Equipamento$validacoesPrevisaoArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ValidacaoPrevisao
+   */
+  select?: Prisma.ValidacaoPrevisaoSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ValidacaoPrevisao
+   */
+  omit?: Prisma.ValidacaoPrevisaoOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ValidacaoPrevisaoInclude<ExtArgs> | null
+  where?: Prisma.ValidacaoPrevisaoWhereInput
+  orderBy?: Prisma.ValidacaoPrevisaoOrderByWithRelationInput | Prisma.ValidacaoPrevisaoOrderByWithRelationInput[]
+  cursor?: Prisma.ValidacaoPrevisaoWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ValidacaoPrevisaoScalarFieldEnum | Prisma.ValidacaoPrevisaoScalarFieldEnum[]
 }
 
 /**

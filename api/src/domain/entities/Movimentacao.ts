@@ -1,12 +1,13 @@
 import { ErroValidacao } from '@/shared/errors/DomainError.js';
+import { StatusRastreamento } from '@domain/enums/StatusRastreamento.js';
 
 export type MovimentacaoPersistida = {
   id: string;
   equipamentoId: string;
   dataHora: Date;
-  origem: string;
-  destino: string;
-  responsavel: string;
+  origem: StatusRastreamento;
+  destino: StatusRastreamento;
+  responsavelId: string | null;
   observacao: string | null;
   versao: number;
 };
@@ -17,35 +18,29 @@ export class Movimentacao {
     private readonly _id: string,
     private readonly _equipamentoId: string,
     private readonly _dataHora: Date,
-    private readonly _origem: string,
-    private readonly _destino: string,
-    private readonly _responsavel: string,
+    private readonly _origem: StatusRastreamento,
+    private readonly _destino: StatusRastreamento,
+    private readonly _responsavelId: string | null,
     private readonly _observacao: string | null,
     private readonly _versao: number
   ) {}
 
   static criar(dados: NovaMovimentacao): Movimentacao {
-    if (
-      !dados.id.trim() ||
-      !dados.equipamentoId.trim() ||
-      !dados.destino.trim() ||
-      !dados.responsavel.trim()
-    ) {
-      throw new ErroValidacao(
-        'Identificadores, destino e responsável são obrigatórios na movimentação.'
-      );
+    if (!dados.id.trim() || !dados.equipamentoId.trim()) {
+      throw new ErroValidacao('Identificadores são obrigatórios na movimentação.');
     }
     if (Number.isNaN(dados.dataHora.getTime()))
       throw new ErroValidacao('A data da movimentação é inválida.');
-    if (dados.origem.trim() && dados.origem.trim() === dados.destino.trim())
+    if (dados.origem === dados.destino)
       throw new ErroValidacao('A origem e o destino da movimentação devem ser diferentes.');
+
     return new Movimentacao(
       dados.id,
       dados.equipamentoId,
       dados.dataHora,
-      dados.origem.trim(),
-      dados.destino.trim(),
-      dados.responsavel.trim(),
+      dados.origem,
+      dados.destino,
+      dados.responsavelId,
       dados.observacao ?? null,
       1
     );
@@ -58,7 +53,7 @@ export class Movimentacao {
       dados.dataHora,
       dados.origem,
       dados.destino,
-      dados.responsavel,
+      dados.responsavelId,
       dados.observacao,
       dados.versao
     );
@@ -73,15 +68,16 @@ export class Movimentacao {
   get dataHora(): Date {
     return this._dataHora;
   }
-  get origem(): string {
+  get origem(): StatusRastreamento {
     return this._origem;
   }
-  get destino(): string {
+  get destino(): StatusRastreamento {
     return this._destino;
   }
-  get responsavel(): string {
-    return this._responsavel;
+  get responsavelId(): string | null {
+    return this._responsavelId;
   }
+
   get observacao(): string | null {
     return this._observacao;
   }
@@ -96,7 +92,7 @@ export class Movimentacao {
       dataHora: this._dataHora,
       origem: this._origem,
       destino: this._destino,
-      responsavel: this._responsavel,
+      responsavelId: this._responsavelId,
       observacao: this._observacao,
       versao: this._versao,
     };

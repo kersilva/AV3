@@ -23,7 +23,9 @@ import { OrganizacaoService } from "../src/modules/organizacao/OrganizacaoServic
 import { LoteService } from "../src/modules/lote/LoteService.js";
 import { EquipamentoService } from "../src/modules/equipamento/EquipamentoService.js";
 import { ConfiguracaoService } from "../src/modules/configuracao/ConfiguracaoService.js";
-import { StatusLote as PrismaStatusLote } from "../src/generated/prisma/enums.js";
+import { StatusLote as PrismaStatusLote, StatusRastreamento as PrismaStatusRastreamento  } from "../src/generated/prisma/enums.js";
+
+
 
 type Ator = { id: string; usuario: string };
 type DadosUsuarioSeed = {
@@ -326,10 +328,10 @@ async function garantirMovimentacoes(
   equipamentos: { id: string }[],
   ator: Ator,
 ) {
-  for (const [indice, equipamento] of equipamentos.entries()) {
-    const destino = `Seed: Área de demonstração ${indice + 1}`;
+  for (const equipamento of equipamentos) {
+    const destino = StatusRastreamento.EM_TRIAGEM;
     const existente = await prisma.movimentacao.findFirst({
-      where: { equipamentoId: equipamento.id, destino },
+      where: { equipamentoId: equipamento.id, destino: PrismaStatusRastreamento.EM_TRIAGEM },
     });
     if (existente) continue;
 
@@ -337,7 +339,7 @@ async function garantirMovimentacoes(
       equipamento.id,
       {
         destino,
-        observacao: "Movimentação de exemplo criada pelo seed.",
+        observacao: 'Movimentação de exemplo criada pelo seed.',
       },
       ator,
     );

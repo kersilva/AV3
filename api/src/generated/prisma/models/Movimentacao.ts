@@ -38,9 +38,9 @@ export type MovimentacaoMinAggregateOutputType = {
   id: string | null
   equipamentoId: string | null
   dataHora: Date | null
-  origem: string | null
-  destino: string | null
-  responsavel: string | null
+  origem: $Enums.StatusRastreamento | null
+  destino: $Enums.StatusRastreamento | null
+  responsavelId: string | null
   observacao: string | null
   versao: number | null
 }
@@ -49,9 +49,9 @@ export type MovimentacaoMaxAggregateOutputType = {
   id: string | null
   equipamentoId: string | null
   dataHora: Date | null
-  origem: string | null
-  destino: string | null
-  responsavel: string | null
+  origem: $Enums.StatusRastreamento | null
+  destino: $Enums.StatusRastreamento | null
+  responsavelId: string | null
   observacao: string | null
   versao: number | null
 }
@@ -62,7 +62,7 @@ export type MovimentacaoCountAggregateOutputType = {
   dataHora: number
   origem: number
   destino: number
-  responsavel: number
+  responsavelId: number
   observacao: number
   versao: number
   _all: number
@@ -83,7 +83,7 @@ export type MovimentacaoMinAggregateInputType = {
   dataHora?: true
   origem?: true
   destino?: true
-  responsavel?: true
+  responsavelId?: true
   observacao?: true
   versao?: true
 }
@@ -94,7 +94,7 @@ export type MovimentacaoMaxAggregateInputType = {
   dataHora?: true
   origem?: true
   destino?: true
-  responsavel?: true
+  responsavelId?: true
   observacao?: true
   versao?: true
 }
@@ -105,7 +105,7 @@ export type MovimentacaoCountAggregateInputType = {
   dataHora?: true
   origem?: true
   destino?: true
-  responsavel?: true
+  responsavelId?: true
   observacao?: true
   versao?: true
   _all?: true
@@ -201,9 +201,9 @@ export type MovimentacaoGroupByOutputType = {
   id: string
   equipamentoId: string
   dataHora: Date
-  origem: string
-  destino: string
-  responsavel: string
+  origem: $Enums.StatusRastreamento
+  destino: $Enums.StatusRastreamento
+  responsavelId: string | null
   observacao: string | null
   versao: number
   _count: MovimentacaoCountAggregateOutputType | null
@@ -235,12 +235,13 @@ export type MovimentacaoWhereInput = {
   id?: Prisma.StringFilter<"Movimentacao"> | string
   equipamentoId?: Prisma.StringFilter<"Movimentacao"> | string
   dataHora?: Prisma.DateTimeFilter<"Movimentacao"> | Date | string
-  origem?: Prisma.StringFilter<"Movimentacao"> | string
-  destino?: Prisma.StringFilter<"Movimentacao"> | string
-  responsavel?: Prisma.StringFilter<"Movimentacao"> | string
+  origem?: Prisma.EnumStatusRastreamentoFilter<"Movimentacao"> | $Enums.StatusRastreamento
+  destino?: Prisma.EnumStatusRastreamentoFilter<"Movimentacao"> | $Enums.StatusRastreamento
+  responsavelId?: Prisma.StringNullableFilter<"Movimentacao"> | string | null
   observacao?: Prisma.StringNullableFilter<"Movimentacao"> | string | null
   versao?: Prisma.IntFilter<"Movimentacao"> | number
   equipamento?: Prisma.XOR<Prisma.EquipamentoScalarRelationFilter, Prisma.EquipamentoWhereInput>
+  responsavel?: Prisma.XOR<Prisma.UsuarioNullableScalarRelationFilter, Prisma.UsuarioWhereInput> | null
 }
 
 export type MovimentacaoOrderByWithRelationInput = {
@@ -249,10 +250,11 @@ export type MovimentacaoOrderByWithRelationInput = {
   dataHora?: Prisma.SortOrder
   origem?: Prisma.SortOrder
   destino?: Prisma.SortOrder
-  responsavel?: Prisma.SortOrder
+  responsavelId?: Prisma.SortOrderInput | Prisma.SortOrder
   observacao?: Prisma.SortOrderInput | Prisma.SortOrder
   versao?: Prisma.SortOrder
   equipamento?: Prisma.EquipamentoOrderByWithRelationInput
+  responsavel?: Prisma.UsuarioOrderByWithRelationInput
 }
 
 export type MovimentacaoWhereUniqueInput = Prisma.AtLeast<{
@@ -262,12 +264,13 @@ export type MovimentacaoWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.MovimentacaoWhereInput | Prisma.MovimentacaoWhereInput[]
   equipamentoId?: Prisma.StringFilter<"Movimentacao"> | string
   dataHora?: Prisma.DateTimeFilter<"Movimentacao"> | Date | string
-  origem?: Prisma.StringFilter<"Movimentacao"> | string
-  destino?: Prisma.StringFilter<"Movimentacao"> | string
-  responsavel?: Prisma.StringFilter<"Movimentacao"> | string
+  origem?: Prisma.EnumStatusRastreamentoFilter<"Movimentacao"> | $Enums.StatusRastreamento
+  destino?: Prisma.EnumStatusRastreamentoFilter<"Movimentacao"> | $Enums.StatusRastreamento
+  responsavelId?: Prisma.StringNullableFilter<"Movimentacao"> | string | null
   observacao?: Prisma.StringNullableFilter<"Movimentacao"> | string | null
   versao?: Prisma.IntFilter<"Movimentacao"> | number
   equipamento?: Prisma.XOR<Prisma.EquipamentoScalarRelationFilter, Prisma.EquipamentoWhereInput>
+  responsavel?: Prisma.XOR<Prisma.UsuarioNullableScalarRelationFilter, Prisma.UsuarioWhereInput> | null
 }, "id">
 
 export type MovimentacaoOrderByWithAggregationInput = {
@@ -276,7 +279,7 @@ export type MovimentacaoOrderByWithAggregationInput = {
   dataHora?: Prisma.SortOrder
   origem?: Prisma.SortOrder
   destino?: Prisma.SortOrder
-  responsavel?: Prisma.SortOrder
+  responsavelId?: Prisma.SortOrderInput | Prisma.SortOrder
   observacao?: Prisma.SortOrderInput | Prisma.SortOrder
   versao?: Prisma.SortOrder
   _count?: Prisma.MovimentacaoCountOrderByAggregateInput
@@ -293,9 +296,9 @@ export type MovimentacaoScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Movimentacao"> | string
   equipamentoId?: Prisma.StringWithAggregatesFilter<"Movimentacao"> | string
   dataHora?: Prisma.DateTimeWithAggregatesFilter<"Movimentacao"> | Date | string
-  origem?: Prisma.StringWithAggregatesFilter<"Movimentacao"> | string
-  destino?: Prisma.StringWithAggregatesFilter<"Movimentacao"> | string
-  responsavel?: Prisma.StringWithAggregatesFilter<"Movimentacao"> | string
+  origem?: Prisma.EnumStatusRastreamentoWithAggregatesFilter<"Movimentacao"> | $Enums.StatusRastreamento
+  destino?: Prisma.EnumStatusRastreamentoWithAggregatesFilter<"Movimentacao"> | $Enums.StatusRastreamento
+  responsavelId?: Prisma.StringNullableWithAggregatesFilter<"Movimentacao"> | string | null
   observacao?: Prisma.StringNullableWithAggregatesFilter<"Movimentacao"> | string | null
   versao?: Prisma.IntWithAggregatesFilter<"Movimentacao"> | number
 }
@@ -303,21 +306,21 @@ export type MovimentacaoScalarWhereWithAggregatesInput = {
 export type MovimentacaoCreateInput = {
   id: string
   dataHora: Date | string
-  origem: string
-  destino: string
-  responsavel: string
+  origem: $Enums.StatusRastreamento
+  destino: $Enums.StatusRastreamento
   observacao?: string | null
   versao?: number
   equipamento: Prisma.EquipamentoCreateNestedOneWithoutHistoricoMovimentacaoInput
+  responsavel?: Prisma.UsuarioCreateNestedOneWithoutMovimentacoesInput
 }
 
 export type MovimentacaoUncheckedCreateInput = {
   id: string
   equipamentoId: string
   dataHora: Date | string
-  origem: string
-  destino: string
-  responsavel: string
+  origem: $Enums.StatusRastreamento
+  destino: $Enums.StatusRastreamento
+  responsavelId?: string | null
   observacao?: string | null
   versao?: number
 }
@@ -325,21 +328,21 @@ export type MovimentacaoUncheckedCreateInput = {
 export type MovimentacaoUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   dataHora?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  origem?: Prisma.StringFieldUpdateOperationsInput | string
-  destino?: Prisma.StringFieldUpdateOperationsInput | string
-  responsavel?: Prisma.StringFieldUpdateOperationsInput | string
+  origem?: Prisma.EnumStatusRastreamentoFieldUpdateOperationsInput | $Enums.StatusRastreamento
+  destino?: Prisma.EnumStatusRastreamentoFieldUpdateOperationsInput | $Enums.StatusRastreamento
   observacao?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   versao?: Prisma.IntFieldUpdateOperationsInput | number
   equipamento?: Prisma.EquipamentoUpdateOneRequiredWithoutHistoricoMovimentacaoNestedInput
+  responsavel?: Prisma.UsuarioUpdateOneWithoutMovimentacoesNestedInput
 }
 
 export type MovimentacaoUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   equipamentoId?: Prisma.StringFieldUpdateOperationsInput | string
   dataHora?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  origem?: Prisma.StringFieldUpdateOperationsInput | string
-  destino?: Prisma.StringFieldUpdateOperationsInput | string
-  responsavel?: Prisma.StringFieldUpdateOperationsInput | string
+  origem?: Prisma.EnumStatusRastreamentoFieldUpdateOperationsInput | $Enums.StatusRastreamento
+  destino?: Prisma.EnumStatusRastreamentoFieldUpdateOperationsInput | $Enums.StatusRastreamento
+  responsavelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacao?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   versao?: Prisma.IntFieldUpdateOperationsInput | number
 }
@@ -348,9 +351,9 @@ export type MovimentacaoCreateManyInput = {
   id: string
   equipamentoId: string
   dataHora: Date | string
-  origem: string
-  destino: string
-  responsavel: string
+  origem: $Enums.StatusRastreamento
+  destino: $Enums.StatusRastreamento
+  responsavelId?: string | null
   observacao?: string | null
   versao?: number
 }
@@ -358,9 +361,8 @@ export type MovimentacaoCreateManyInput = {
 export type MovimentacaoUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   dataHora?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  origem?: Prisma.StringFieldUpdateOperationsInput | string
-  destino?: Prisma.StringFieldUpdateOperationsInput | string
-  responsavel?: Prisma.StringFieldUpdateOperationsInput | string
+  origem?: Prisma.EnumStatusRastreamentoFieldUpdateOperationsInput | $Enums.StatusRastreamento
+  destino?: Prisma.EnumStatusRastreamentoFieldUpdateOperationsInput | $Enums.StatusRastreamento
   observacao?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   versao?: Prisma.IntFieldUpdateOperationsInput | number
 }
@@ -369,11 +371,21 @@ export type MovimentacaoUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   equipamentoId?: Prisma.StringFieldUpdateOperationsInput | string
   dataHora?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  origem?: Prisma.StringFieldUpdateOperationsInput | string
-  destino?: Prisma.StringFieldUpdateOperationsInput | string
-  responsavel?: Prisma.StringFieldUpdateOperationsInput | string
+  origem?: Prisma.EnumStatusRastreamentoFieldUpdateOperationsInput | $Enums.StatusRastreamento
+  destino?: Prisma.EnumStatusRastreamentoFieldUpdateOperationsInput | $Enums.StatusRastreamento
+  responsavelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacao?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   versao?: Prisma.IntFieldUpdateOperationsInput | number
+}
+
+export type MovimentacaoListRelationFilter = {
+  every?: Prisma.MovimentacaoWhereInput
+  some?: Prisma.MovimentacaoWhereInput
+  none?: Prisma.MovimentacaoWhereInput
+}
+
+export type MovimentacaoOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type MovimentacaoCountOrderByAggregateInput = {
@@ -382,7 +394,7 @@ export type MovimentacaoCountOrderByAggregateInput = {
   dataHora?: Prisma.SortOrder
   origem?: Prisma.SortOrder
   destino?: Prisma.SortOrder
-  responsavel?: Prisma.SortOrder
+  responsavelId?: Prisma.SortOrder
   observacao?: Prisma.SortOrder
   versao?: Prisma.SortOrder
 }
@@ -397,7 +409,7 @@ export type MovimentacaoMaxOrderByAggregateInput = {
   dataHora?: Prisma.SortOrder
   origem?: Prisma.SortOrder
   destino?: Prisma.SortOrder
-  responsavel?: Prisma.SortOrder
+  responsavelId?: Prisma.SortOrder
   observacao?: Prisma.SortOrder
   versao?: Prisma.SortOrder
 }
@@ -408,7 +420,7 @@ export type MovimentacaoMinOrderByAggregateInput = {
   dataHora?: Prisma.SortOrder
   origem?: Prisma.SortOrder
   destino?: Prisma.SortOrder
-  responsavel?: Prisma.SortOrder
+  responsavelId?: Prisma.SortOrder
   observacao?: Prisma.SortOrder
   versao?: Prisma.SortOrder
 }
@@ -417,14 +429,50 @@ export type MovimentacaoSumOrderByAggregateInput = {
   versao?: Prisma.SortOrder
 }
 
-export type MovimentacaoListRelationFilter = {
-  every?: Prisma.MovimentacaoWhereInput
-  some?: Prisma.MovimentacaoWhereInput
-  none?: Prisma.MovimentacaoWhereInput
+export type MovimentacaoCreateNestedManyWithoutResponsavelInput = {
+  create?: Prisma.XOR<Prisma.MovimentacaoCreateWithoutResponsavelInput, Prisma.MovimentacaoUncheckedCreateWithoutResponsavelInput> | Prisma.MovimentacaoCreateWithoutResponsavelInput[] | Prisma.MovimentacaoUncheckedCreateWithoutResponsavelInput[]
+  connectOrCreate?: Prisma.MovimentacaoCreateOrConnectWithoutResponsavelInput | Prisma.MovimentacaoCreateOrConnectWithoutResponsavelInput[]
+  createMany?: Prisma.MovimentacaoCreateManyResponsavelInputEnvelope
+  connect?: Prisma.MovimentacaoWhereUniqueInput | Prisma.MovimentacaoWhereUniqueInput[]
 }
 
-export type MovimentacaoOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
+export type MovimentacaoUncheckedCreateNestedManyWithoutResponsavelInput = {
+  create?: Prisma.XOR<Prisma.MovimentacaoCreateWithoutResponsavelInput, Prisma.MovimentacaoUncheckedCreateWithoutResponsavelInput> | Prisma.MovimentacaoCreateWithoutResponsavelInput[] | Prisma.MovimentacaoUncheckedCreateWithoutResponsavelInput[]
+  connectOrCreate?: Prisma.MovimentacaoCreateOrConnectWithoutResponsavelInput | Prisma.MovimentacaoCreateOrConnectWithoutResponsavelInput[]
+  createMany?: Prisma.MovimentacaoCreateManyResponsavelInputEnvelope
+  connect?: Prisma.MovimentacaoWhereUniqueInput | Prisma.MovimentacaoWhereUniqueInput[]
+}
+
+export type MovimentacaoUpdateManyWithoutResponsavelNestedInput = {
+  create?: Prisma.XOR<Prisma.MovimentacaoCreateWithoutResponsavelInput, Prisma.MovimentacaoUncheckedCreateWithoutResponsavelInput> | Prisma.MovimentacaoCreateWithoutResponsavelInput[] | Prisma.MovimentacaoUncheckedCreateWithoutResponsavelInput[]
+  connectOrCreate?: Prisma.MovimentacaoCreateOrConnectWithoutResponsavelInput | Prisma.MovimentacaoCreateOrConnectWithoutResponsavelInput[]
+  upsert?: Prisma.MovimentacaoUpsertWithWhereUniqueWithoutResponsavelInput | Prisma.MovimentacaoUpsertWithWhereUniqueWithoutResponsavelInput[]
+  createMany?: Prisma.MovimentacaoCreateManyResponsavelInputEnvelope
+  set?: Prisma.MovimentacaoWhereUniqueInput | Prisma.MovimentacaoWhereUniqueInput[]
+  disconnect?: Prisma.MovimentacaoWhereUniqueInput | Prisma.MovimentacaoWhereUniqueInput[]
+  delete?: Prisma.MovimentacaoWhereUniqueInput | Prisma.MovimentacaoWhereUniqueInput[]
+  connect?: Prisma.MovimentacaoWhereUniqueInput | Prisma.MovimentacaoWhereUniqueInput[]
+  update?: Prisma.MovimentacaoUpdateWithWhereUniqueWithoutResponsavelInput | Prisma.MovimentacaoUpdateWithWhereUniqueWithoutResponsavelInput[]
+  updateMany?: Prisma.MovimentacaoUpdateManyWithWhereWithoutResponsavelInput | Prisma.MovimentacaoUpdateManyWithWhereWithoutResponsavelInput[]
+  deleteMany?: Prisma.MovimentacaoScalarWhereInput | Prisma.MovimentacaoScalarWhereInput[]
+}
+
+export type MovimentacaoUncheckedUpdateManyWithoutResponsavelNestedInput = {
+  create?: Prisma.XOR<Prisma.MovimentacaoCreateWithoutResponsavelInput, Prisma.MovimentacaoUncheckedCreateWithoutResponsavelInput> | Prisma.MovimentacaoCreateWithoutResponsavelInput[] | Prisma.MovimentacaoUncheckedCreateWithoutResponsavelInput[]
+  connectOrCreate?: Prisma.MovimentacaoCreateOrConnectWithoutResponsavelInput | Prisma.MovimentacaoCreateOrConnectWithoutResponsavelInput[]
+  upsert?: Prisma.MovimentacaoUpsertWithWhereUniqueWithoutResponsavelInput | Prisma.MovimentacaoUpsertWithWhereUniqueWithoutResponsavelInput[]
+  createMany?: Prisma.MovimentacaoCreateManyResponsavelInputEnvelope
+  set?: Prisma.MovimentacaoWhereUniqueInput | Prisma.MovimentacaoWhereUniqueInput[]
+  disconnect?: Prisma.MovimentacaoWhereUniqueInput | Prisma.MovimentacaoWhereUniqueInput[]
+  delete?: Prisma.MovimentacaoWhereUniqueInput | Prisma.MovimentacaoWhereUniqueInput[]
+  connect?: Prisma.MovimentacaoWhereUniqueInput | Prisma.MovimentacaoWhereUniqueInput[]
+  update?: Prisma.MovimentacaoUpdateWithWhereUniqueWithoutResponsavelInput | Prisma.MovimentacaoUpdateWithWhereUniqueWithoutResponsavelInput[]
+  updateMany?: Prisma.MovimentacaoUpdateManyWithWhereWithoutResponsavelInput | Prisma.MovimentacaoUpdateManyWithWhereWithoutResponsavelInput[]
+  deleteMany?: Prisma.MovimentacaoScalarWhereInput | Prisma.MovimentacaoScalarWhereInput[]
+}
+
+export type EnumStatusRastreamentoFieldUpdateOperationsInput = {
+  set?: $Enums.StatusRastreamento
 }
 
 export type MovimentacaoCreateNestedManyWithoutEquipamentoInput = {
@@ -469,22 +517,82 @@ export type MovimentacaoUncheckedUpdateManyWithoutEquipamentoNestedInput = {
   deleteMany?: Prisma.MovimentacaoScalarWhereInput | Prisma.MovimentacaoScalarWhereInput[]
 }
 
+export type MovimentacaoCreateWithoutResponsavelInput = {
+  id: string
+  dataHora: Date | string
+  origem: $Enums.StatusRastreamento
+  destino: $Enums.StatusRastreamento
+  observacao?: string | null
+  versao?: number
+  equipamento: Prisma.EquipamentoCreateNestedOneWithoutHistoricoMovimentacaoInput
+}
+
+export type MovimentacaoUncheckedCreateWithoutResponsavelInput = {
+  id: string
+  equipamentoId: string
+  dataHora: Date | string
+  origem: $Enums.StatusRastreamento
+  destino: $Enums.StatusRastreamento
+  observacao?: string | null
+  versao?: number
+}
+
+export type MovimentacaoCreateOrConnectWithoutResponsavelInput = {
+  where: Prisma.MovimentacaoWhereUniqueInput
+  create: Prisma.XOR<Prisma.MovimentacaoCreateWithoutResponsavelInput, Prisma.MovimentacaoUncheckedCreateWithoutResponsavelInput>
+}
+
+export type MovimentacaoCreateManyResponsavelInputEnvelope = {
+  data: Prisma.MovimentacaoCreateManyResponsavelInput | Prisma.MovimentacaoCreateManyResponsavelInput[]
+  skipDuplicates?: boolean
+}
+
+export type MovimentacaoUpsertWithWhereUniqueWithoutResponsavelInput = {
+  where: Prisma.MovimentacaoWhereUniqueInput
+  update: Prisma.XOR<Prisma.MovimentacaoUpdateWithoutResponsavelInput, Prisma.MovimentacaoUncheckedUpdateWithoutResponsavelInput>
+  create: Prisma.XOR<Prisma.MovimentacaoCreateWithoutResponsavelInput, Prisma.MovimentacaoUncheckedCreateWithoutResponsavelInput>
+}
+
+export type MovimentacaoUpdateWithWhereUniqueWithoutResponsavelInput = {
+  where: Prisma.MovimentacaoWhereUniqueInput
+  data: Prisma.XOR<Prisma.MovimentacaoUpdateWithoutResponsavelInput, Prisma.MovimentacaoUncheckedUpdateWithoutResponsavelInput>
+}
+
+export type MovimentacaoUpdateManyWithWhereWithoutResponsavelInput = {
+  where: Prisma.MovimentacaoScalarWhereInput
+  data: Prisma.XOR<Prisma.MovimentacaoUpdateManyMutationInput, Prisma.MovimentacaoUncheckedUpdateManyWithoutResponsavelInput>
+}
+
+export type MovimentacaoScalarWhereInput = {
+  AND?: Prisma.MovimentacaoScalarWhereInput | Prisma.MovimentacaoScalarWhereInput[]
+  OR?: Prisma.MovimentacaoScalarWhereInput[]
+  NOT?: Prisma.MovimentacaoScalarWhereInput | Prisma.MovimentacaoScalarWhereInput[]
+  id?: Prisma.StringFilter<"Movimentacao"> | string
+  equipamentoId?: Prisma.StringFilter<"Movimentacao"> | string
+  dataHora?: Prisma.DateTimeFilter<"Movimentacao"> | Date | string
+  origem?: Prisma.EnumStatusRastreamentoFilter<"Movimentacao"> | $Enums.StatusRastreamento
+  destino?: Prisma.EnumStatusRastreamentoFilter<"Movimentacao"> | $Enums.StatusRastreamento
+  responsavelId?: Prisma.StringNullableFilter<"Movimentacao"> | string | null
+  observacao?: Prisma.StringNullableFilter<"Movimentacao"> | string | null
+  versao?: Prisma.IntFilter<"Movimentacao"> | number
+}
+
 export type MovimentacaoCreateWithoutEquipamentoInput = {
   id: string
   dataHora: Date | string
-  origem: string
-  destino: string
-  responsavel: string
+  origem: $Enums.StatusRastreamento
+  destino: $Enums.StatusRastreamento
   observacao?: string | null
   versao?: number
+  responsavel?: Prisma.UsuarioCreateNestedOneWithoutMovimentacoesInput
 }
 
 export type MovimentacaoUncheckedCreateWithoutEquipamentoInput = {
   id: string
   dataHora: Date | string
-  origem: string
-  destino: string
-  responsavel: string
+  origem: $Enums.StatusRastreamento
+  destino: $Enums.StatusRastreamento
+  responsavelId?: string | null
   observacao?: string | null
   versao?: number
 }
@@ -515,26 +623,52 @@ export type MovimentacaoUpdateManyWithWhereWithoutEquipamentoInput = {
   data: Prisma.XOR<Prisma.MovimentacaoUpdateManyMutationInput, Prisma.MovimentacaoUncheckedUpdateManyWithoutEquipamentoInput>
 }
 
-export type MovimentacaoScalarWhereInput = {
-  AND?: Prisma.MovimentacaoScalarWhereInput | Prisma.MovimentacaoScalarWhereInput[]
-  OR?: Prisma.MovimentacaoScalarWhereInput[]
-  NOT?: Prisma.MovimentacaoScalarWhereInput | Prisma.MovimentacaoScalarWhereInput[]
-  id?: Prisma.StringFilter<"Movimentacao"> | string
-  equipamentoId?: Prisma.StringFilter<"Movimentacao"> | string
-  dataHora?: Prisma.DateTimeFilter<"Movimentacao"> | Date | string
-  origem?: Prisma.StringFilter<"Movimentacao"> | string
-  destino?: Prisma.StringFilter<"Movimentacao"> | string
-  responsavel?: Prisma.StringFilter<"Movimentacao"> | string
-  observacao?: Prisma.StringNullableFilter<"Movimentacao"> | string | null
-  versao?: Prisma.IntFilter<"Movimentacao"> | number
+export type MovimentacaoCreateManyResponsavelInput = {
+  id: string
+  equipamentoId: string
+  dataHora: Date | string
+  origem: $Enums.StatusRastreamento
+  destino: $Enums.StatusRastreamento
+  observacao?: string | null
+  versao?: number
+}
+
+export type MovimentacaoUpdateWithoutResponsavelInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  dataHora?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  origem?: Prisma.EnumStatusRastreamentoFieldUpdateOperationsInput | $Enums.StatusRastreamento
+  destino?: Prisma.EnumStatusRastreamentoFieldUpdateOperationsInput | $Enums.StatusRastreamento
+  observacao?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  versao?: Prisma.IntFieldUpdateOperationsInput | number
+  equipamento?: Prisma.EquipamentoUpdateOneRequiredWithoutHistoricoMovimentacaoNestedInput
+}
+
+export type MovimentacaoUncheckedUpdateWithoutResponsavelInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  equipamentoId?: Prisma.StringFieldUpdateOperationsInput | string
+  dataHora?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  origem?: Prisma.EnumStatusRastreamentoFieldUpdateOperationsInput | $Enums.StatusRastreamento
+  destino?: Prisma.EnumStatusRastreamentoFieldUpdateOperationsInput | $Enums.StatusRastreamento
+  observacao?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  versao?: Prisma.IntFieldUpdateOperationsInput | number
+}
+
+export type MovimentacaoUncheckedUpdateManyWithoutResponsavelInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  equipamentoId?: Prisma.StringFieldUpdateOperationsInput | string
+  dataHora?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  origem?: Prisma.EnumStatusRastreamentoFieldUpdateOperationsInput | $Enums.StatusRastreamento
+  destino?: Prisma.EnumStatusRastreamentoFieldUpdateOperationsInput | $Enums.StatusRastreamento
+  observacao?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  versao?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type MovimentacaoCreateManyEquipamentoInput = {
   id: string
   dataHora: Date | string
-  origem: string
-  destino: string
-  responsavel: string
+  origem: $Enums.StatusRastreamento
+  destino: $Enums.StatusRastreamento
+  responsavelId?: string | null
   observacao?: string | null
   versao?: number
 }
@@ -542,19 +676,19 @@ export type MovimentacaoCreateManyEquipamentoInput = {
 export type MovimentacaoUpdateWithoutEquipamentoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   dataHora?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  origem?: Prisma.StringFieldUpdateOperationsInput | string
-  destino?: Prisma.StringFieldUpdateOperationsInput | string
-  responsavel?: Prisma.StringFieldUpdateOperationsInput | string
+  origem?: Prisma.EnumStatusRastreamentoFieldUpdateOperationsInput | $Enums.StatusRastreamento
+  destino?: Prisma.EnumStatusRastreamentoFieldUpdateOperationsInput | $Enums.StatusRastreamento
   observacao?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   versao?: Prisma.IntFieldUpdateOperationsInput | number
+  responsavel?: Prisma.UsuarioUpdateOneWithoutMovimentacoesNestedInput
 }
 
 export type MovimentacaoUncheckedUpdateWithoutEquipamentoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   dataHora?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  origem?: Prisma.StringFieldUpdateOperationsInput | string
-  destino?: Prisma.StringFieldUpdateOperationsInput | string
-  responsavel?: Prisma.StringFieldUpdateOperationsInput | string
+  origem?: Prisma.EnumStatusRastreamentoFieldUpdateOperationsInput | $Enums.StatusRastreamento
+  destino?: Prisma.EnumStatusRastreamentoFieldUpdateOperationsInput | $Enums.StatusRastreamento
+  responsavelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacao?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   versao?: Prisma.IntFieldUpdateOperationsInput | number
 }
@@ -562,9 +696,9 @@ export type MovimentacaoUncheckedUpdateWithoutEquipamentoInput = {
 export type MovimentacaoUncheckedUpdateManyWithoutEquipamentoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   dataHora?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  origem?: Prisma.StringFieldUpdateOperationsInput | string
-  destino?: Prisma.StringFieldUpdateOperationsInput | string
-  responsavel?: Prisma.StringFieldUpdateOperationsInput | string
+  origem?: Prisma.EnumStatusRastreamentoFieldUpdateOperationsInput | $Enums.StatusRastreamento
+  destino?: Prisma.EnumStatusRastreamentoFieldUpdateOperationsInput | $Enums.StatusRastreamento
+  responsavelId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   observacao?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   versao?: Prisma.IntFieldUpdateOperationsInput | number
 }
@@ -577,10 +711,11 @@ export type MovimentacaoSelect<ExtArgs extends runtime.Types.Extensions.Internal
   dataHora?: boolean
   origem?: boolean
   destino?: boolean
-  responsavel?: boolean
+  responsavelId?: boolean
   observacao?: boolean
   versao?: boolean
   equipamento?: boolean | Prisma.EquipamentoDefaultArgs<ExtArgs>
+  responsavel?: boolean | Prisma.Movimentacao$responsavelArgs<ExtArgs>
 }, ExtArgs["result"]["movimentacao"]>
 
 export type MovimentacaoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -589,10 +724,11 @@ export type MovimentacaoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   dataHora?: boolean
   origem?: boolean
   destino?: boolean
-  responsavel?: boolean
+  responsavelId?: boolean
   observacao?: boolean
   versao?: boolean
   equipamento?: boolean | Prisma.EquipamentoDefaultArgs<ExtArgs>
+  responsavel?: boolean | Prisma.Movimentacao$responsavelArgs<ExtArgs>
 }, ExtArgs["result"]["movimentacao"]>
 
 export type MovimentacaoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -601,10 +737,11 @@ export type MovimentacaoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   dataHora?: boolean
   origem?: boolean
   destino?: boolean
-  responsavel?: boolean
+  responsavelId?: boolean
   observacao?: boolean
   versao?: boolean
   equipamento?: boolean | Prisma.EquipamentoDefaultArgs<ExtArgs>
+  responsavel?: boolean | Prisma.Movimentacao$responsavelArgs<ExtArgs>
 }, ExtArgs["result"]["movimentacao"]>
 
 export type MovimentacaoSelectScalar = {
@@ -613,34 +750,38 @@ export type MovimentacaoSelectScalar = {
   dataHora?: boolean
   origem?: boolean
   destino?: boolean
-  responsavel?: boolean
+  responsavelId?: boolean
   observacao?: boolean
   versao?: boolean
 }
 
-export type MovimentacaoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "equipamentoId" | "dataHora" | "origem" | "destino" | "responsavel" | "observacao" | "versao", ExtArgs["result"]["movimentacao"]>
+export type MovimentacaoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "equipamentoId" | "dataHora" | "origem" | "destino" | "responsavelId" | "observacao" | "versao", ExtArgs["result"]["movimentacao"]>
 export type MovimentacaoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   equipamento?: boolean | Prisma.EquipamentoDefaultArgs<ExtArgs>
+  responsavel?: boolean | Prisma.Movimentacao$responsavelArgs<ExtArgs>
 }
 export type MovimentacaoIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   equipamento?: boolean | Prisma.EquipamentoDefaultArgs<ExtArgs>
+  responsavel?: boolean | Prisma.Movimentacao$responsavelArgs<ExtArgs>
 }
 export type MovimentacaoIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   equipamento?: boolean | Prisma.EquipamentoDefaultArgs<ExtArgs>
+  responsavel?: boolean | Prisma.Movimentacao$responsavelArgs<ExtArgs>
 }
 
 export type $MovimentacaoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Movimentacao"
   objects: {
     equipamento: Prisma.$EquipamentoPayload<ExtArgs>
+    responsavel: Prisma.$UsuarioPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     equipamentoId: string
     dataHora: Date
-    origem: string
-    destino: string
-    responsavel: string
+    origem: $Enums.StatusRastreamento
+    destino: $Enums.StatusRastreamento
+    responsavelId: string | null
     observacao: string | null
     versao: number
   }, ExtArgs["result"]["movimentacao"]>
@@ -1038,6 +1179,7 @@ readonly fields: MovimentacaoFieldRefs;
 export interface Prisma__MovimentacaoClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   equipamento<T extends Prisma.EquipamentoDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.EquipamentoDefaultArgs<ExtArgs>>): Prisma.Prisma__EquipamentoClient<runtime.Types.Result.GetResult<Prisma.$EquipamentoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  responsavel<T extends Prisma.Movimentacao$responsavelArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Movimentacao$responsavelArgs<ExtArgs>>): Prisma.Prisma__UsuarioClient<runtime.Types.Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1070,9 +1212,9 @@ export interface MovimentacaoFieldRefs {
   readonly id: Prisma.FieldRef<"Movimentacao", 'String'>
   readonly equipamentoId: Prisma.FieldRef<"Movimentacao", 'String'>
   readonly dataHora: Prisma.FieldRef<"Movimentacao", 'DateTime'>
-  readonly origem: Prisma.FieldRef<"Movimentacao", 'String'>
-  readonly destino: Prisma.FieldRef<"Movimentacao", 'String'>
-  readonly responsavel: Prisma.FieldRef<"Movimentacao", 'String'>
+  readonly origem: Prisma.FieldRef<"Movimentacao", 'StatusRastreamento'>
+  readonly destino: Prisma.FieldRef<"Movimentacao", 'StatusRastreamento'>
+  readonly responsavelId: Prisma.FieldRef<"Movimentacao", 'String'>
   readonly observacao: Prisma.FieldRef<"Movimentacao", 'String'>
   readonly versao: Prisma.FieldRef<"Movimentacao", 'Int'>
 }
@@ -1473,6 +1615,25 @@ export type MovimentacaoDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.
    * Limit how many Movimentacaos to delete.
    */
   limit?: number
+}
+
+/**
+ * Movimentacao.responsavel
+ */
+export type Movimentacao$responsavelArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Usuario
+   */
+  select?: Prisma.UsuarioSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Usuario
+   */
+  omit?: Prisma.UsuarioOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UsuarioInclude<ExtArgs> | null
+  where?: Prisma.UsuarioWhereInput
 }
 
 /**

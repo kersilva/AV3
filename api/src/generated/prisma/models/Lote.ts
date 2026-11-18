@@ -249,6 +249,7 @@ export type LoteWhereInput = {
   versao?: Prisma.IntFilter<"Lote"> | number
   excluidoEm?: Prisma.DateTimeNullableFilter<"Lote"> | Date | string | null
   equipamentos?: Prisma.EquipamentoListRelationFilter
+  historicoStatus?: Prisma.HistoricoStatusLoteListRelationFilter
   organizacao?: Prisma.XOR<Prisma.OrganizacaoScalarRelationFilter, Prisma.OrganizacaoWhereInput>
 }
 
@@ -263,6 +264,7 @@ export type LoteOrderByWithRelationInput = {
   versao?: Prisma.SortOrder
   excluidoEm?: Prisma.SortOrderInput | Prisma.SortOrder
   equipamentos?: Prisma.EquipamentoOrderByRelationAggregateInput
+  historicoStatus?: Prisma.HistoricoStatusLoteOrderByRelationAggregateInput
   organizacao?: Prisma.OrganizacaoOrderByWithRelationInput
 }
 
@@ -280,6 +282,7 @@ export type LoteWhereUniqueInput = Prisma.AtLeast<{
   versao?: Prisma.IntFilter<"Lote"> | number
   excluidoEm?: Prisma.DateTimeNullableFilter<"Lote"> | Date | string | null
   equipamentos?: Prisma.EquipamentoListRelationFilter
+  historicoStatus?: Prisma.HistoricoStatusLoteListRelationFilter
   organizacao?: Prisma.XOR<Prisma.OrganizacaoScalarRelationFilter, Prisma.OrganizacaoWhereInput>
 }, "id">
 
@@ -325,6 +328,7 @@ export type LoteCreateInput = {
   versao?: number
   excluidoEm?: Date | string | null
   equipamentos?: Prisma.EquipamentoCreateNestedManyWithoutLoteInput
+  historicoStatus?: Prisma.HistoricoStatusLoteCreateNestedManyWithoutLoteInput
   organizacao: Prisma.OrganizacaoCreateNestedOneWithoutLotesInput
 }
 
@@ -339,6 +343,7 @@ export type LoteUncheckedCreateInput = {
   versao?: number
   excluidoEm?: Date | string | null
   equipamentos?: Prisma.EquipamentoUncheckedCreateNestedManyWithoutLoteInput
+  historicoStatus?: Prisma.HistoricoStatusLoteUncheckedCreateNestedManyWithoutLoteInput
 }
 
 export type LoteUpdateInput = {
@@ -351,6 +356,7 @@ export type LoteUpdateInput = {
   versao?: Prisma.IntFieldUpdateOperationsInput | number
   excluidoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   equipamentos?: Prisma.EquipamentoUpdateManyWithoutLoteNestedInput
+  historicoStatus?: Prisma.HistoricoStatusLoteUpdateManyWithoutLoteNestedInput
   organizacao?: Prisma.OrganizacaoUpdateOneRequiredWithoutLotesNestedInput
 }
 
@@ -365,6 +371,7 @@ export type LoteUncheckedUpdateInput = {
   versao?: Prisma.IntFieldUpdateOperationsInput | number
   excluidoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   equipamentos?: Prisma.EquipamentoUncheckedUpdateManyWithoutLoteNestedInput
+  historicoStatus?: Prisma.HistoricoStatusLoteUncheckedUpdateManyWithoutLoteNestedInput
 }
 
 export type LoteCreateManyInput = {
@@ -521,6 +528,20 @@ export type LoteUncheckedUpdateManyWithoutOrganizacaoNestedInput = {
   deleteMany?: Prisma.LoteScalarWhereInput | Prisma.LoteScalarWhereInput[]
 }
 
+export type LoteCreateNestedOneWithoutHistoricoStatusInput = {
+  create?: Prisma.XOR<Prisma.LoteCreateWithoutHistoricoStatusInput, Prisma.LoteUncheckedCreateWithoutHistoricoStatusInput>
+  connectOrCreate?: Prisma.LoteCreateOrConnectWithoutHistoricoStatusInput
+  connect?: Prisma.LoteWhereUniqueInput
+}
+
+export type LoteUpdateOneRequiredWithoutHistoricoStatusNestedInput = {
+  create?: Prisma.XOR<Prisma.LoteCreateWithoutHistoricoStatusInput, Prisma.LoteUncheckedCreateWithoutHistoricoStatusInput>
+  connectOrCreate?: Prisma.LoteCreateOrConnectWithoutHistoricoStatusInput
+  upsert?: Prisma.LoteUpsertWithoutHistoricoStatusInput
+  connect?: Prisma.LoteWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.LoteUpdateToOneWithWhereWithoutHistoricoStatusInput, Prisma.LoteUpdateWithoutHistoricoStatusInput>, Prisma.LoteUncheckedUpdateWithoutHistoricoStatusInput>
+}
+
 export type LoteCreateWithoutEquipamentosInput = {
   id: string
   dataEntrada: Date | string
@@ -530,6 +551,7 @@ export type LoteCreateWithoutEquipamentosInput = {
   observacoes?: string | null
   versao?: number
   excluidoEm?: Date | string | null
+  historicoStatus?: Prisma.HistoricoStatusLoteCreateNestedManyWithoutLoteInput
   organizacao: Prisma.OrganizacaoCreateNestedOneWithoutLotesInput
 }
 
@@ -543,6 +565,7 @@ export type LoteUncheckedCreateWithoutEquipamentosInput = {
   observacoes?: string | null
   versao?: number
   excluidoEm?: Date | string | null
+  historicoStatus?: Prisma.HistoricoStatusLoteUncheckedCreateNestedManyWithoutLoteInput
 }
 
 export type LoteCreateOrConnectWithoutEquipamentosInput = {
@@ -570,6 +593,7 @@ export type LoteUpdateWithoutEquipamentosInput = {
   observacoes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   versao?: Prisma.IntFieldUpdateOperationsInput | number
   excluidoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  historicoStatus?: Prisma.HistoricoStatusLoteUpdateManyWithoutLoteNestedInput
   organizacao?: Prisma.OrganizacaoUpdateOneRequiredWithoutLotesNestedInput
 }
 
@@ -583,6 +607,7 @@ export type LoteUncheckedUpdateWithoutEquipamentosInput = {
   observacoes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   versao?: Prisma.IntFieldUpdateOperationsInput | number
   excluidoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  historicoStatus?: Prisma.HistoricoStatusLoteUncheckedUpdateManyWithoutLoteNestedInput
 }
 
 export type LoteCreateWithoutOrganizacaoInput = {
@@ -595,6 +620,7 @@ export type LoteCreateWithoutOrganizacaoInput = {
   versao?: number
   excluidoEm?: Date | string | null
   equipamentos?: Prisma.EquipamentoCreateNestedManyWithoutLoteInput
+  historicoStatus?: Prisma.HistoricoStatusLoteCreateNestedManyWithoutLoteInput
 }
 
 export type LoteUncheckedCreateWithoutOrganizacaoInput = {
@@ -607,6 +633,7 @@ export type LoteUncheckedCreateWithoutOrganizacaoInput = {
   versao?: number
   excluidoEm?: Date | string | null
   equipamentos?: Prisma.EquipamentoUncheckedCreateNestedManyWithoutLoteInput
+  historicoStatus?: Prisma.HistoricoStatusLoteUncheckedCreateNestedManyWithoutLoteInput
 }
 
 export type LoteCreateOrConnectWithoutOrganizacaoInput = {
@@ -650,6 +677,74 @@ export type LoteScalarWhereInput = {
   excluidoEm?: Prisma.DateTimeNullableFilter<"Lote"> | Date | string | null
 }
 
+export type LoteCreateWithoutHistoricoStatusInput = {
+  id: string
+  dataEntrada: Date | string
+  notaFiscal: string
+  transportadora: string
+  statusProcessamento: $Enums.StatusLote
+  observacoes?: string | null
+  versao?: number
+  excluidoEm?: Date | string | null
+  equipamentos?: Prisma.EquipamentoCreateNestedManyWithoutLoteInput
+  organizacao: Prisma.OrganizacaoCreateNestedOneWithoutLotesInput
+}
+
+export type LoteUncheckedCreateWithoutHistoricoStatusInput = {
+  id: string
+  dataEntrada: Date | string
+  organizacaoId: string
+  notaFiscal: string
+  transportadora: string
+  statusProcessamento: $Enums.StatusLote
+  observacoes?: string | null
+  versao?: number
+  excluidoEm?: Date | string | null
+  equipamentos?: Prisma.EquipamentoUncheckedCreateNestedManyWithoutLoteInput
+}
+
+export type LoteCreateOrConnectWithoutHistoricoStatusInput = {
+  where: Prisma.LoteWhereUniqueInput
+  create: Prisma.XOR<Prisma.LoteCreateWithoutHistoricoStatusInput, Prisma.LoteUncheckedCreateWithoutHistoricoStatusInput>
+}
+
+export type LoteUpsertWithoutHistoricoStatusInput = {
+  update: Prisma.XOR<Prisma.LoteUpdateWithoutHistoricoStatusInput, Prisma.LoteUncheckedUpdateWithoutHistoricoStatusInput>
+  create: Prisma.XOR<Prisma.LoteCreateWithoutHistoricoStatusInput, Prisma.LoteUncheckedCreateWithoutHistoricoStatusInput>
+  where?: Prisma.LoteWhereInput
+}
+
+export type LoteUpdateToOneWithWhereWithoutHistoricoStatusInput = {
+  where?: Prisma.LoteWhereInput
+  data: Prisma.XOR<Prisma.LoteUpdateWithoutHistoricoStatusInput, Prisma.LoteUncheckedUpdateWithoutHistoricoStatusInput>
+}
+
+export type LoteUpdateWithoutHistoricoStatusInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  dataEntrada?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  notaFiscal?: Prisma.StringFieldUpdateOperationsInput | string
+  transportadora?: Prisma.StringFieldUpdateOperationsInput | string
+  statusProcessamento?: Prisma.EnumStatusLoteFieldUpdateOperationsInput | $Enums.StatusLote
+  observacoes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  versao?: Prisma.IntFieldUpdateOperationsInput | number
+  excluidoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  equipamentos?: Prisma.EquipamentoUpdateManyWithoutLoteNestedInput
+  organizacao?: Prisma.OrganizacaoUpdateOneRequiredWithoutLotesNestedInput
+}
+
+export type LoteUncheckedUpdateWithoutHistoricoStatusInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  dataEntrada?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  organizacaoId?: Prisma.StringFieldUpdateOperationsInput | string
+  notaFiscal?: Prisma.StringFieldUpdateOperationsInput | string
+  transportadora?: Prisma.StringFieldUpdateOperationsInput | string
+  statusProcessamento?: Prisma.EnumStatusLoteFieldUpdateOperationsInput | $Enums.StatusLote
+  observacoes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  versao?: Prisma.IntFieldUpdateOperationsInput | number
+  excluidoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  equipamentos?: Prisma.EquipamentoUncheckedUpdateManyWithoutLoteNestedInput
+}
+
 export type LoteCreateManyOrganizacaoInput = {
   id: string
   dataEntrada: Date | string
@@ -671,6 +766,7 @@ export type LoteUpdateWithoutOrganizacaoInput = {
   versao?: Prisma.IntFieldUpdateOperationsInput | number
   excluidoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   equipamentos?: Prisma.EquipamentoUpdateManyWithoutLoteNestedInput
+  historicoStatus?: Prisma.HistoricoStatusLoteUpdateManyWithoutLoteNestedInput
 }
 
 export type LoteUncheckedUpdateWithoutOrganizacaoInput = {
@@ -683,6 +779,7 @@ export type LoteUncheckedUpdateWithoutOrganizacaoInput = {
   versao?: Prisma.IntFieldUpdateOperationsInput | number
   excluidoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   equipamentos?: Prisma.EquipamentoUncheckedUpdateManyWithoutLoteNestedInput
+  historicoStatus?: Prisma.HistoricoStatusLoteUncheckedUpdateManyWithoutLoteNestedInput
 }
 
 export type LoteUncheckedUpdateManyWithoutOrganizacaoInput = {
@@ -703,10 +800,12 @@ export type LoteUncheckedUpdateManyWithoutOrganizacaoInput = {
 
 export type LoteCountOutputType = {
   equipamentos: number
+  historicoStatus: number
 }
 
 export type LoteCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   equipamentos?: boolean | LoteCountOutputTypeCountEquipamentosArgs
+  historicoStatus?: boolean | LoteCountOutputTypeCountHistoricoStatusArgs
 }
 
 /**
@@ -726,6 +825,13 @@ export type LoteCountOutputTypeCountEquipamentosArgs<ExtArgs extends runtime.Typ
   where?: Prisma.EquipamentoWhereInput
 }
 
+/**
+ * LoteCountOutputType without action
+ */
+export type LoteCountOutputTypeCountHistoricoStatusArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.HistoricoStatusLoteWhereInput
+}
+
 
 export type LoteSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -738,6 +844,7 @@ export type LoteSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   versao?: boolean
   excluidoEm?: boolean
   equipamentos?: boolean | Prisma.Lote$equipamentosArgs<ExtArgs>
+  historicoStatus?: boolean | Prisma.Lote$historicoStatusArgs<ExtArgs>
   organizacao?: boolean | Prisma.OrganizacaoDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.LoteCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["lote"]>
@@ -783,6 +890,7 @@ export type LoteSelectScalar = {
 export type LoteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "dataEntrada" | "organizacaoId" | "notaFiscal" | "transportadora" | "statusProcessamento" | "observacoes" | "versao" | "excluidoEm", ExtArgs["result"]["lote"]>
 export type LoteInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   equipamentos?: boolean | Prisma.Lote$equipamentosArgs<ExtArgs>
+  historicoStatus?: boolean | Prisma.Lote$historicoStatusArgs<ExtArgs>
   organizacao?: boolean | Prisma.OrganizacaoDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.LoteCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -797,6 +905,7 @@ export type $LotePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "Lote"
   objects: {
     equipamentos: Prisma.$EquipamentoPayload<ExtArgs>[]
+    historicoStatus: Prisma.$HistoricoStatusLotePayload<ExtArgs>[]
     organizacao: Prisma.$OrganizacaoPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1204,6 +1313,7 @@ readonly fields: LoteFieldRefs;
 export interface Prisma__LoteClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   equipamentos<T extends Prisma.Lote$equipamentosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lote$equipamentosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EquipamentoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  historicoStatus<T extends Prisma.Lote$historicoStatusArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lote$historicoStatusArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HistoricoStatusLotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   organizacao<T extends Prisma.OrganizacaoDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrganizacaoDefaultArgs<ExtArgs>>): Prisma.Prisma__OrganizacaoClient<runtime.Types.Result.GetResult<Prisma.$OrganizacaoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1665,6 +1775,30 @@ export type Lote$equipamentosArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.EquipamentoScalarFieldEnum | Prisma.EquipamentoScalarFieldEnum[]
+}
+
+/**
+ * Lote.historicoStatus
+ */
+export type Lote$historicoStatusArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the HistoricoStatusLote
+   */
+  select?: Prisma.HistoricoStatusLoteSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the HistoricoStatusLote
+   */
+  omit?: Prisma.HistoricoStatusLoteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.HistoricoStatusLoteInclude<ExtArgs> | null
+  where?: Prisma.HistoricoStatusLoteWhereInput
+  orderBy?: Prisma.HistoricoStatusLoteOrderByWithRelationInput | Prisma.HistoricoStatusLoteOrderByWithRelationInput[]
+  cursor?: Prisma.HistoricoStatusLoteWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.HistoricoStatusLoteScalarFieldEnum | Prisma.HistoricoStatusLoteScalarFieldEnum[]
 }
 
 /**

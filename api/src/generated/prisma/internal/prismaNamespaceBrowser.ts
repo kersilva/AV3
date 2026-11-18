@@ -59,7 +59,14 @@ export const ModelName = {
   Contrato: 'Contrato',
   Equipamento: 'Equipamento',
   Lote: 'Lote',
-  Organizacao: 'Organizacao'
+  Organizacao: 'Organizacao',
+  HistoricoStatusLote: 'HistoricoStatusLote',
+  HistoricoEstadoFisico: 'HistoricoEstadoFisico',
+  PrevisaoVidaUtil: 'PrevisaoVidaUtil',
+  ValidacaoPrevisao: 'ValidacaoPrevisao',
+  ParceiroApi: 'ParceiroApi',
+  ChaveApi: 'ChaveApi',
+  SolicitacaoRelatorio: 'SolicitacaoRelatorio'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -121,7 +128,7 @@ export const MovimentacaoScalarFieldEnum = {
   dataHora: 'dataHora',
   origem: 'origem',
   destino: 'destino',
-  responsavel: 'responsavel',
+  responsavelId: 'responsavelId',
   observacao: 'observacao',
   versao: 'versao'
 } as const
@@ -165,7 +172,11 @@ export const EquipamentoScalarFieldEnum = {
   loteId: 'loteId',
   statusRastreamento: 'statusRastreamento',
   versao: 'versao',
-  excluidoEm: 'excluidoEm'
+  excluidoEm: 'excluidoEm',
+  valorEstimadoRecuperacao: 'valorEstimadoRecuperacao',
+  valorRealizadoRecuperacao: 'valorRealizadoRecuperacao',
+  dataEstimativa: 'dataEstimativa',
+  dataRealizacao: 'dataRealizacao'
 } as const
 
 export type EquipamentoScalarFieldEnum = (typeof EquipamentoScalarFieldEnum)[keyof typeof EquipamentoScalarFieldEnum]
@@ -202,6 +213,105 @@ export const OrganizacaoScalarFieldEnum = {
 export type OrganizacaoScalarFieldEnum = (typeof OrganizacaoScalarFieldEnum)[keyof typeof OrganizacaoScalarFieldEnum]
 
 
+export const HistoricoStatusLoteScalarFieldEnum = {
+  id: 'id',
+  loteId: 'loteId',
+  statusAnterior: 'statusAnterior',
+  statusNovo: 'statusNovo',
+  timestamp: 'timestamp',
+  responsavelId: 'responsavelId',
+  observacao: 'observacao'
+} as const
+
+export type HistoricoStatusLoteScalarFieldEnum = (typeof HistoricoStatusLoteScalarFieldEnum)[keyof typeof HistoricoStatusLoteScalarFieldEnum]
+
+
+export const HistoricoEstadoFisicoScalarFieldEnum = {
+  id: 'id',
+  equipamentoId: 'equipamentoId',
+  estadoAnterior: 'estadoAnterior',
+  estadoNovo: 'estadoNovo',
+  timestamp: 'timestamp',
+  responsavelId: 'responsavelId',
+  justificativa: 'justificativa'
+} as const
+
+export type HistoricoEstadoFisicoScalarFieldEnum = (typeof HistoricoEstadoFisicoScalarFieldEnum)[keyof typeof HistoricoEstadoFisicoScalarFieldEnum]
+
+
+export const PrevisaoVidaUtilScalarFieldEnum = {
+  id: 'id',
+  tipoEquipamento: 'tipoEquipamento',
+  marca: 'marca',
+  modelo: 'modelo',
+  dataPrevisao: 'dataPrevisao',
+  metodologia: 'metodologia',
+  vidaUtilEstimadaMeses: 'vidaUtilEstimadaMeses',
+  r2: 'r2',
+  amostras: 'amostras',
+  parametros: 'parametros',
+  solicitacaoRelatorioId: 'solicitacaoRelatorioId'
+} as const
+
+export type PrevisaoVidaUtilScalarFieldEnum = (typeof PrevisaoVidaUtilScalarFieldEnum)[keyof typeof PrevisaoVidaUtilScalarFieldEnum]
+
+
+export const ValidacaoPrevisaoScalarFieldEnum = {
+  id: 'id',
+  previsaoId: 'previsaoId',
+  equipamentoId: 'equipamentoId',
+  idadeRealMeses: 'idadeRealMeses',
+  erroAbsolutoMeses: 'erroAbsolutoMeses',
+  registradaEm: 'registradaEm'
+} as const
+
+export type ValidacaoPrevisaoScalarFieldEnum = (typeof ValidacaoPrevisaoScalarFieldEnum)[keyof typeof ValidacaoPrevisaoScalarFieldEnum]
+
+
+export const ParceiroApiScalarFieldEnum = {
+  id: 'id',
+  nome: 'nome',
+  emailContato: 'emailContato',
+  ativo: 'ativo',
+  dataCriacao: 'dataCriacao'
+} as const
+
+export type ParceiroApiScalarFieldEnum = (typeof ParceiroApiScalarFieldEnum)[keyof typeof ParceiroApiScalarFieldEnum]
+
+
+export const ChaveApiScalarFieldEnum = {
+  id: 'id',
+  parceiroId: 'parceiroId',
+  chaveHash: 'chaveHash',
+  prefixo: 'prefixo',
+  escopos: 'escopos',
+  dataCriacao: 'dataCriacao',
+  dataRevogacao: 'dataRevogacao',
+  ultimaVez: 'ultimaVez'
+} as const
+
+export type ChaveApiScalarFieldEnum = (typeof ChaveApiScalarFieldEnum)[keyof typeof ChaveApiScalarFieldEnum]
+
+
+export const SolicitacaoRelatorioScalarFieldEnum = {
+  id: 'id',
+  parceiroId: 'parceiroId',
+  usuarioId: 'usuarioId',
+  tipoRelatorio: 'tipoRelatorio',
+  parametros: 'parametros',
+  status: 'status',
+  jobIdFila: 'jobIdFila',
+  resultUrl: 'resultUrl',
+  erroMensagem: 'erroMensagem',
+  tentativas: 'tentativas',
+  criadoEm: 'criadoEm',
+  concluidoEm: 'concluidoEm',
+  chaveIdempotencia: 'chaveIdempotencia'
+} as const
+
+export type SolicitacaoRelatorioScalarFieldEnum = (typeof SolicitacaoRelatorioScalarFieldEnum)[keyof typeof SolicitacaoRelatorioScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -216,6 +326,13 @@ export const NullableJsonNullValueInput = {
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {

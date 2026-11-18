@@ -1,17 +1,43 @@
 import { Prisma } from '@/generated/prisma/client.js';
+import type { StatusRastreamento as StatusRastreamentoPrisma } from '@/generated/prisma/enums.js';
 import { EstadoFisico } from '@domain/enums/EstadoFisico.js';
 import { StatusRastreamento } from '@domain/enums/StatusRastreamento.js';
 import { TipoEquipamento } from '@domain/enums/TipoEquipamento.js';
 import { Equipamento } from '@domain/entities/Equipamento.js';
 import type { EquipamentoPersistido } from '@domain/entities/Equipamento.js';
 import { Movimentacao } from '@domain/entities/Movimentacao.js';
-import type { MovimentacaoPersistida } from '@domain/entities/Movimentacao.js';
 import type { EquipamentoRepository as IEquipamentoRepository } from '@domain/repositories/EquipamentoRepository.js';
 import type { EstadoExclusao } from '@domain/repositories/SoftDeleteRepository.js';
 import { prisma } from '@infra/database.js';
 
-function mapMovimentacao(row: MovimentacaoPersistida): Movimentacao {
-  return Movimentacao.reconstituir(row);
+const STATUS_PARA_DOMINIO: Record<StatusRastreamentoPrisma, StatusRastreamento> = {
+  AGUARDANDO_TRIAGEM: StatusRastreamento.AGUARDANDO_TRIAGEM,
+  EM_TRIAGEM: StatusRastreamento.EM_TRIAGEM,
+  AGUARDANDO_DESMONTE: StatusRastreamento.AGUARDANDO_DESMONTE,
+  EM_DESMONTE: StatusRastreamento.EM_DESMONTE,
+  PECAS_REAPROVEITADAS: StatusRastreamento.PECAS_REAPROVEITADAS,
+  MATERIAL_RECICLAVEL: StatusRastreamento.MATERIAL_RECICLAVEL,
+  DESCARTE_SEGURO: StatusRastreamento.DESCARTE_SEGURO,
+  BAIXA_DEFINITIVA: StatusRastreamento.BAIXA_DEFINITIVA,
+};
+
+const equipamentoCompleto = {
+  historicoMovimentacao: { orderBy: { dataHora: 'asc' } },
+} as const;
+
+type EquipamentoCompleto = Prisma.EquipamentoGetPayload<{
+  include: typeof equipamentoCompleto;
+}>;
+
+// Linha de Movimentacao exatamente como o Prisma devolve.
+type MovimentacaoRow = EquipamentoCompleto['historicoMovimentacao'][number];
+
+function mapMovimentacao(row: MovimentacaoRow): Movimentacao {
+  return Movimentacao.reconstituir({
+    ...row,
+    origem: STATUS_PARA_DOMINIO[row.origem],
+    destino: STATUS_PARA_DOMINIO[row.destino],
+  });
 }
 
 function mapEquipamento(row: EquipamentoCompleto): Equipamento {
@@ -26,22 +52,11 @@ function mapEquipamento(row: EquipamentoCompleto): Equipamento {
     pesoQuilogramas: Number(row.pesoQuilogramas),
     loteId: row.loteId,
     posicaoNoLote: row.posicaoNoLote,
-    statusRastreamento: row.statusRastreamento as StatusRastreamento,
+    statusRastreamento: STATUS_PARA_DOMINIO[row.statusRastreamento],
     versao: row.versao,
   };
-  return Equipamento.reconstituir(
-    data,
-    (row.historicoMovimentacao).map((item) => mapMovimentacao(item))
-  );
+  return Equipamento.reconstituir(data, row.historicoMovimentacao.map(mapMovimentacao));
 }
-
-const equipamentoCompleto = {
-  historicoMovimentacao: { orderBy: { dataHora: 'asc' } },
-} as const;
-
-type EquipamentoCompleto = Prisma.EquipamentoGetPayload<{
-  include: typeof equipamentoCompleto;
-}>;
 
 export class PrismaEquipamentoRepository implements IEquipamentoRepository {
   constructor(
@@ -64,7 +79,7 @@ export class PrismaEquipamentoRepository implements IEquipamentoRepository {
       where: { equipamentoId },
       orderBy: { dataHora: 'asc' },
     });
-    return rows.map((row) => mapMovimentacao(row as MovimentacaoPersistida));
+    return rows.map(mapMovimentacao);
   }
 
   async buscarPorIdIncluindoExcluido(id: string): Promise<Equipamento | null> {
@@ -124,7 +139,7 @@ export class PrismaEquipamentoRepository implements IEquipamentoRepository {
     const row = await this.db.movimentacao.create({
       data: data as Prisma.MovimentacaoUncheckedCreateInput,
     });
-    return Movimentacao.reconstituir(row as MovimentacaoPersistida);
+    return mapMovimentacao(row);
   }
 
   async obterEstadoExclusao(id: string): Promise<EstadoExclusao | null> {

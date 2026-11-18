@@ -233,6 +233,10 @@ export type UsuarioWhereInput = {
   ativo?: Prisma.BoolFilter<"Usuario"> | boolean
   versao?: Prisma.IntFilter<"Usuario"> | number
   journalTransacoes?: Prisma.JournalTransacaoListRelationFilter
+  movimentacoes?: Prisma.MovimentacaoListRelationFilter
+  historicoStatusLote?: Prisma.HistoricoStatusLoteListRelationFilter
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoListRelationFilter
+  solicitacoesRelatorio?: Prisma.SolicitacaoRelatorioListRelationFilter
 }
 
 export type UsuarioOrderByWithRelationInput = {
@@ -244,6 +248,10 @@ export type UsuarioOrderByWithRelationInput = {
   ativo?: Prisma.SortOrder
   versao?: Prisma.SortOrder
   journalTransacoes?: Prisma.JournalTransacaoOrderByRelationAggregateInput
+  movimentacoes?: Prisma.MovimentacaoOrderByRelationAggregateInput
+  historicoStatusLote?: Prisma.HistoricoStatusLoteOrderByRelationAggregateInput
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoOrderByRelationAggregateInput
+  solicitacoesRelatorio?: Prisma.SolicitacaoRelatorioOrderByRelationAggregateInput
 }
 
 export type UsuarioWhereUniqueInput = Prisma.AtLeast<{
@@ -258,6 +266,10 @@ export type UsuarioWhereUniqueInput = Prisma.AtLeast<{
   ativo?: Prisma.BoolFilter<"Usuario"> | boolean
   versao?: Prisma.IntFilter<"Usuario"> | number
   journalTransacoes?: Prisma.JournalTransacaoListRelationFilter
+  movimentacoes?: Prisma.MovimentacaoListRelationFilter
+  historicoStatusLote?: Prisma.HistoricoStatusLoteListRelationFilter
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoListRelationFilter
+  solicitacoesRelatorio?: Prisma.SolicitacaoRelatorioListRelationFilter
 }, "id" | "usuario">
 
 export type UsuarioOrderByWithAggregationInput = {
@@ -297,6 +309,10 @@ export type UsuarioCreateInput = {
   ativo?: boolean
   versao?: number
   journalTransacoes?: Prisma.JournalTransacaoCreateNestedManyWithoutUsuarioInput
+  movimentacoes?: Prisma.MovimentacaoCreateNestedManyWithoutResponsavelInput
+  historicoStatusLote?: Prisma.HistoricoStatusLoteCreateNestedManyWithoutResponsavelInput
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoCreateNestedManyWithoutResponsavelInput
+  solicitacoesRelatorio?: Prisma.SolicitacaoRelatorioCreateNestedManyWithoutUsuarioInput
 }
 
 export type UsuarioUncheckedCreateInput = {
@@ -308,6 +324,10 @@ export type UsuarioUncheckedCreateInput = {
   ativo?: boolean
   versao?: number
   journalTransacoes?: Prisma.JournalTransacaoUncheckedCreateNestedManyWithoutUsuarioInput
+  movimentacoes?: Prisma.MovimentacaoUncheckedCreateNestedManyWithoutResponsavelInput
+  historicoStatusLote?: Prisma.HistoricoStatusLoteUncheckedCreateNestedManyWithoutResponsavelInput
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoUncheckedCreateNestedManyWithoutResponsavelInput
+  solicitacoesRelatorio?: Prisma.SolicitacaoRelatorioUncheckedCreateNestedManyWithoutUsuarioInput
 }
 
 export type UsuarioUpdateInput = {
@@ -319,6 +339,10 @@ export type UsuarioUpdateInput = {
   ativo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   versao?: Prisma.IntFieldUpdateOperationsInput | number
   journalTransacoes?: Prisma.JournalTransacaoUpdateManyWithoutUsuarioNestedInput
+  movimentacoes?: Prisma.MovimentacaoUpdateManyWithoutResponsavelNestedInput
+  historicoStatusLote?: Prisma.HistoricoStatusLoteUpdateManyWithoutResponsavelNestedInput
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoUpdateManyWithoutResponsavelNestedInput
+  solicitacoesRelatorio?: Prisma.SolicitacaoRelatorioUpdateManyWithoutUsuarioNestedInput
 }
 
 export type UsuarioUncheckedUpdateInput = {
@@ -330,6 +354,10 @@ export type UsuarioUncheckedUpdateInput = {
   ativo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   versao?: Prisma.IntFieldUpdateOperationsInput | number
   journalTransacoes?: Prisma.JournalTransacaoUncheckedUpdateManyWithoutUsuarioNestedInput
+  movimentacoes?: Prisma.MovimentacaoUncheckedUpdateManyWithoutResponsavelNestedInput
+  historicoStatusLote?: Prisma.HistoricoStatusLoteUncheckedUpdateManyWithoutResponsavelNestedInput
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoUncheckedUpdateManyWithoutResponsavelNestedInput
+  solicitacoesRelatorio?: Prisma.SolicitacaoRelatorioUncheckedUpdateManyWithoutUsuarioNestedInput
 }
 
 export type UsuarioCreateManyInput = {
@@ -445,6 +473,70 @@ export type UsuarioUpdateOneWithoutJournalTransacoesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UsuarioUpdateToOneWithWhereWithoutJournalTransacoesInput, Prisma.UsuarioUpdateWithoutJournalTransacoesInput>, Prisma.UsuarioUncheckedUpdateWithoutJournalTransacoesInput>
 }
 
+export type UsuarioCreateNestedOneWithoutMovimentacoesInput = {
+  create?: Prisma.XOR<Prisma.UsuarioCreateWithoutMovimentacoesInput, Prisma.UsuarioUncheckedCreateWithoutMovimentacoesInput>
+  connectOrCreate?: Prisma.UsuarioCreateOrConnectWithoutMovimentacoesInput
+  connect?: Prisma.UsuarioWhereUniqueInput
+}
+
+export type UsuarioUpdateOneWithoutMovimentacoesNestedInput = {
+  create?: Prisma.XOR<Prisma.UsuarioCreateWithoutMovimentacoesInput, Prisma.UsuarioUncheckedCreateWithoutMovimentacoesInput>
+  connectOrCreate?: Prisma.UsuarioCreateOrConnectWithoutMovimentacoesInput
+  upsert?: Prisma.UsuarioUpsertWithoutMovimentacoesInput
+  disconnect?: Prisma.UsuarioWhereInput | boolean
+  delete?: Prisma.UsuarioWhereInput | boolean
+  connect?: Prisma.UsuarioWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UsuarioUpdateToOneWithWhereWithoutMovimentacoesInput, Prisma.UsuarioUpdateWithoutMovimentacoesInput>, Prisma.UsuarioUncheckedUpdateWithoutMovimentacoesInput>
+}
+
+export type UsuarioCreateNestedOneWithoutHistoricoStatusLoteInput = {
+  create?: Prisma.XOR<Prisma.UsuarioCreateWithoutHistoricoStatusLoteInput, Prisma.UsuarioUncheckedCreateWithoutHistoricoStatusLoteInput>
+  connectOrCreate?: Prisma.UsuarioCreateOrConnectWithoutHistoricoStatusLoteInput
+  connect?: Prisma.UsuarioWhereUniqueInput
+}
+
+export type UsuarioUpdateOneWithoutHistoricoStatusLoteNestedInput = {
+  create?: Prisma.XOR<Prisma.UsuarioCreateWithoutHistoricoStatusLoteInput, Prisma.UsuarioUncheckedCreateWithoutHistoricoStatusLoteInput>
+  connectOrCreate?: Prisma.UsuarioCreateOrConnectWithoutHistoricoStatusLoteInput
+  upsert?: Prisma.UsuarioUpsertWithoutHistoricoStatusLoteInput
+  disconnect?: Prisma.UsuarioWhereInput | boolean
+  delete?: Prisma.UsuarioWhereInput | boolean
+  connect?: Prisma.UsuarioWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UsuarioUpdateToOneWithWhereWithoutHistoricoStatusLoteInput, Prisma.UsuarioUpdateWithoutHistoricoStatusLoteInput>, Prisma.UsuarioUncheckedUpdateWithoutHistoricoStatusLoteInput>
+}
+
+export type UsuarioCreateNestedOneWithoutHistoricoEstadoFisicoInput = {
+  create?: Prisma.XOR<Prisma.UsuarioCreateWithoutHistoricoEstadoFisicoInput, Prisma.UsuarioUncheckedCreateWithoutHistoricoEstadoFisicoInput>
+  connectOrCreate?: Prisma.UsuarioCreateOrConnectWithoutHistoricoEstadoFisicoInput
+  connect?: Prisma.UsuarioWhereUniqueInput
+}
+
+export type UsuarioUpdateOneWithoutHistoricoEstadoFisicoNestedInput = {
+  create?: Prisma.XOR<Prisma.UsuarioCreateWithoutHistoricoEstadoFisicoInput, Prisma.UsuarioUncheckedCreateWithoutHistoricoEstadoFisicoInput>
+  connectOrCreate?: Prisma.UsuarioCreateOrConnectWithoutHistoricoEstadoFisicoInput
+  upsert?: Prisma.UsuarioUpsertWithoutHistoricoEstadoFisicoInput
+  disconnect?: Prisma.UsuarioWhereInput | boolean
+  delete?: Prisma.UsuarioWhereInput | boolean
+  connect?: Prisma.UsuarioWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UsuarioUpdateToOneWithWhereWithoutHistoricoEstadoFisicoInput, Prisma.UsuarioUpdateWithoutHistoricoEstadoFisicoInput>, Prisma.UsuarioUncheckedUpdateWithoutHistoricoEstadoFisicoInput>
+}
+
+export type UsuarioCreateNestedOneWithoutSolicitacoesRelatorioInput = {
+  create?: Prisma.XOR<Prisma.UsuarioCreateWithoutSolicitacoesRelatorioInput, Prisma.UsuarioUncheckedCreateWithoutSolicitacoesRelatorioInput>
+  connectOrCreate?: Prisma.UsuarioCreateOrConnectWithoutSolicitacoesRelatorioInput
+  connect?: Prisma.UsuarioWhereUniqueInput
+}
+
+export type UsuarioUpdateOneWithoutSolicitacoesRelatorioNestedInput = {
+  create?: Prisma.XOR<Prisma.UsuarioCreateWithoutSolicitacoesRelatorioInput, Prisma.UsuarioUncheckedCreateWithoutSolicitacoesRelatorioInput>
+  connectOrCreate?: Prisma.UsuarioCreateOrConnectWithoutSolicitacoesRelatorioInput
+  upsert?: Prisma.UsuarioUpsertWithoutSolicitacoesRelatorioInput
+  disconnect?: Prisma.UsuarioWhereInput | boolean
+  delete?: Prisma.UsuarioWhereInput | boolean
+  connect?: Prisma.UsuarioWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UsuarioUpdateToOneWithWhereWithoutSolicitacoesRelatorioInput, Prisma.UsuarioUpdateWithoutSolicitacoesRelatorioInput>, Prisma.UsuarioUncheckedUpdateWithoutSolicitacoesRelatorioInput>
+}
+
 export type UsuarioCreateWithoutJournalTransacoesInput = {
   id: string
   usuario: string
@@ -453,6 +545,10 @@ export type UsuarioCreateWithoutJournalTransacoesInput = {
   papel: $Enums.PapelUsuario
   ativo?: boolean
   versao?: number
+  movimentacoes?: Prisma.MovimentacaoCreateNestedManyWithoutResponsavelInput
+  historicoStatusLote?: Prisma.HistoricoStatusLoteCreateNestedManyWithoutResponsavelInput
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoCreateNestedManyWithoutResponsavelInput
+  solicitacoesRelatorio?: Prisma.SolicitacaoRelatorioCreateNestedManyWithoutUsuarioInput
 }
 
 export type UsuarioUncheckedCreateWithoutJournalTransacoesInput = {
@@ -463,6 +559,10 @@ export type UsuarioUncheckedCreateWithoutJournalTransacoesInput = {
   papel: $Enums.PapelUsuario
   ativo?: boolean
   versao?: number
+  movimentacoes?: Prisma.MovimentacaoUncheckedCreateNestedManyWithoutResponsavelInput
+  historicoStatusLote?: Prisma.HistoricoStatusLoteUncheckedCreateNestedManyWithoutResponsavelInput
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoUncheckedCreateNestedManyWithoutResponsavelInput
+  solicitacoesRelatorio?: Prisma.SolicitacaoRelatorioUncheckedCreateNestedManyWithoutUsuarioInput
 }
 
 export type UsuarioCreateOrConnectWithoutJournalTransacoesInput = {
@@ -489,6 +589,10 @@ export type UsuarioUpdateWithoutJournalTransacoesInput = {
   papel?: Prisma.EnumPapelUsuarioFieldUpdateOperationsInput | $Enums.PapelUsuario
   ativo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   versao?: Prisma.IntFieldUpdateOperationsInput | number
+  movimentacoes?: Prisma.MovimentacaoUpdateManyWithoutResponsavelNestedInput
+  historicoStatusLote?: Prisma.HistoricoStatusLoteUpdateManyWithoutResponsavelNestedInput
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoUpdateManyWithoutResponsavelNestedInput
+  solicitacoesRelatorio?: Prisma.SolicitacaoRelatorioUpdateManyWithoutUsuarioNestedInput
 }
 
 export type UsuarioUncheckedUpdateWithoutJournalTransacoesInput = {
@@ -499,6 +603,298 @@ export type UsuarioUncheckedUpdateWithoutJournalTransacoesInput = {
   papel?: Prisma.EnumPapelUsuarioFieldUpdateOperationsInput | $Enums.PapelUsuario
   ativo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   versao?: Prisma.IntFieldUpdateOperationsInput | number
+  movimentacoes?: Prisma.MovimentacaoUncheckedUpdateManyWithoutResponsavelNestedInput
+  historicoStatusLote?: Prisma.HistoricoStatusLoteUncheckedUpdateManyWithoutResponsavelNestedInput
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoUncheckedUpdateManyWithoutResponsavelNestedInput
+  solicitacoesRelatorio?: Prisma.SolicitacaoRelatorioUncheckedUpdateManyWithoutUsuarioNestedInput
+}
+
+export type UsuarioCreateWithoutMovimentacoesInput = {
+  id: string
+  usuario: string
+  hashSenha: string
+  ultimoAcesso?: Date | string | null
+  papel: $Enums.PapelUsuario
+  ativo?: boolean
+  versao?: number
+  journalTransacoes?: Prisma.JournalTransacaoCreateNestedManyWithoutUsuarioInput
+  historicoStatusLote?: Prisma.HistoricoStatusLoteCreateNestedManyWithoutResponsavelInput
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoCreateNestedManyWithoutResponsavelInput
+  solicitacoesRelatorio?: Prisma.SolicitacaoRelatorioCreateNestedManyWithoutUsuarioInput
+}
+
+export type UsuarioUncheckedCreateWithoutMovimentacoesInput = {
+  id: string
+  usuario: string
+  hashSenha: string
+  ultimoAcesso?: Date | string | null
+  papel: $Enums.PapelUsuario
+  ativo?: boolean
+  versao?: number
+  journalTransacoes?: Prisma.JournalTransacaoUncheckedCreateNestedManyWithoutUsuarioInput
+  historicoStatusLote?: Prisma.HistoricoStatusLoteUncheckedCreateNestedManyWithoutResponsavelInput
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoUncheckedCreateNestedManyWithoutResponsavelInput
+  solicitacoesRelatorio?: Prisma.SolicitacaoRelatorioUncheckedCreateNestedManyWithoutUsuarioInput
+}
+
+export type UsuarioCreateOrConnectWithoutMovimentacoesInput = {
+  where: Prisma.UsuarioWhereUniqueInput
+  create: Prisma.XOR<Prisma.UsuarioCreateWithoutMovimentacoesInput, Prisma.UsuarioUncheckedCreateWithoutMovimentacoesInput>
+}
+
+export type UsuarioUpsertWithoutMovimentacoesInput = {
+  update: Prisma.XOR<Prisma.UsuarioUpdateWithoutMovimentacoesInput, Prisma.UsuarioUncheckedUpdateWithoutMovimentacoesInput>
+  create: Prisma.XOR<Prisma.UsuarioCreateWithoutMovimentacoesInput, Prisma.UsuarioUncheckedCreateWithoutMovimentacoesInput>
+  where?: Prisma.UsuarioWhereInput
+}
+
+export type UsuarioUpdateToOneWithWhereWithoutMovimentacoesInput = {
+  where?: Prisma.UsuarioWhereInput
+  data: Prisma.XOR<Prisma.UsuarioUpdateWithoutMovimentacoesInput, Prisma.UsuarioUncheckedUpdateWithoutMovimentacoesInput>
+}
+
+export type UsuarioUpdateWithoutMovimentacoesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  usuario?: Prisma.StringFieldUpdateOperationsInput | string
+  hashSenha?: Prisma.StringFieldUpdateOperationsInput | string
+  ultimoAcesso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  papel?: Prisma.EnumPapelUsuarioFieldUpdateOperationsInput | $Enums.PapelUsuario
+  ativo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  versao?: Prisma.IntFieldUpdateOperationsInput | number
+  journalTransacoes?: Prisma.JournalTransacaoUpdateManyWithoutUsuarioNestedInput
+  historicoStatusLote?: Prisma.HistoricoStatusLoteUpdateManyWithoutResponsavelNestedInput
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoUpdateManyWithoutResponsavelNestedInput
+  solicitacoesRelatorio?: Prisma.SolicitacaoRelatorioUpdateManyWithoutUsuarioNestedInput
+}
+
+export type UsuarioUncheckedUpdateWithoutMovimentacoesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  usuario?: Prisma.StringFieldUpdateOperationsInput | string
+  hashSenha?: Prisma.StringFieldUpdateOperationsInput | string
+  ultimoAcesso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  papel?: Prisma.EnumPapelUsuarioFieldUpdateOperationsInput | $Enums.PapelUsuario
+  ativo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  versao?: Prisma.IntFieldUpdateOperationsInput | number
+  journalTransacoes?: Prisma.JournalTransacaoUncheckedUpdateManyWithoutUsuarioNestedInput
+  historicoStatusLote?: Prisma.HistoricoStatusLoteUncheckedUpdateManyWithoutResponsavelNestedInput
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoUncheckedUpdateManyWithoutResponsavelNestedInput
+  solicitacoesRelatorio?: Prisma.SolicitacaoRelatorioUncheckedUpdateManyWithoutUsuarioNestedInput
+}
+
+export type UsuarioCreateWithoutHistoricoStatusLoteInput = {
+  id: string
+  usuario: string
+  hashSenha: string
+  ultimoAcesso?: Date | string | null
+  papel: $Enums.PapelUsuario
+  ativo?: boolean
+  versao?: number
+  journalTransacoes?: Prisma.JournalTransacaoCreateNestedManyWithoutUsuarioInput
+  movimentacoes?: Prisma.MovimentacaoCreateNestedManyWithoutResponsavelInput
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoCreateNestedManyWithoutResponsavelInput
+  solicitacoesRelatorio?: Prisma.SolicitacaoRelatorioCreateNestedManyWithoutUsuarioInput
+}
+
+export type UsuarioUncheckedCreateWithoutHistoricoStatusLoteInput = {
+  id: string
+  usuario: string
+  hashSenha: string
+  ultimoAcesso?: Date | string | null
+  papel: $Enums.PapelUsuario
+  ativo?: boolean
+  versao?: number
+  journalTransacoes?: Prisma.JournalTransacaoUncheckedCreateNestedManyWithoutUsuarioInput
+  movimentacoes?: Prisma.MovimentacaoUncheckedCreateNestedManyWithoutResponsavelInput
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoUncheckedCreateNestedManyWithoutResponsavelInput
+  solicitacoesRelatorio?: Prisma.SolicitacaoRelatorioUncheckedCreateNestedManyWithoutUsuarioInput
+}
+
+export type UsuarioCreateOrConnectWithoutHistoricoStatusLoteInput = {
+  where: Prisma.UsuarioWhereUniqueInput
+  create: Prisma.XOR<Prisma.UsuarioCreateWithoutHistoricoStatusLoteInput, Prisma.UsuarioUncheckedCreateWithoutHistoricoStatusLoteInput>
+}
+
+export type UsuarioUpsertWithoutHistoricoStatusLoteInput = {
+  update: Prisma.XOR<Prisma.UsuarioUpdateWithoutHistoricoStatusLoteInput, Prisma.UsuarioUncheckedUpdateWithoutHistoricoStatusLoteInput>
+  create: Prisma.XOR<Prisma.UsuarioCreateWithoutHistoricoStatusLoteInput, Prisma.UsuarioUncheckedCreateWithoutHistoricoStatusLoteInput>
+  where?: Prisma.UsuarioWhereInput
+}
+
+export type UsuarioUpdateToOneWithWhereWithoutHistoricoStatusLoteInput = {
+  where?: Prisma.UsuarioWhereInput
+  data: Prisma.XOR<Prisma.UsuarioUpdateWithoutHistoricoStatusLoteInput, Prisma.UsuarioUncheckedUpdateWithoutHistoricoStatusLoteInput>
+}
+
+export type UsuarioUpdateWithoutHistoricoStatusLoteInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  usuario?: Prisma.StringFieldUpdateOperationsInput | string
+  hashSenha?: Prisma.StringFieldUpdateOperationsInput | string
+  ultimoAcesso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  papel?: Prisma.EnumPapelUsuarioFieldUpdateOperationsInput | $Enums.PapelUsuario
+  ativo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  versao?: Prisma.IntFieldUpdateOperationsInput | number
+  journalTransacoes?: Prisma.JournalTransacaoUpdateManyWithoutUsuarioNestedInput
+  movimentacoes?: Prisma.MovimentacaoUpdateManyWithoutResponsavelNestedInput
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoUpdateManyWithoutResponsavelNestedInput
+  solicitacoesRelatorio?: Prisma.SolicitacaoRelatorioUpdateManyWithoutUsuarioNestedInput
+}
+
+export type UsuarioUncheckedUpdateWithoutHistoricoStatusLoteInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  usuario?: Prisma.StringFieldUpdateOperationsInput | string
+  hashSenha?: Prisma.StringFieldUpdateOperationsInput | string
+  ultimoAcesso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  papel?: Prisma.EnumPapelUsuarioFieldUpdateOperationsInput | $Enums.PapelUsuario
+  ativo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  versao?: Prisma.IntFieldUpdateOperationsInput | number
+  journalTransacoes?: Prisma.JournalTransacaoUncheckedUpdateManyWithoutUsuarioNestedInput
+  movimentacoes?: Prisma.MovimentacaoUncheckedUpdateManyWithoutResponsavelNestedInput
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoUncheckedUpdateManyWithoutResponsavelNestedInput
+  solicitacoesRelatorio?: Prisma.SolicitacaoRelatorioUncheckedUpdateManyWithoutUsuarioNestedInput
+}
+
+export type UsuarioCreateWithoutHistoricoEstadoFisicoInput = {
+  id: string
+  usuario: string
+  hashSenha: string
+  ultimoAcesso?: Date | string | null
+  papel: $Enums.PapelUsuario
+  ativo?: boolean
+  versao?: number
+  journalTransacoes?: Prisma.JournalTransacaoCreateNestedManyWithoutUsuarioInput
+  movimentacoes?: Prisma.MovimentacaoCreateNestedManyWithoutResponsavelInput
+  historicoStatusLote?: Prisma.HistoricoStatusLoteCreateNestedManyWithoutResponsavelInput
+  solicitacoesRelatorio?: Prisma.SolicitacaoRelatorioCreateNestedManyWithoutUsuarioInput
+}
+
+export type UsuarioUncheckedCreateWithoutHistoricoEstadoFisicoInput = {
+  id: string
+  usuario: string
+  hashSenha: string
+  ultimoAcesso?: Date | string | null
+  papel: $Enums.PapelUsuario
+  ativo?: boolean
+  versao?: number
+  journalTransacoes?: Prisma.JournalTransacaoUncheckedCreateNestedManyWithoutUsuarioInput
+  movimentacoes?: Prisma.MovimentacaoUncheckedCreateNestedManyWithoutResponsavelInput
+  historicoStatusLote?: Prisma.HistoricoStatusLoteUncheckedCreateNestedManyWithoutResponsavelInput
+  solicitacoesRelatorio?: Prisma.SolicitacaoRelatorioUncheckedCreateNestedManyWithoutUsuarioInput
+}
+
+export type UsuarioCreateOrConnectWithoutHistoricoEstadoFisicoInput = {
+  where: Prisma.UsuarioWhereUniqueInput
+  create: Prisma.XOR<Prisma.UsuarioCreateWithoutHistoricoEstadoFisicoInput, Prisma.UsuarioUncheckedCreateWithoutHistoricoEstadoFisicoInput>
+}
+
+export type UsuarioUpsertWithoutHistoricoEstadoFisicoInput = {
+  update: Prisma.XOR<Prisma.UsuarioUpdateWithoutHistoricoEstadoFisicoInput, Prisma.UsuarioUncheckedUpdateWithoutHistoricoEstadoFisicoInput>
+  create: Prisma.XOR<Prisma.UsuarioCreateWithoutHistoricoEstadoFisicoInput, Prisma.UsuarioUncheckedCreateWithoutHistoricoEstadoFisicoInput>
+  where?: Prisma.UsuarioWhereInput
+}
+
+export type UsuarioUpdateToOneWithWhereWithoutHistoricoEstadoFisicoInput = {
+  where?: Prisma.UsuarioWhereInput
+  data: Prisma.XOR<Prisma.UsuarioUpdateWithoutHistoricoEstadoFisicoInput, Prisma.UsuarioUncheckedUpdateWithoutHistoricoEstadoFisicoInput>
+}
+
+export type UsuarioUpdateWithoutHistoricoEstadoFisicoInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  usuario?: Prisma.StringFieldUpdateOperationsInput | string
+  hashSenha?: Prisma.StringFieldUpdateOperationsInput | string
+  ultimoAcesso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  papel?: Prisma.EnumPapelUsuarioFieldUpdateOperationsInput | $Enums.PapelUsuario
+  ativo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  versao?: Prisma.IntFieldUpdateOperationsInput | number
+  journalTransacoes?: Prisma.JournalTransacaoUpdateManyWithoutUsuarioNestedInput
+  movimentacoes?: Prisma.MovimentacaoUpdateManyWithoutResponsavelNestedInput
+  historicoStatusLote?: Prisma.HistoricoStatusLoteUpdateManyWithoutResponsavelNestedInput
+  solicitacoesRelatorio?: Prisma.SolicitacaoRelatorioUpdateManyWithoutUsuarioNestedInput
+}
+
+export type UsuarioUncheckedUpdateWithoutHistoricoEstadoFisicoInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  usuario?: Prisma.StringFieldUpdateOperationsInput | string
+  hashSenha?: Prisma.StringFieldUpdateOperationsInput | string
+  ultimoAcesso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  papel?: Prisma.EnumPapelUsuarioFieldUpdateOperationsInput | $Enums.PapelUsuario
+  ativo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  versao?: Prisma.IntFieldUpdateOperationsInput | number
+  journalTransacoes?: Prisma.JournalTransacaoUncheckedUpdateManyWithoutUsuarioNestedInput
+  movimentacoes?: Prisma.MovimentacaoUncheckedUpdateManyWithoutResponsavelNestedInput
+  historicoStatusLote?: Prisma.HistoricoStatusLoteUncheckedUpdateManyWithoutResponsavelNestedInput
+  solicitacoesRelatorio?: Prisma.SolicitacaoRelatorioUncheckedUpdateManyWithoutUsuarioNestedInput
+}
+
+export type UsuarioCreateWithoutSolicitacoesRelatorioInput = {
+  id: string
+  usuario: string
+  hashSenha: string
+  ultimoAcesso?: Date | string | null
+  papel: $Enums.PapelUsuario
+  ativo?: boolean
+  versao?: number
+  journalTransacoes?: Prisma.JournalTransacaoCreateNestedManyWithoutUsuarioInput
+  movimentacoes?: Prisma.MovimentacaoCreateNestedManyWithoutResponsavelInput
+  historicoStatusLote?: Prisma.HistoricoStatusLoteCreateNestedManyWithoutResponsavelInput
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoCreateNestedManyWithoutResponsavelInput
+}
+
+export type UsuarioUncheckedCreateWithoutSolicitacoesRelatorioInput = {
+  id: string
+  usuario: string
+  hashSenha: string
+  ultimoAcesso?: Date | string | null
+  papel: $Enums.PapelUsuario
+  ativo?: boolean
+  versao?: number
+  journalTransacoes?: Prisma.JournalTransacaoUncheckedCreateNestedManyWithoutUsuarioInput
+  movimentacoes?: Prisma.MovimentacaoUncheckedCreateNestedManyWithoutResponsavelInput
+  historicoStatusLote?: Prisma.HistoricoStatusLoteUncheckedCreateNestedManyWithoutResponsavelInput
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoUncheckedCreateNestedManyWithoutResponsavelInput
+}
+
+export type UsuarioCreateOrConnectWithoutSolicitacoesRelatorioInput = {
+  where: Prisma.UsuarioWhereUniqueInput
+  create: Prisma.XOR<Prisma.UsuarioCreateWithoutSolicitacoesRelatorioInput, Prisma.UsuarioUncheckedCreateWithoutSolicitacoesRelatorioInput>
+}
+
+export type UsuarioUpsertWithoutSolicitacoesRelatorioInput = {
+  update: Prisma.XOR<Prisma.UsuarioUpdateWithoutSolicitacoesRelatorioInput, Prisma.UsuarioUncheckedUpdateWithoutSolicitacoesRelatorioInput>
+  create: Prisma.XOR<Prisma.UsuarioCreateWithoutSolicitacoesRelatorioInput, Prisma.UsuarioUncheckedCreateWithoutSolicitacoesRelatorioInput>
+  where?: Prisma.UsuarioWhereInput
+}
+
+export type UsuarioUpdateToOneWithWhereWithoutSolicitacoesRelatorioInput = {
+  where?: Prisma.UsuarioWhereInput
+  data: Prisma.XOR<Prisma.UsuarioUpdateWithoutSolicitacoesRelatorioInput, Prisma.UsuarioUncheckedUpdateWithoutSolicitacoesRelatorioInput>
+}
+
+export type UsuarioUpdateWithoutSolicitacoesRelatorioInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  usuario?: Prisma.StringFieldUpdateOperationsInput | string
+  hashSenha?: Prisma.StringFieldUpdateOperationsInput | string
+  ultimoAcesso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  papel?: Prisma.EnumPapelUsuarioFieldUpdateOperationsInput | $Enums.PapelUsuario
+  ativo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  versao?: Prisma.IntFieldUpdateOperationsInput | number
+  journalTransacoes?: Prisma.JournalTransacaoUpdateManyWithoutUsuarioNestedInput
+  movimentacoes?: Prisma.MovimentacaoUpdateManyWithoutResponsavelNestedInput
+  historicoStatusLote?: Prisma.HistoricoStatusLoteUpdateManyWithoutResponsavelNestedInput
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoUpdateManyWithoutResponsavelNestedInput
+}
+
+export type UsuarioUncheckedUpdateWithoutSolicitacoesRelatorioInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  usuario?: Prisma.StringFieldUpdateOperationsInput | string
+  hashSenha?: Prisma.StringFieldUpdateOperationsInput | string
+  ultimoAcesso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  papel?: Prisma.EnumPapelUsuarioFieldUpdateOperationsInput | $Enums.PapelUsuario
+  ativo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  versao?: Prisma.IntFieldUpdateOperationsInput | number
+  journalTransacoes?: Prisma.JournalTransacaoUncheckedUpdateManyWithoutUsuarioNestedInput
+  movimentacoes?: Prisma.MovimentacaoUncheckedUpdateManyWithoutResponsavelNestedInput
+  historicoStatusLote?: Prisma.HistoricoStatusLoteUncheckedUpdateManyWithoutResponsavelNestedInput
+  historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoUncheckedUpdateManyWithoutResponsavelNestedInput
 }
 
 
@@ -508,10 +904,18 @@ export type UsuarioUncheckedUpdateWithoutJournalTransacoesInput = {
 
 export type UsuarioCountOutputType = {
   journalTransacoes: number
+  movimentacoes: number
+  historicoStatusLote: number
+  historicoEstadoFisico: number
+  solicitacoesRelatorio: number
 }
 
 export type UsuarioCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   journalTransacoes?: boolean | UsuarioCountOutputTypeCountJournalTransacoesArgs
+  movimentacoes?: boolean | UsuarioCountOutputTypeCountMovimentacoesArgs
+  historicoStatusLote?: boolean | UsuarioCountOutputTypeCountHistoricoStatusLoteArgs
+  historicoEstadoFisico?: boolean | UsuarioCountOutputTypeCountHistoricoEstadoFisicoArgs
+  solicitacoesRelatorio?: boolean | UsuarioCountOutputTypeCountSolicitacoesRelatorioArgs
 }
 
 /**
@@ -531,6 +935,34 @@ export type UsuarioCountOutputTypeCountJournalTransacoesArgs<ExtArgs extends run
   where?: Prisma.JournalTransacaoWhereInput
 }
 
+/**
+ * UsuarioCountOutputType without action
+ */
+export type UsuarioCountOutputTypeCountMovimentacoesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MovimentacaoWhereInput
+}
+
+/**
+ * UsuarioCountOutputType without action
+ */
+export type UsuarioCountOutputTypeCountHistoricoStatusLoteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.HistoricoStatusLoteWhereInput
+}
+
+/**
+ * UsuarioCountOutputType without action
+ */
+export type UsuarioCountOutputTypeCountHistoricoEstadoFisicoArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.HistoricoEstadoFisicoWhereInput
+}
+
+/**
+ * UsuarioCountOutputType without action
+ */
+export type UsuarioCountOutputTypeCountSolicitacoesRelatorioArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SolicitacaoRelatorioWhereInput
+}
+
 
 export type UsuarioSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -541,6 +973,10 @@ export type UsuarioSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   ativo?: boolean
   versao?: boolean
   journalTransacoes?: boolean | Prisma.Usuario$journalTransacoesArgs<ExtArgs>
+  movimentacoes?: boolean | Prisma.Usuario$movimentacoesArgs<ExtArgs>
+  historicoStatusLote?: boolean | Prisma.Usuario$historicoStatusLoteArgs<ExtArgs>
+  historicoEstadoFisico?: boolean | Prisma.Usuario$historicoEstadoFisicoArgs<ExtArgs>
+  solicitacoesRelatorio?: boolean | Prisma.Usuario$solicitacoesRelatorioArgs<ExtArgs>
   _count?: boolean | Prisma.UsuarioCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["usuario"]>
 
@@ -577,6 +1013,10 @@ export type UsuarioSelectScalar = {
 export type UsuarioOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "usuario" | "hashSenha" | "ultimoAcesso" | "papel" | "ativo" | "versao", ExtArgs["result"]["usuario"]>
 export type UsuarioInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   journalTransacoes?: boolean | Prisma.Usuario$journalTransacoesArgs<ExtArgs>
+  movimentacoes?: boolean | Prisma.Usuario$movimentacoesArgs<ExtArgs>
+  historicoStatusLote?: boolean | Prisma.Usuario$historicoStatusLoteArgs<ExtArgs>
+  historicoEstadoFisico?: boolean | Prisma.Usuario$historicoEstadoFisicoArgs<ExtArgs>
+  solicitacoesRelatorio?: boolean | Prisma.Usuario$solicitacoesRelatorioArgs<ExtArgs>
   _count?: boolean | Prisma.UsuarioCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UsuarioIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -586,6 +1026,10 @@ export type $UsuarioPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   name: "Usuario"
   objects: {
     journalTransacoes: Prisma.$JournalTransacaoPayload<ExtArgs>[]
+    movimentacoes: Prisma.$MovimentacaoPayload<ExtArgs>[]
+    historicoStatusLote: Prisma.$HistoricoStatusLotePayload<ExtArgs>[]
+    historicoEstadoFisico: Prisma.$HistoricoEstadoFisicoPayload<ExtArgs>[]
+    solicitacoesRelatorio: Prisma.$SolicitacaoRelatorioPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -990,6 +1434,10 @@ readonly fields: UsuarioFieldRefs;
 export interface Prisma__UsuarioClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   journalTransacoes<T extends Prisma.Usuario$journalTransacoesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Usuario$journalTransacoesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JournalTransacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  movimentacoes<T extends Prisma.Usuario$movimentacoesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Usuario$movimentacoesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MovimentacaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  historicoStatusLote<T extends Prisma.Usuario$historicoStatusLoteArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Usuario$historicoStatusLoteArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HistoricoStatusLotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  historicoEstadoFisico<T extends Prisma.Usuario$historicoEstadoFisicoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Usuario$historicoEstadoFisicoArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HistoricoEstadoFisicoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  solicitacoesRelatorio<T extends Prisma.Usuario$solicitacoesRelatorioArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Usuario$solicitacoesRelatorioArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SolicitacaoRelatorioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1440,6 +1888,102 @@ export type Usuario$journalTransacoesArgs<ExtArgs extends runtime.Types.Extensio
   take?: number
   skip?: number
   distinct?: Prisma.JournalTransacaoScalarFieldEnum | Prisma.JournalTransacaoScalarFieldEnum[]
+}
+
+/**
+ * Usuario.movimentacoes
+ */
+export type Usuario$movimentacoesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Movimentacao
+   */
+  select?: Prisma.MovimentacaoSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Movimentacao
+   */
+  omit?: Prisma.MovimentacaoOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MovimentacaoInclude<ExtArgs> | null
+  where?: Prisma.MovimentacaoWhereInput
+  orderBy?: Prisma.MovimentacaoOrderByWithRelationInput | Prisma.MovimentacaoOrderByWithRelationInput[]
+  cursor?: Prisma.MovimentacaoWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MovimentacaoScalarFieldEnum | Prisma.MovimentacaoScalarFieldEnum[]
+}
+
+/**
+ * Usuario.historicoStatusLote
+ */
+export type Usuario$historicoStatusLoteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the HistoricoStatusLote
+   */
+  select?: Prisma.HistoricoStatusLoteSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the HistoricoStatusLote
+   */
+  omit?: Prisma.HistoricoStatusLoteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.HistoricoStatusLoteInclude<ExtArgs> | null
+  where?: Prisma.HistoricoStatusLoteWhereInput
+  orderBy?: Prisma.HistoricoStatusLoteOrderByWithRelationInput | Prisma.HistoricoStatusLoteOrderByWithRelationInput[]
+  cursor?: Prisma.HistoricoStatusLoteWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.HistoricoStatusLoteScalarFieldEnum | Prisma.HistoricoStatusLoteScalarFieldEnum[]
+}
+
+/**
+ * Usuario.historicoEstadoFisico
+ */
+export type Usuario$historicoEstadoFisicoArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the HistoricoEstadoFisico
+   */
+  select?: Prisma.HistoricoEstadoFisicoSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the HistoricoEstadoFisico
+   */
+  omit?: Prisma.HistoricoEstadoFisicoOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.HistoricoEstadoFisicoInclude<ExtArgs> | null
+  where?: Prisma.HistoricoEstadoFisicoWhereInput
+  orderBy?: Prisma.HistoricoEstadoFisicoOrderByWithRelationInput | Prisma.HistoricoEstadoFisicoOrderByWithRelationInput[]
+  cursor?: Prisma.HistoricoEstadoFisicoWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.HistoricoEstadoFisicoScalarFieldEnum | Prisma.HistoricoEstadoFisicoScalarFieldEnum[]
+}
+
+/**
+ * Usuario.solicitacoesRelatorio
+ */
+export type Usuario$solicitacoesRelatorioArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SolicitacaoRelatorio
+   */
+  select?: Prisma.SolicitacaoRelatorioSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SolicitacaoRelatorio
+   */
+  omit?: Prisma.SolicitacaoRelatorioOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SolicitacaoRelatorioInclude<ExtArgs> | null
+  where?: Prisma.SolicitacaoRelatorioWhereInput
+  orderBy?: Prisma.SolicitacaoRelatorioOrderByWithRelationInput | Prisma.SolicitacaoRelatorioOrderByWithRelationInput[]
+  cursor?: Prisma.SolicitacaoRelatorioWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SolicitacaoRelatorioScalarFieldEnum | Prisma.SolicitacaoRelatorioScalarFieldEnum[]
 }
 
 /**

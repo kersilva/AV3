@@ -69,3 +69,41 @@ export const TipoEquipamento = {
 } as const
 
 export type TipoEquipamento = (typeof TipoEquipamento)[keyof typeof TipoEquipamento]
+
+
+export const MetodologiaPrevisao = {
+  REGRESSAO_OLS: 'REGRESSAO_OLS',
+  SUAVIZACAO_EXPONENCIAL: 'SUAVIZACAO_EXPONENCIAL'
+} as const
+
+export type MetodologiaPrevisao = (typeof MetodologiaPrevisao)[keyof typeof MetodologiaPrevisao]
+
+
+export const StatusSolicitacao = {
+  PENDENTE: 'PENDENTE',
+  PROCESSANDO: 'PROCESSANDO',
+  CONCLUIDO: 'CONCLUIDO',
+  FALHOU: 'FALHOU',
+  CANCELADO: 'CANCELADO'
+} as const
+
+export type StatusSolicitacao = (typeof StatusSolicitacao)[keyof typeof StatusSolicitacao]
+
+
+export const TipoRelatorio = {
+  EFICIENCIA_OPERACIONAL: 'EFICIENCIA_OPERACIONAL',
+  RENTABILIDADE_POR_TIPO: 'RENTABILIDADE_POR_TIPO',
+  PREVISAO_VIDA_UTIL: 'PREVISAO_VIDA_UTIL',
+  COMPLETO: 'COMPLETO'
+} as const
+
+export type TipoRelatorio = (typeof TipoRelatorio)[keyof typeof TipoRelatorio]
+
+
+export const EscopoApi = {
+  RASTREABILIDADE_LEITURA: 'RASTREABILIDADE_LEITURA',
+  LOTE_ESCRITA: 'LOTE_ESCRITA',
+  RELATORIO_LEITURA: 'RELATORIO_LEITURA'
+} as const
+
+export type EscopoApi = (typeof EscopoApi)[keyof typeof EscopoApi]
