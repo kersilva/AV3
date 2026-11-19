@@ -75,7 +75,7 @@ export async function RelatorioController(
         tags: ['Relatórios'],
         summary: 'Gera relatório por organização',
         description:
-          'Retorna o relatório consolidado para uma organização específica dentro de um período opcional[cite: 10].',
+          'Retorna o relatório consolidado para uma organização específica dentro de um período opcional.',
         security: [{ bearerAuth: [] }],
         params: paramsOrganizacaoId,
         querystring: schemaPeriodo,
@@ -104,7 +104,7 @@ export async function RelatorioController(
         tags: ['Relatórios'],
         summary: 'Gera relatório por status de rastreamento',
         description:
-          'Retorna o relatório consolidado de equipamentos filtrados por um determinado status de rastreamento[cite: 10].',
+          'Retorna o relatório consolidado de equipamentos filtrados por um determinado status de rastreamento.',
         security: [{ bearerAuth: [] }],
         params: paramsStatus,
         response: {
@@ -129,7 +129,7 @@ export async function RelatorioController(
         tags: ['Relatórios'],
         summary: 'Gera relatório financeiro',
         description:
-          'Retorna o relatório financeiro consolidado do sistema com base no período opcional fornecido[cite: 10].',
+          'Retorna o relatório financeiro consolidado do sistema com base no período opcional fornecido.',
         security: [{ bearerAuth: [] }],
         querystring: schemaPeriodo,
         response: {

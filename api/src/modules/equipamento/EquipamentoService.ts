@@ -4,8 +4,8 @@ import { StatusRastreamento } from '@domain/enums/StatusRastreamento.js';
 import { Equipamento } from '@domain/entities/Equipamento.js';
 import type { NovoEquipamento } from '@domain/entities/Equipamento.js';
 import type { EquipamentoRepository } from '@domain/repositories/EquipamentoRepository.js';
-import type { UnitOfWork } from '@domain/services/UnitOfWork.js';
-import { ErroConflito, ErroNaoEncontrado } from '@/shared/errors/DomainError.js';
+import type { RecursosTransacao, UnitOfWork } from '@domain/services/UnitOfWork.js';
+import { ErroConflito, ErroNaoEncontrado, ErroValidacao } from '@/shared/errors/DomainError.js';
 import { ErroRegraNegocio } from '@/shared/errors/DomainError.js';
 import type { EstadoExclusao } from '@domain/repositories/SoftDeleteRepository.js';
 export type { NovoEquipamento };
@@ -95,26 +95,12 @@ export class EquipamentoService {
     versao: number,
     ator: { id: string; usuario: string }
   ): Promise<EquipamentoView> {
-    return this.unitOfWork.executar(async ({ equipamentos, journal }) => {
-      const equipamento = await equipamentos.buscarPorId(id);
-      if (!equipamento) throw new ErroNaoEncontrado('Equipamento não encontrado.');
-      if (equipamento.versao !== versao)
-        throw new ErroConflito('Conflito de versão do equipamento.');
-      const antes = this.dto(equipamento);
-      equipamento.atualizarStatus(status, justificativa);
-      const salvo = await equipamentos.salvar(equipamento, versao);
-      if (!salvo) throw new ErroConflito('Conflito de versão do equipamento.');
-      const depois = this.dto(salvo);
-      await journal.registrar({
-        operacao: 'ALTERAR_STATUS',
-        entidade: 'Equipamento',
-        usuarioId: ator.id,
-        usuarioResponsavel: ator.usuario,
-        dadosAntes: antes,
-        dadosDepois: depois,
-      });
-      return depois;
-    });
+    if (!justificativa.trim())
+      throw new ErroValidacao('Informe a justificativa da mudança de status.');
+    const resultado = await this.unitOfWork.executar((recursos) =>
+      this.executarMovimentacao(recursos, id, status, versao, ator, justificativa)
+    );
+    return resultado.equipamento;
   }
   async excluir(
     id: string,
@@ -192,41 +178,60 @@ export class EquipamentoService {
 
   async registrarMovimentacao(
     id: string,
-    dados: { destino: string; observacao?: string },
-    ator: { id: string; usuario: string }
+    dados: { destino: StatusRastreamento; observacao?: string },
+    versao: number,
+    ator: { id: string; usuario: string } | null
   ) {
-    return this.unitOfWork.executar(async ({ equipamentos, journal }) => {
-      const equipamento = await equipamentos.buscarPorId(id);
-      if (!equipamento) throw new ErroNaoEncontrado('Equipamento não encontrado.');
+    const resultado = await this.unitOfWork.executar((recursos) =>
+      this.executarMovimentacao(recursos, id, dados.destino, versao, ator, dados.observacao)
+    );
+    return resultado.movimentacao;
+  }
 
-      const movimentacao = equipamento.registrarMovimentacao({
-        id: randomUUID(),
-        destino: dados.destino,
-        responsavelId: ator.id,
-        ...(dados.observacao ? { observacao: dados.observacao } : {}),
-      });
+  private async executarMovimentacao(
+    { equipamentos, journal }: Pick<RecursosTransacao, 'equipamentos' | 'journal'>,
+    id: string,
+    destino: StatusRastreamento,
+    versao: number,
+    ator: { id: string; usuario: string } | null,
+    observacao?: string
+  ) {
+    const equipamento = await equipamentos.buscarPorId(id);
+    if (!equipamento) throw new ErroNaoEncontrado('Equipamento não encontrado.');
+    if (equipamento.versao !== versao)
+      throw new ErroConflito('Conflito de versão do equipamento.');
 
-      const salva = await equipamentos.criarMovimentacao(movimentacao);
-      const dto = {
-        id: salva.id,
-        equipamentoId: salva.equipamentoId,
-        dataHora: salva.dataHora,
-        origem: salva.origem,
-        destino: salva.destino,
-        responsavelId: salva.responsavelId,
-        observacao: salva.observacao,
-      };
-
-      await journal.registrar({
-        operacao: 'REGISTRAR_MOVIMENTACAO',
-        entidade: 'Equipamento',
-        usuarioId: ator.id,
-        usuarioResponsavel: ator.usuario,
-        dadosDepois: dto,
-      });
-
-      return dto;
+    const antes = this.dto(equipamento);
+    const movimentacao = equipamento.registrarMovimentacao({
+      id: randomUUID(),
+      destino,
+      responsavelId: ator?.id ?? null,
+      ...(observacao !== undefined ? { observacao } : {}),
     });
+    const equipamentoSalvo = await equipamentos.salvar(equipamento, versao);
+    if (!equipamentoSalvo) throw new ErroConflito('Conflito de versão do equipamento.');
+
+    const salva = await equipamentos.criarMovimentacao(movimentacao);
+    const movimentacaoView = {
+      id: salva.id,
+      equipamentoId: salva.equipamentoId,
+      dataHora: salva.dataHora,
+      origem: salva.origem,
+      destino: salva.destino,
+      responsavelId: salva.responsavelId,
+      observacao: salva.observacao,
+    };
+    const equipamentoView = this.dto(equipamentoSalvo);
+    await journal.registrar({
+      operacao: 'REGISTRAR_MOVIMENTACAO',
+      entidade: 'Equipamento',
+      usuarioId: ator?.id ?? null,
+      usuarioResponsavel: ator?.usuario ?? 'SISTEMA',
+      dadosAntes: antes,
+      dadosDepois: { equipamento: equipamentoView, movimentacao: movimentacaoView },
+    });
+
+    return { movimentacao: movimentacaoView, equipamento: equipamentoView };
   }
 
   private async buscar(id: string): Promise<Equipamento> {

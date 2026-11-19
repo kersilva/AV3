@@ -83,20 +83,21 @@ const equipamentoResponseSchema = {
 const movimentacaoResponseSchema = {
   type: 'object',
   additionalProperties: false,
-  required: ['id', 'equipamentoId', 'destino', 'dataHora', 'responsavel'],
+  required: ['id', 'equipamentoId', 'destino', 'dataHora', 'responsavelId'],
   properties: {
     id: { type: 'string', description: 'Identificador da movimentação.' },
     equipamentoId: { type: 'string', description: 'Identificador do equipamento.' },
-    destino: { type: 'string', description: 'Local de destino.' },
-    observacao: { type: 'string', description: 'Observações adicionais.' },
+    origem: { ...statusRastreamentoEnum, description: 'Status de origem da movimentação.' },
+    destino: { ...statusRastreamentoEnum, description: 'Status de destino da movimentação.' },
     dataHora: { type: 'string', format: 'date-time', description: 'Data e hora da movimentação.' },
-    responsavel: {
-      type: 'object',
-      properties: {
-        id: { type: 'string' },
-        usuario: { type: 'string' },
-      },
-      description: 'Utilizador responsável pelo registo.',
+    responsavelId: {
+      type: ['string', 'null'],
+      description:
+        'Identificador do usuário responsável pelo registro. Nulo quando o registro foi feito pelo sistema.',
+    },
+    observacao: {
+      type: ['string', 'null'],
+      description: 'Observações adicionais.',
     },
   },
 } as const;
@@ -114,7 +115,7 @@ export async function EquipamentoController(
       schema: {
         tags: ['Equipamentos'],
         summary: 'Lista os equipamentos',
-        description: 'Retorna todos os equipamentos registados no sistema[cite: 6].',
+        description: 'Retorna todos os equipamentos registrados no sistema.',
         security: [{ bearerAuth: [] }],
         response: {
           200: {
@@ -137,7 +138,7 @@ export async function EquipamentoController(
       schema: {
         tags: ['Equipamentos'],
         summary: 'Rastreia um equipamento por ID',
-        description: 'Retorna os detalhes de rastreamento de um equipamento específico[cite: 6].',
+        description: 'Retorna os detalhes de rastreamento de um equipamento específico.',
         security: [{ bearerAuth: [] }],
         params: paramsId,
         response: {
@@ -160,7 +161,7 @@ export async function EquipamentoController(
       schema: {
         tags: ['Equipamentos'],
         summary: 'Lista as movimentações de um equipamento',
-        description: 'Retorna o histórico de movimentações associado a um equipamento[cite: 6].',
+        description: 'Retorna o histórico de movimentações associado a um equipamento.',
         security: [{ bearerAuth: [] }],
         params: paramsId,
         response: {
@@ -184,7 +185,7 @@ export async function EquipamentoController(
       schema: {
         tags: ['Equipamentos'],
         summary: 'Cadastra um novo equipamento',
-        description: 'Cria um novo registo de equipamento no sistema[cite: 6].',
+        description: 'Cria um novo registro de equipamento no sistema.',
         security: [{ bearerAuth: [] }],
         body: {
           type: 'object',
@@ -253,7 +254,7 @@ export async function EquipamentoController(
         tags: ['Equipamentos'],
         summary: 'Atualiza o estado físico de um equipamento',
         description:
-          'Altera o estado físico do equipamento exigindo uma justificativa e versão atual[cite: 6].',
+          'Altera o estado físico do equipamento exigindo uma justificativa e versão atual.',
         security: [{ bearerAuth: [] }],
         params: paramsId,
         body: {
@@ -313,8 +314,7 @@ export async function EquipamentoController(
       schema: {
         tags: ['Equipamentos'],
         summary: 'Atualiza o status de rastreamento de um equipamento',
-        description:
-          'Altera o status de rastreamento exigindo justificativa e versão atual[cite: 6].',
+        description: 'Altera o status de rastreamento exigindo justificativa e versão atual.',
         security: [{ bearerAuth: [] }],
         params: paramsId,
         body: {
@@ -362,7 +362,7 @@ export async function EquipamentoController(
 
   app.post<{
     Params: { id: string };
-    Body: { destino: string; observacao?: string };
+    Body: { destino: StatusRastreamento; observacao?: string; versao: number };
   }>(
     '/equipamentos/:id/movimentacoes',
     {
@@ -371,21 +371,25 @@ export async function EquipamentoController(
         tags: ['Equipamentos'],
         summary: 'Registra uma movimentação para o equipamento',
         description:
-          'Adiciona um novo registo de movimentação informando o destino e observações[cite: 6].',
+          'Adiciona um novo registro de movimentação informando o destino e observações.',
         security: [{ bearerAuth: [] }],
         params: paramsId,
         body: {
           type: 'object',
           additionalProperties: false,
-          required: ['destino'],
+          required: ['destino', 'versao'],
           properties: {
-            destino: { type: 'string', minLength: 1, description: 'Destino da movimentação.' },
+            destino: {
+              ...statusRastreamentoEnum,
+              description: 'Status de destino da movimentação.',
+            },
             observacao: { type: 'string', description: 'Observação opcional.' },
+            versao: { type: 'integer', minimum: 1, description: 'Versão atual do equipamento.' },
           },
         },
         response: {
           201: {
-            description: 'Movimentação registada com sucesso',
+            description: 'Movimentação registrada com sucesso',
             ...movimentacaoResponseSchema,
           },
           ...respostasErroComuns,
@@ -395,7 +399,7 @@ export async function EquipamentoController(
     },
     async (req, res) =>
       res.code(201).send(
-        await service.registrarMovimentacao(req.params.id, req.body, {
+        await service.registrarMovimentacao(req.params.id, req.body, req.body.versao, {
           id: req.user.sub,
           usuario: req.user.usuario,
         })
@@ -409,7 +413,7 @@ export async function EquipamentoController(
       schema: {
         tags: ['Equipamentos'],
         summary: 'Exclui um equipamento',
-        description: 'Remove um equipamento com base no ID e na versão atual[cite: 6].',
+        description: 'Remove um equipamento com base no ID e na versão atual.',
         security: [{ bearerAuth: [] }],
         params: paramsId,
         body: schemaVersao,
@@ -439,8 +443,7 @@ export async function EquipamentoController(
       schema: {
         tags: ['Equipamentos'],
         summary: 'Reativa um equipamento',
-        description:
-          'Reativa um equipamento previamente inativado/excluído usando a versão atual[cite: 6].',
+        description: 'Reativa um equipamento previamente inativado/excluído usando a versão atual.',
         security: [{ bearerAuth: [] }],
         params: paramsId,
         body: schemaVersao,

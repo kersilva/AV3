@@ -16,7 +16,7 @@ export type NovaJournalTransacao = Omit<
   timestamp?: Date;
   dadosAntes?: unknown;
   dadosDepois?: unknown;
-  usuarioId?: string;
+  usuarioId?: string | null;
 };
 export type FiltroJournalTransacao = {
   pagina: number;

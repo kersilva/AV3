@@ -67,7 +67,7 @@ export async function LoteController(
       schema: {
         tags: ['Lotes'],
         summary: 'Lista os lotes',
-        description: 'Retorna todos os lotes registados no sistema[cite: 8].',
+        description: 'Retorna todos os lotes registrados no sistema.',
         security: [{ bearerAuth: [] }],
         response: {
           200: {
@@ -91,7 +91,7 @@ export async function LoteController(
         tags: ['Lotes'],
         summary: 'Busca um lote por ID',
         description:
-          'Retorna os detalhes de um lote específico através do seu identificador[cite: 8].',
+          'Retorna os detalhes de um lote específico através do seu identificador.',
         security: [{ bearerAuth: [] }],
         params: paramsId,
         response: {
@@ -114,7 +114,7 @@ export async function LoteController(
       schema: {
         tags: ['Lotes'],
         summary: 'Cria um novo lote',
-        description: 'Regista a entrada de um novo lote no sistema[cite: 8].',
+        description: 'Registra a entrada de um novo lote no sistema.',
         security: [{ bearerAuth: [] }],
         body: {
           type: 'object',
@@ -170,7 +170,7 @@ export async function LoteController(
         tags: ['Lotes'],
         summary: 'Processa a triagem de um lote',
         description:
-          'Inicia ou conclui o processo de triagem do lote utilizando a versão atual[cite: 8].',
+          'Inicia ou conclui o processo de triagem do lote utilizando a versão atual.',
         security: [{ bearerAuth: [] }],
         params: paramsId,
         body: schemaVersao,
@@ -200,7 +200,7 @@ export async function LoteController(
       schema: {
         tags: ['Lotes'],
         summary: 'Exclui um lote',
-        description: 'Remove um lote com base no ID e na versão atual[cite: 8].',
+        description: 'Remove um lote com base no ID e na versão atual.',
         security: [{ bearerAuth: [] }],
         params: paramsId,
         body: schemaVersao,
@@ -231,7 +231,7 @@ export async function LoteController(
         tags: ['Lotes'],
         summary: 'Reativa um lote',
         description:
-          'Reativa um lote previamente inativado/excluído usando a versão atual[cite: 8].',
+          'Reativa um lote previamente inativado/excluído usando a versão atual.',
         security: [{ bearerAuth: [] }],
         params: paramsId,
         body: schemaVersao,

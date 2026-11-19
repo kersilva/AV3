@@ -57,7 +57,7 @@ const organizacaoResponseSchema = {
     enderecoCompleto: { type: 'string', description: 'Endereço completo.' },
     telefone: { type: 'string', description: 'Número de telefone para contato.' },
     email: { type: 'string', description: 'Endereço de correio eletrónico.' },
-    versao: { type: 'integer', description: 'Versão atual do registo.' },
+    versao: { type: 'integer', description: 'Versão atual do registro.' },
   },
 } as const;
 
@@ -74,7 +74,7 @@ export async function OrganizacaoController(
       schema: {
         tags: ['Organizações'],
         summary: 'Cadastra uma nova organização',
-        description: 'Regista uma nova organização no sistema[cite: 9].',
+        description: 'Registra uma nova organização no sistema.',
         security: [{ bearerAuth: [] }],
         body: {
           type: 'object',
@@ -128,7 +128,7 @@ export async function OrganizacaoController(
       schema: {
         tags: ['Organizações'],
         summary: 'Lista as organizações',
-        description: 'Retorna todas as organizações registadas no sistema[cite: 9].',
+        description: 'Retorna todas as organizações registradas no sistema.',
         security: [{ bearerAuth: [] }],
         response: {
           200: {
@@ -152,7 +152,7 @@ export async function OrganizacaoController(
         tags: ['Organizações'],
         summary: 'Rastreia uma organização por ID',
         description:
-          'Retorna os detalhes de uma organização específica através do seu identificador[cite: 9].',
+          'Retorna os detalhes de uma organização específica através do seu identificador.',
         security: [{ bearerAuth: [] }],
         params: paramsId,
         response: {
@@ -179,7 +179,7 @@ export async function OrganizacaoController(
         tags: ['Organizações'],
         summary: 'Atualiza uma organização',
         description:
-          'Atualiza os dados de uma organização existente exigindo a versão atual para controlo otimista[cite: 9].',
+          'Atualiza os dados de uma organização existente exigindo a versão atual para controlo otimista.',
         security: [{ bearerAuth: [] }],
         params: paramsId,
         body: {
@@ -232,7 +232,7 @@ export async function OrganizacaoController(
       schema: {
         tags: ['Organizações'],
         summary: 'Exclui uma organização',
-        description: 'Remove uma organização com base no ID e na versão atual[cite: 9].',
+        description: 'Remove uma organização com base no ID e na versão atual.',
         security: [{ bearerAuth: [] }],
         params: paramsId,
         body: schemaVersao,
@@ -263,7 +263,7 @@ export async function OrganizacaoController(
         tags: ['Organizações'],
         summary: 'Reativa uma organização',
         description:
-          'Reativa uma organização previamente inativada/excluída usando a versão atual[cite: 9].',
+          'Reativa uma organização previamente inativada/excluída usando a versão atual.',
         security: [{ bearerAuth: [] }],
         params: paramsId,
         body: schemaVersao,

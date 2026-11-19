@@ -155,42 +155,36 @@ export class Equipamento {
     this._estadoFisico = novoEstado;
   }
 
-  atualizarStatus(novoStatus: StatusRastreamento, justificativa: string): void {
-    if (!justificativa.trim())
-      throw new ErroValidacao('Informe a justificativa da mudança de status.');
-    if (
-      novoStatus === StatusRastreamento.AGUARDANDO_DESMONTE &&
-      this._statusRastreamento !== StatusRastreamento.EM_TRIAGEM
-    ) {
-      throw new ErroRegraNegocio('O equipamento só pode aguardar desmonte após a triagem.');
-    }
-    if (
-      novoStatus === StatusRastreamento.EM_DESMONTE &&
-      this._statusRastreamento !== StatusRastreamento.AGUARDANDO_DESMONTE
-    ) {
-      throw new ErroRegraNegocio('O desmonte só pode começar após a triagem.');
-    }
-    this._statusRastreamento = novoStatus;
-  }
-
   registrarMovimentacao(dados: {
     id: string;
-    destino: string;
+    destino: StatusRastreamento;
     responsavelId: string | null;
     observacao?: string;
     dataHora?: Date;
   }): Movimentacao {
     const origem = this._statusRastreamento;
-    const destino = dados.destino as StatusRastreamento;
     const movimentacao = Movimentacao.criar({
       id: dados.id,
       equipamentoId: this._id,
       dataHora: dados.dataHora ?? new Date(),
       origem,
-      destino,
+      destino: dados.destino,
       responsavelId: dados.responsavelId,
       observacao: dados.observacao ?? null,
     });
+    if (
+      dados.destino === StatusRastreamento.AGUARDANDO_DESMONTE &&
+      origem !== StatusRastreamento.EM_TRIAGEM
+    ) {
+      throw new ErroRegraNegocio('O equipamento só pode aguardar desmonte após a triagem.');
+    }
+    if (
+      dados.destino === StatusRastreamento.EM_DESMONTE &&
+      origem !== StatusRastreamento.AGUARDANDO_DESMONTE
+    ) {
+      throw new ErroRegraNegocio('O desmonte só pode começar após a triagem.');
+    }
+    this._statusRastreamento = dados.destino;
     this._historicoMovimentacao.push(movimentacao);
     return movimentacao;
   }

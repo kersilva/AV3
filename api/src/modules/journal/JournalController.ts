@@ -14,7 +14,7 @@ const journalItemResponseSchema = {
   additionalProperties: false,
   required: ['id', 'dataHora', 'operacao', 'entidade', 'entidadeId', 'responsavel'],
   properties: {
-    id: { type: 'string', description: 'Identificador único do registo no journal.' },
+    id: { type: 'string', description: 'Identificador único do registro no journal.' },
     dataHora: {
       type: 'string',
       format: 'date-time',
@@ -68,9 +68,9 @@ export async function JournalController(
       preHandler: exigirAcessoAoJournal,
       schema: {
         tags: ['Auditoria'],
-        summary: 'Lista os registos de auditoria (Journal)',
+        summary: 'Lista os registros de auditoria (Journal)',
         description:
-          'Retorna o histórico paginado de auditoria e logs de alterações do sistema com base nos filtros fornecidos[cite: 7].',
+          'Retorna o histórico paginado de auditoria e logs de alterações do sistema com base nos filtros fornecidos.',
         security: [{ bearerAuth: [] }],
         querystring: {
           type: 'object',
@@ -84,7 +84,7 @@ export async function JournalController(
             porPagina: {
               type: 'string',
               pattern: '^[1-9][0-9]*$',
-              description: 'Quantidade de registos por página.',
+              description: 'Quantidade de registros por página.',
             },
             operacao: {
               type: 'string',
@@ -115,14 +115,14 @@ export async function JournalController(
         },
         response: {
           200: {
-            description: 'Registos do journal encontrados com sucesso',
+            description: 'Registros do journal encontrados com sucesso',
             type: 'object',
             properties: {
               itens: {
                 type: 'array',
                 items: journalItemResponseSchema,
               },
-              total: { type: 'integer', description: 'Total de registos encontrados.' },
+              total: { type: 'integer', description: 'Total de registros encontrados.' },
             },
           },
           ...respostasErroComuns,
