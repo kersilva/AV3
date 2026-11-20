@@ -23,7 +23,7 @@ import { OrganizacaoService } from "../src/modules/organizacao/OrganizacaoServic
 import { LoteService } from "../src/modules/lote/LoteService.js";
 import { EquipamentoService } from "../src/modules/equipamento/EquipamentoService.js";
 import { ConfiguracaoService } from "../src/modules/configuracao/ConfiguracaoService.js";
-import { StatusLote as PrismaStatusLote, StatusRastreamento as PrismaStatusRastreamento  } from "../src/generated/prisma/enums.js";
+import { StatusLote as PrismaStatusLote } from "../src/generated/prisma/enums.js";
 
 
 
@@ -35,10 +35,34 @@ type DadosUsuarioSeed = {
   senha: string;
 };
 
-const senhaSeed = process.env.SEED_PASSWORD ?? "GreencodeSeed#2026";
-if (process.env.NODE_ENV === "production" && !process.env.SEED_PASSWORD) {
-  throw new Error("Defina SEED_PASSWORD antes de executar o seed em produção.");
+// Mapeamento explícito entre o enum de domínio StatusLote e o enum gerado pelo
+// Prisma. Substitui o cast `as keyof typeof PrismaStatusLote` da versão
+// anterior, usado no prisma.lote.update dentro de garantirLote.
+const STATUS_LOTE_DOMAIN_PARA_PRISMA: Record<StatusLote, PrismaStatusLote> = {
+  [StatusLote.RECEBIDO]: PrismaStatusLote.RECEBIDO,
+  [StatusLote.EM_TRIAGEM]: PrismaStatusLote.EM_TRIAGEM,
+  [StatusLote.TRIAGEM_CONCLUIDA]: PrismaStatusLote.TRIAGEM_CONCLUIDA,
+  [StatusLote.ENCAMINHADO]: PrismaStatusLote.ENCAMINHADO,
+  [StatusLote.FINALIZADO]: PrismaStatusLote.FINALIZADO,
+};
+
+function obterSenhaSeed(): string {
+  const senha = process.env.SEED_PASSWORD;
+  if (!senha) {
+    throw new Error(
+      "Defina a variável de ambiente SEED_PASSWORD antes de executar o seed.",
+    );
+  }
+  const bytes = new TextEncoder().encode(senha).length;
+  if (bytes < 8 || bytes > 72) {
+    throw new Error(
+      `A senha definida em SEED_PASSWORD tem ${bytes} bytes; o limite é entre 8 e 72 bytes em UTF-8.`,
+    );
+  }
+  return senha;
 }
+
+const senhaSeed: string = obterSenhaSeed();
 
 const journalRepository = new PrismaJournalTransacaoRepository();
 const journalWriter = new PrismaJournalWriter(journalRepository);
@@ -197,8 +221,7 @@ async function garantirLote(
 
   if (indiceAtual > indiceDesejado) {
     const anterior = lote.statusProcessamento;
-    const novoEstado =
-      PrismaStatusLote[statusDesejado as keyof typeof PrismaStatusLote];
+    const novoEstado = STATUS_LOTE_DOMAIN_PARA_PRISMA[statusDesejado];
     await prisma.lote.update({
       where: { id },
       data: { statusProcessamento: novoEstado, versao: { increment: 1 } },
@@ -298,52 +321,47 @@ async function garantirEquipamento(
     throw new Error(`Estado de rastreamento inválido: ${statusRastreamento}.`);
   }
 
-  estado = await equipamentoService.rastrearEquipamento(id);
-  if (estado.statusRastreamento !== sequenciaStatus[0]) {
-    estado = await equipamentoService.atualizarStatus(
-      id,
-      sequenciaStatus[0]!,
-      "Seed de demonstração: reinício do fluxo de estados.",
-      estado.versao,
-      ator,
+  const atual = await equipamentoService.rastrearEquipamento(id);
+  const indiceAtual = sequenciaStatus.indexOf(atual.statusRastreamento);
+  if (indiceAtual < 0) {
+    throw new Error(
+      `Status de rastreamento inválido no equipamento ${id}: ${atual.statusRastreamento}.`,
     );
   }
-  for (let indice = 1; indice <= indiceDesejado; indice += 1) {
-    const proximo = sequenciaStatus[indice]!;
-    if (estado.statusRastreamento !== proximo) {
-      estado = await equipamentoService.atualizarStatus(
-        id,
-        proximo,
-        "Seed de demonstração: avanço válido no fluxo de rastreamento.",
-        estado.versao,
-        ator,
-      );
+
+  // Política do seed: não retrocede equipamentos para um status anterior ao
+  // desejado, para não gerar histórico regressivo de movimentações. Esta
+  // política é do seed, não do domínio — registrarMovimentacao aceita
+  // retrocesso, mas o seed opta por não usá-lo aqui.
+  if (indiceAtual > indiceDesejado) {
+    throw new Error(
+      `O equipamento ${id} está em ${atual.statusRastreamento}, além do desejado ${statusRastreamento}; o seed não retrocede equipamentos.`,
+    );
+  }
+
+  // Avança do status atual até o desejado, uma transição por vez. Entre cada
+  // chamada, relê o equipamento com rastrearEquipamento para obter a versão
+  // atual, porque cada movimentação incrementa a versão. O domínio aceita
+  // transições fora do desmonte; o grafo completo do fluxo depois do desmonte
+  // ainda não está definido.
+  let indice = indiceAtual;
+  while (indice < indiceDesejado) {
+    const destino = sequenciaStatus[indice + 1]!;
+    const passo = await equipamentoService.rastrearEquipamento(id);
+    if (passo.statusRastreamento === destino) {
+      indice += 1;
+      continue;
     }
+    await equipamentoService.registrarMovimentacao(
+      id,
+      { destino, observacao: 'Seed de demonstração: avanço no fluxo de rastreamento.' },
+      passo.versao,
+      ator,
+    );
+    indice += 1;
   }
 
   return equipamentoService.rastrearEquipamento(id);
-}
-
-async function garantirMovimentacoes(
-  equipamentos: { id: string }[],
-  ator: Ator,
-) {
-  for (const equipamento of equipamentos) {
-    const destino = StatusRastreamento.EM_TRIAGEM;
-    const existente = await prisma.movimentacao.findFirst({
-      where: { equipamentoId: equipamento.id, destino: PrismaStatusRastreamento.EM_TRIAGEM },
-    });
-    if (existente) continue;
-
-    await equipamentoService.registrarMovimentacao(
-      equipamento.id,
-      {
-        destino,
-        observacao: 'Movimentação de exemplo criada pelo seed.',
-      },
-      ator,
-    );
-  }
 }
 
 async function garantirContrato(organizacaoId: string, ator: Ator) {
@@ -398,43 +416,39 @@ async function verificarCoberturaDosEnums() {
 
   conferirValores(
     "PapelUsuario",
-    Object.values(PapelUsuario),
-    usuarios.map((item) => String(item.papel) as PapelUsuario),
+    Object.values(PapelUsuario).map(String),
+    usuarios.map((item) => String(item.papel)),
   );
 
   conferirValores(
     "StatusLote",
-    Object.values(StatusLote),
-    lotes.map(
-      (item) => String(item.statusProcessamento) as StatusLote,
-    ),
+    Object.values(StatusLote).map(String),
+    lotes.map((item) => String(item.statusProcessamento)),
   );
 
   conferirValores(
     "TipoEquipamento",
-    Object.values(TipoEquipamento),
-    equipamentos.map((item) => String(item.tipo) as TipoEquipamento),
+    Object.values(TipoEquipamento).map(String),
+    equipamentos.map((item) => String(item.tipo)),
   );
 
   conferirValores(
     "EstadoFisico",
-    Object.values(EstadoFisico),
-    equipamentos.map(
-      (item) => String(item.estadoFisico) as EstadoFisico,
-    ),
+    Object.values(EstadoFisico).map(String),
+    equipamentos.map((item) => String(item.estadoFisico)),
   );
 
   conferirValores(
     "StatusRastreamento",
-    Object.values(StatusRastreamento),
-    equipamentos.map((item) => String(item.statusRastreamento) as StatusRastreamento),
+    Object.values(StatusRastreamento).map(String),
+    equipamentos.map((item) => String(item.statusRastreamento)),
   );
 }
 
-function conferirValores<T extends string>(
+function conferirValores(
   nome: string,
-  esperados: readonly T[],
-  encontrados: readonly T[],
+  esperados: readonly string[],
+  encontrados: readonly string[],
 ): void {
   const faltantes = esperados.filter((valor) => !encontrados.includes(valor));
   if (faltantes.length > 0) {
@@ -480,26 +494,19 @@ async function main() {
   const tipos = Object.values(TipoEquipamento);
   const estados = Object.values(EstadoFisico);
   const status = Object.values(StatusRastreamento);
-  const equipamentos = [];
   for (let indice = 0; indice < tipos.length; indice += 1) {
-    equipamentos.push(
-      await garantirEquipamento(
-        tipos[indice]!,
-        estados[indice % estados.length]!,
-        status[indice]!,
-        loteEquipamentos,
-        indice + 1,
-        ator,
-      ),
+    await garantirEquipamento(
+      tipos[indice]!,
+      estados[indice % estados.length]!,
+      status[indice]!,
+      loteEquipamentos,
+      indice + 1,
+      ator,
     );
   }
-  await garantirMovimentacoes(equipamentos, ator);
   await verificarCoberturaDosEnums();
 
   console.info("Seed concluído. Os dados de demonstração estão disponíveis.");
-  if (!process.env.SEED_PASSWORD) {
-    console.info("Senha padrão das contas seed: GreencodeSeed#2026");
-  }
 }
 
 try {
