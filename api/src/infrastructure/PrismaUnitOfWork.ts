@@ -7,6 +7,7 @@ import { PrismaContratoRepository } from '@infra/repositories/PrismaContratoRepo
 import { PrismaEquipamentoRepository } from '@infra/repositories/PrismaEquipamentoRepository.js';
 import { PrismaJournalTransacaoRepository } from '@infra/repositories/PrismaJournalTransacaoRepository.js';
 import { PrismaHistoricoStatusLoteRepository } from '@infra/repositories/PrismaHistoricoStatusLoteRepository.js';
+import { PrismaHistoricoEstadoFisicoRepository } from '@infra/repositories/PrismaHistoricoEstadoFisicoRepository.js';
 import { PrismaLoteRepository } from '@infra/repositories/PrismaLoteRepository.js';
 import { PrismaOrganizacaoRepository } from '@infra/repositories/PrismaOrganizacaoRepository.js';
 import { PrismaUsuarioRepository } from '@infra/repositories/PrismaUsuarioRepository.js';
@@ -22,6 +23,7 @@ export class PrismaUnitOfWork implements UnitOfWork {
           contratos: new PrismaContratoRepository(transacao),
           lotes: new PrismaLoteRepository(transacao),
           historicoStatusLote: new PrismaHistoricoStatusLoteRepository(transacao),
+          historicoEstadoFisico: new PrismaHistoricoEstadoFisicoRepository(transacao),
           equipamentos: new PrismaEquipamentoRepository(transacao),
           usuarios: new PrismaUsuarioRepository(transacao),
           configuracao: new PrismaConfiguracaoRepository(transacao),

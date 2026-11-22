@@ -39,10 +39,17 @@ export class EquipamentoService {
     ator: { id: string; usuario: string }
   ): Promise<EquipamentoView> {
     const novo = Equipamento.criar(dados);
-    return this.unitOfWork.executar(async ({ equipamentos, journal }) => {
+    return this.unitOfWork.executar(async ({ equipamentos, historicoEstadoFisico, journal }) => {
       if (!(await equipamentos.loteAtivo(dados.loteId)))
         throw new ErroNaoEncontrado('Lote ativo não encontrado.');
       const criado = await equipamentos.criar(novo);
+      await historicoEstadoFisico.registrarTransicao({
+        equipamentoId: criado.id,
+        estadoAnterior: null,
+        estadoNovo: criado.estadoFisico,
+        justificativa: null,
+        responsavelId: ator.id,
+      });
       const dto = this.dto(criado);
       await journal.registrar({
         operacao: 'CRIAR',
@@ -67,15 +74,23 @@ export class EquipamentoService {
     versao: number,
     ator: { id: string; usuario: string }
   ): Promise<EquipamentoView> {
-    return this.unitOfWork.executar(async ({ equipamentos, journal }) => {
+    return this.unitOfWork.executar(async ({ equipamentos, historicoEstadoFisico, journal }) => {
       const equipamento = await equipamentos.buscarPorId(id);
       if (!equipamento) throw new ErroNaoEncontrado('Equipamento não encontrado.');
       if (equipamento.versao !== versao)
         throw new ErroConflito('Conflito de versão do equipamento.');
+      const estadoAnterior = equipamento.estadoFisico;
       const antes = this.dto(equipamento);
       equipamento.atualizarEstadoFisico(estado, justificativa);
       const salvo = await equipamentos.salvar(equipamento, versao);
       if (!salvo) throw new ErroConflito('Conflito de versão do equipamento.');
+      await historicoEstadoFisico.registrarTransicao({
+        equipamentoId: salvo.id,
+        estadoAnterior,
+        estadoNovo: salvo.estadoFisico,
+        justificativa,
+        responsavelId: ator.id,
+      });
       const depois = this.dto(salvo);
       await journal.registrar({
         operacao: 'ALTERAR_ESTADO_FISICO',
