@@ -92,6 +92,19 @@ enum TipoRelatorio {
   COMPLETO
 }
 
+enum MetricaAnalise {
+  EFICIENCIA_TEMPO_MEDIO_TRIAGEM_HORAS
+  EFICIENCIA_LOTES_CONCLUIDOS
+  EFICIENCIA_LOTES_PENDENTES
+  RECUPERACAO_MEDIA_BRUTA
+  RECUPERACAO_AMOSTRAS
+  VIDA_UTIL_INCLINACAO
+  VIDA_UTIL_INTERCEPTO
+  VIDA_UTIL_R2
+  VIDA_UTIL_PREVISTA_MESES
+  VIDA_UTIL_AMOSTRAS
+}
+
 // Escopos de uma chave de API. Enum em vez de String[] para evitar o mesmo
 // problema de typos que corrigimos em Movimentacao.origem/destino: permissões
 // diferentes por erro de digitação, sem erro em runtime.
@@ -357,6 +370,33 @@ model HistoricoEstadoFisico {
 // a consulta termina — e a comparação previsão vs. realizado é impossível.
 // ====================
 
+model ExecucaoAnalise {
+  id             String             @id
+  tipoRelatorio  TipoRelatorio
+  parametros     Json
+  versaoCalculo  String
+  dataReferencia DateTime
+  criadaEm       DateTime           @default(now())
+  resultados     ResultadoAnalise[]
+  previsoes      PrevisaoVidaUtil[]
+
+  @@index([tipoRelatorio, criadaEm])
+}
+
+model ResultadoAnalise {
+  id         String         @id
+  execucaoId String
+  metrica    MetricaAnalise
+  chave      String         @default("")
+  valor      Decimal        @db.Decimal(14, 4)
+  amostras   Int
+
+  execucao ExecucaoAnalise @relation(fields: [execucaoId], references: [id], onDelete: Cascade)
+
+  @@unique([execucaoId, metrica, chave])
+  @@index([execucaoId])
+}
+
 // Uma previsão de vida útil por (tipo, marca?, modelo?).
 // Alvo da regressão é o TIPO, não a unidade — cada equipamento que já virou
 // INSERVIVEL contribui com um ponto (idade na morte) na regressão daquele tipo.
@@ -372,8 +412,10 @@ model PrevisaoVidaUtil {
   amostras               Int // n que alimentou a regressão
   parametros             Json // slope, intercept, etc — transparência
   solicitacaoRelatorioId String? // se veio de um job assíncrono
+  execucaoAnaliseId      String?
 
   solicitacao SolicitacaoRelatorio? @relation(fields: [solicitacaoRelatorioId], references: [id])
+  execucao    ExecucaoAnalise?      @relation(fields: [execucaoAnaliseId], references: [id])
   validacoes  ValidacaoPrevisao[]
 
   @@index([tipoEquipamento, marca, modelo, dataPrevisao])
