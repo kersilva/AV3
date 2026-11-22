@@ -243,7 +243,7 @@ export async function EquipamentoController(
     Params: { id: string };
     Body: {
       estadoFisico: EstadoFisico;
-      justificativa: string;
+      justificativa?: string;
       versao: number;
     };
   }>(
@@ -254,13 +254,13 @@ export async function EquipamentoController(
         tags: ['Equipamentos'],
         summary: 'Atualiza o estado físico de um equipamento',
         description:
-          'Altera o estado físico do equipamento exigindo uma justificativa e versão atual.',
+          'Altera o estado físico do equipamento. A justificativa é obrigatória apenas quando a queda for de duas ou mais categorias.',
         security: [{ bearerAuth: [] }],
         params: paramsId,
         body: {
           type: 'object',
           additionalProperties: false,
-          required: ['estadoFisico', 'justificativa', 'versao'],
+          required: ['estadoFisico', 'versao'],
           properties: {
             estadoFisico: {
               ...estadoFisicoEnum,
@@ -268,7 +268,6 @@ export async function EquipamentoController(
             },
             justificativa: {
               type: 'string',
-              minLength: 1,
               description: 'Justificativa da alteração.',
             },
             versao: {
@@ -293,7 +292,7 @@ export async function EquipamentoController(
         await service.atualizarEstadoFisico(
           req.params.id,
           req.body.estadoFisico,
-          req.body.justificativa,
+          req.body.justificativa ?? '',
           req.body.versao,
           { id: req.user.sub, usuario: req.user.usuario }
         )

@@ -88,7 +88,7 @@ export class EquipamentoService {
         equipamentoId: salvo.id,
         estadoAnterior,
         estadoNovo: salvo.estadoFisico,
-        justificativa,
+        justificativa: justificativa.trim() || null,
         responsavelId: ator.id,
       });
       const depois = this.dto(salvo);
@@ -213,8 +213,7 @@ export class EquipamentoService {
   ) {
     const equipamento = await equipamentos.buscarPorId(id);
     if (!equipamento) throw new ErroNaoEncontrado('Equipamento não encontrado.');
-    if (equipamento.versao !== versao)
-      throw new ErroConflito('Conflito de versão do equipamento.');
+    if (equipamento.versao !== versao) throw new ErroConflito('Conflito de versão do equipamento.');
 
     const antes = this.dto(equipamento);
     const movimentacao = equipamento.registrarMovimentacao({
