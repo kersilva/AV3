@@ -28,10 +28,16 @@ export class LoteService {
 
   async criarLote(dados: NovoLote, ator: { id: string; usuario: string }): Promise<LoteView> {
     const novo = Lote.criar(dados);
-    return this.unitOfWork.executar(async ({ lotes, journal }) => {
+    return this.unitOfWork.executar(async ({ lotes, historicoStatusLote, journal }) => {
       if (!(await lotes.organizacaoAtiva(dados.organizacaoId)))
         throw new ErroNaoEncontrado('Organização ativa não encontrada.');
       const salvo = await lotes.criar(novo);
+      await historicoStatusLote.registrarTransicao({
+        loteId: salvo.id,
+        statusAnterior: null,
+        statusNovo: salvo.statusProcessamento,
+        responsavelId: ator.id,
+      });
       const dto = this.dto(salvo, true);
       await journal.registrar({
         operacao: 'CRIAR',
@@ -59,14 +65,21 @@ export class LoteService {
     versao: number,
     ator: { id: string; usuario: string }
   ): Promise<LoteView> {
-    return this.unitOfWork.executar(async ({ lotes, journal }) => {
+    return this.unitOfWork.executar(async ({ lotes, historicoStatusLote, journal }) => {
       const lote = await lotes.buscarPorId(id);
       if (!lote) throw new ErroNaoEncontrado('Lote não encontrado.');
       if (lote.versao !== versao) throw new ErroConflito('Conflito de versão do lote.');
+      const statusAnterior = lote.statusProcessamento;
       const antes = this.dto(lote, true);
       lote.processarTriagem();
       const salvo = await lotes.salvar(lote, versao);
       if (!salvo) throw new ErroConflito('Conflito de versão do lote.');
+      await historicoStatusLote.registrarTransicao({
+        loteId: salvo.id,
+        statusAnterior,
+        statusNovo: salvo.statusProcessamento,
+        responsavelId: ator.id,
+      });
       const depois = this.dto(salvo, true);
       await journal.registrar({
         operacao: 'PROCESSAR_TRIAGEM',

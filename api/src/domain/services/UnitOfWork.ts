@@ -5,11 +5,13 @@ import type { LoteRepository } from '@domain/repositories/LoteRepository.js';
 import type { OrganizacaoRepository } from '@domain/repositories/OrganizacaoRepository.js';
 import type { UsuarioRepository } from '@domain/repositories/UsuarioRepository.js';
 import type { JournalWriter } from '@domain/services/JournalWriter.js';
+import type { HistoricoStatusLoteRepository } from '@domain/repositories/HistoricoStatusLoteRepository.js';
 
 export type RecursosTransacao = {
   organizacoes: OrganizacaoRepository;
   contratos: ContratoRepository;
   lotes: LoteRepository;
+  historicoStatusLote: HistoricoStatusLoteRepository;
   equipamentos: EquipamentoRepository;
   usuarios: UsuarioRepository;
   configuracao: ConfiguracaoRepository;
