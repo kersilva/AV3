@@ -247,6 +247,21 @@ npm run dev:worker --workspace=api
 
 Na versão compilada, use `npm run start --workspace=api` e `npm run worker --workspace=api`. O worker grava arquivos em `REPORTS_DIR`. Use armazenamento persistente para essa pasta em implantação.
 
+### Validar o projeto
+
+Na raiz do projeto, execute build, lint, testes unitários e integração com:
+
+```bash
+npm run build --workspace=api
+npm run lint --workspace=api
+npm test --workspace=api
+npm run test:integration --workspace=api
+```
+
+Os testes de integração sobem Postgres e Redis efêmeros com um projeto Compose exclusivo, aplicam todas as migrações e removem containers, volume e arquivos temporários ao terminar. Para verificar o cleanup após falha controlada e após simulação do caminho SIGTERM, execute `npm run test:integration:cleanup --workspace=api`.
+
+O worker usa `RELATORIO_BULL_LOCK_DURATION_MS` (120000 ms), `RELATORIO_BULL_STALLED_INTERVAL_MS` (30000 ms) e `RELATORIO_BULL_MAX_STALLED_COUNT` (1) para recuperação de jobs. O lease no Postgres usa `RELATORIO_LEASE_MS` (120000 ms) e renova a cada `RELATORIO_LEASE_RENEW_MS` (30000 ms). Os valores de teste são menores apenas nos processos filhos da suíte.
+
 ### Versões e exclusão
 
 Algumas operações de alteração, exclusão e reativação exigem o campo `versao` no corpo da requisição. Consulte o recurso antes de alterar e envie a versão atual. Se outra operação já tiver alterado o registro, a API retorna conflito; consulte o recurso novamente e tente com a nova versão.

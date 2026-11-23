@@ -9,7 +9,7 @@ Implementada e validada em ambiente efêmero. Três processos BullMQ foram encer
 - O worker consome jobs BullMQ com `lockDuration: 120_000` e `maxStalledCount: 1`.
 - O handler chama `processarRelatorioJob`, que calcula o relatório, grava JSON temporário e renomeia para o caminho final.
 - Se o processo termina sem encerramento gracioso, o Redis deixa o lock expirar e BullMQ pode marcar o job como stalled e reentregá-lo.
-- O teste de integração atual fecha um worker vazio antes de criar a solicitação e inicia outro depois. Ele prova reinício com job pendente, mas não interrupção durante cálculo ativo.
+- A integração agora encerra processos BullMQ durante a análise e em checkpoints de persistência; ver `WorkerCrashRecovery.integration.test.ts` para o fluxo executável.
 - O estado da outbox é reconciliado a cada cinco segundos pelo worker. Isso recupera publicação ausente/terminal, mas não substitui a reivindicação no Postgres para evitar execução analítica concorrente.
 
 ## Objetivo final

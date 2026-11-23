@@ -35,11 +35,16 @@ Este documento registra o plano aprovado e o estado da implementação.
 - Teste de integração isolado que aplica migrações num Postgres efêmero e usa Redis com AOF e volume temporário. O runner escolhe portas aleatórias e remove seus próprios recursos no final.
 - Cenário de integração cobre Redis fora antes da publicação, queda após Redis aceitar o job, deduplicação por `jobId`, reinício do Redis e reinício do worker. Uma falha transitória simulada confirma retry, duração persistida e conclusão.
 
-### Ainda pendente para considerar esta etapa completa
+### Concluído nesta etapa
 
-- A Onda 2 inclui claim atômico no Postgres, lease renovável com fencing, reagendamento de entregas concorrentes no BullMQ e relação única entre solicitação e execução analítica. Testes de concorrência e retomada passam junto aos demais cenários de integração.
-- Onda 3 concluída: três encerramentos abruptos em checkpoints reais do worker recuperam os jobs sem duplicar execução ou arquivo lógico.
-- Fixar a data de publicação para iniciar a contagem de 90 dias dos aliases internos; o prazo mínimo está documentado no README.
+- Onda 2: claim atômico no Postgres, lease renovável com fencing, reagendamento concorrente no BullMQ e relação única entre solicitação e execução analítica.
+- Onda 3: três encerramentos abruptos em checkpoints reais recuperam jobs sem duplicar execução ou arquivo lógico.
+- Onda 4: build, lint, 8 testes unitários, cleanup por falha/sinal simulado e duas execuções da suíte de integração passaram.
+
+### Pendências residuais
+
+- Aplicar a migração da Onda 2 no Postgres local quando voltar a responder. A validação efêmera passou; o banco local em `localhost:5433` estava indisponível e não foi alterado.
+- Registrar a data de publicação para iniciar a contagem de 90 dias dos aliases internos; o prazo mínimo está documentado no README.
 
 Os cenários de falha permanente, idempotência concorrente, reinício HTTP, consulta/download e autorização por parceiro foram implementados na Onda 1. Os resultados estão em [onda-1-testes-independentes.md](onda-1-testes-independentes.md).
 

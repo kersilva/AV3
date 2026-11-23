@@ -11,7 +11,8 @@
     "worker": "node dist/worker.js",
     "lint": "eslint .",
     "test": "node scripts/runTests.mjs",
-    "test:integration": "node scripts/runIntegrationTests.mjs"
+    "test:integration": "node scripts/runIntegrationTests.mjs",
+    "test:integration:cleanup": "node scripts/verifyIntegrationCleanup.mjs"
   },
   "keywords": [
     "logistica-reversa",

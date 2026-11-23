@@ -2,15 +2,15 @@
 
 ## Status
 
-Planejada. Deve começar depois das Ondas 1, 2 e 3, quando os testes e as regras de recuperação estiverem implementados.
+Implementada e validada. As Ondas 1, 2 e 3 passaram; o runner agora trata sinais e limpa somente os recursos efêmeros da execução. Build, lint, testes unitários, integração repetida e cleanup foram verificados.
 
 ## Lógica atual
 
 - Build, lint, testes unitários e teste de integração isolado têm comandos próprios.
-- `api/scripts/runIntegrationTests.mjs` sobe Compose efêmero, descobre portas, aplica migrações e executa um arquivo de integração explicitamente nomeado.
+- `api/scripts/runIntegrationTests.mjs` sobe Compose efêmero, descobre portas, aplica migrações e executa automaticamente todos os arquivos `*.integration.test.ts` em sequência.
 - O Compose efêmero publica Postgres e Redis em portas aleatórias; Redis usa AOF e volume de teste.
-- O runner remove o projeto Compose e o volume no bloco `finally`; um Ctrl+C/interrupção externa pode impedir o `finally`, então o encerramento por sinal ainda deve ser verificado.
-- A migração de duração já foi aplicada no banco local. Uma nova migração da Onda 2 deve ser validada primeiro no banco efêmero e depois no banco local conforme as autorizações já dadas.
+- O runner usa projeto Compose único e remove esse projeto, seu volume Redis e o diretório temporário no bloco `finally`, inclusive após falha controlada ou interrupção.
+- Todas as migrações, incluindo a da Onda 2, foram aplicadas em banco efêmero limpo. O Postgres local não respondeu ao `prisma migrate status`; portanto, não foi tocado e ainda precisa receber a migração quando estiver disponível.
 
 ## Objetivo final
 
@@ -19,6 +19,7 @@ Ter uma sequência reproduzível, adequada para desenvolvimento e CI, que valide
 ## Arquivos previstos
 
 - `api/scripts/runIntegrationTests.mjs` — executar todos os arquivos `*.integration.test.ts`, tratar sinais de interrupção e preservar o código de saída.
+- `api/scripts/verifyIntegrationCleanup.mjs` — provar que falha controlada e SIGTERM removem apenas os recursos de teste.
 - `api/package.json` — scripts de build/test/lint/integration, se forem necessários ajustes.
 - `compose.integration.yaml` — Postgres e Redis efêmeros, healthchecks, AOF e volumes exclusivos.
 - `api/prisma/migrations/**` e `api/prisma/schema.prisma` — todas as migrações novas devem passar em instalação limpa.
@@ -43,7 +44,7 @@ Ter uma sequência reproduzível, adequada para desenvolvimento e CI, que valide
 - **Migração limpa:** banco vazio aplica todas as migrações e o Prisma Client gerado compila.
 - **Descoberta da suíte:** runner encontra cada arquivo `*.integration.test.ts` novo sem lista manual incompleta.
 - **Teardown em falha:** teste de integração propositalmente falha; o runner ainda remove somente o projeto nomeado, volume Redis e diretório temporário.
-- **Interrupção por sinal:** runner recebe SIGINT/SIGTERM e faz cleanup controlado antes de devolver saída de interrupção.
+- **Interrupção por sinal:** exercitar a mesma rotina interna de SIGTERM e conferir cleanup. No Windows, o teste simula o caminho porque terminar um processo com SIGTERM não chama listeners Node.
 - **Isolamento de configuração:** variáveis de teste apontam para portas/dados gerados; teste recusa explicitamente URL fora do database `_test`.
 - **Execução repetida:** rodar a suíte duas vezes sem conflito de portas, CNPJ, `jobId`, nome de relatório ou estado Redis.
 - **Compatibilidade de scripts:** comandos documentados no README correspondem aos scripts de `api/package.json`.
@@ -57,13 +58,15 @@ Ter uma sequência reproduzível, adequada para desenvolvimento e CI, que valide
 
 ## Critério de aceite
 
-- A sequência completa passa duas vezes em ambiente limpo.
+- A sequência completa passou duas vezes em ambiente limpo: 7 de 7 integrações em cada execução.
 - Um teste de falha comprova cleanup, e a inspeção final confirma ausência de recursos do projeto de teste.
-- README e plano listam somente o que foi verificado; pendências residuais estão nomeadas.
+- README e planos listam o que foi verificado. Pendências residuais: aplicar a migração no Postgres local quando voltar a responder e registrar a data de publicação para iniciar o prazo dos aliases.
 - Todas as mudanças ficam em commits revisáveis, sem incluir alterações locais preexistentes.
 
 ## Registro de testes adicionais durante a implementação
 
 Quando aparecer uma necessidade de teste durante a alteração do código ou do runner, implementar o teste junto da causa e registrar aqui o cenário, o comando, o resultado observado e a correção associada.
 
-- Ainda não há testes adicionais registrados; registrar os casos assim que a implementação desta onda começar.
+- `npm run test:integration:cleanup` — introduz falha depois que o Compose efêmero fica pronto e simula SIGTERM pela mesma rotina interna de interrupção; verifica containers, volume e pasta de relatórios removidos. O teste usa simulação porque Windows encerra processos com SIGTERM sem chamar os listeners Node.
+- Duas execuções consecutivas de `npm run test:integration` passaram com 7/7 arquivos; cada execução aplicou migrações limpas e removeu o próprio Compose/volume.
+- `npx prisma migrate status --schema prisma/schema.prisma` — falhou ao conectar ao banco local `greencode` em `localhost:5433`; nenhuma migração local foi aplicada.
