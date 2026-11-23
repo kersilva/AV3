@@ -46,6 +46,13 @@ Este documento registra o plano aprovado e o estado da implementação.
 
 ## Ordem otimizada para concluir os itens pendentes
 
+Os detalhes por onda estão separados para orientar implementação e revisão:
+
+- [Onda 1 — testes independentes](onda-1-testes-independentes.md)
+- [Onda 2 — reivindicação e idempotência analítica](onda-2-idempotencia-analitica.md)
+- [Onda 3 — recuperação do worker ativo](onda-3-recuperacao-worker-ativo.md)
+- [Onda 4 — validação integral](onda-4-validacao-integral.md)
+
 ### Onda 1 — Itens independentes, em paralelo
 
 Estes trabalhos podem avançar ao mesmo tempo, em arquivos de teste separados:
@@ -81,7 +88,7 @@ As demais atividades da Onda 1 não dependem desse caminho crítico e podem avan
 ## Decisões propostas
 
 1. Usar `node:test`, já usado pelos testes atuais, com serviços reais de PostgreSQL e Redis em uma configuração de teste isolada.
-2. Não apontar os testes para o banco local de desenvolvimento. Criar `compose.test.yaml` com portas, nomes de banco e volumes próprios; exigir uma URL com sufixo `_test` antes de qualquer limpeza automática.
+2. Não apontar os testes para o banco local de desenvolvimento. Usar `compose.integration.yaml` com banco e volume próprios; exigir uma URL com sufixo `_test` antes de qualquer limpeza automática.
 3. Separar o processamento do job em uma função exportável e injetar um ponto de falha controlado para testar retries sem depender de falhas reais de rede.
 4. Manter entrega *at least once*: a fila pode chamar um job novamente. A aplicação deve garantir um único resultado lógico por `solicitacaoId`, em vez de depender de execução exatamente uma vez.
 5. Medir duas durações: espera na fila (`criadoEm` até início) e processamento (início até conclusão/falha). `tentativas` continua sendo o total persistido por solicitação.
