@@ -41,7 +41,39 @@ export async function RelatorioApiController(
 
   app.get<{ Params: { id: string } }>(
     '/api/v1/public/relatorios/:id',
-    { preHandler: apiKeys.guard(EscopoApi.RELATORIO_LEITURA), config: { rateLimit: { max: 120, timeWindow: '1 minute' } }, schema: { tags: ['API pública'], security: [{ apiKeyAuth: [] }], params: { type: 'object', required: ['id'], properties: { id: { type: 'string' } } } } },
+    {
+      preHandler: apiKeys.guard(EscopoApi.RELATORIO_LEITURA),
+      config: { rateLimit: { max: 120, timeWindow: '1 minute' } },
+      schema: {
+        tags: ['API pública'],
+        summary: 'Consulta o status de um relatório solicitado',
+        description: 'Retorna o estado atual, as tentativas e os horários de processamento. Só o parceiro que criou a solicitação pode consultá-la. Use a rota de download quando o status for CONCLUIDO.',
+        security: [{ apiKeyAuth: [] }],
+        params: {
+          type: 'object', required: ['id'],
+          properties: { id: { type: 'string', format: 'uuid', description: 'Identificador retornado ao solicitar o relatório.' } },
+        },
+        response: {
+          200: {
+            type: 'object',
+            properties: {
+              id: { type: 'string', format: 'uuid' },
+              tipoRelatorio: { type: 'string' },
+              status: { type: 'string', enum: ['PENDENTE', 'PROCESSANDO', 'CONCLUIDO', 'FALHOU', 'CANCELADO'] },
+              criadoEm: { type: 'string', format: 'date-time' },
+              concluidoEm: { type: ['string', 'null'], format: 'date-time' },
+              resultUrl: { type: ['string', 'null'], description: 'URL para baixar o JSON quando o relatório estiver concluído.' },
+              erroMensagem: { type: ['string', 'null'] },
+              tentativas: { type: 'integer' },
+              processamentoIniciadoEm: { type: ['string', 'null'], format: 'date-time' },
+              ultimaTentativaIniciadaEm: { type: ['string', 'null'], format: 'date-time' },
+              duracaoProcessamentoMs: { type: 'integer', description: 'Soma da duração das tentativas já concluídas, em milissegundos.' },
+            },
+          },
+          404: { type: 'object', properties: { codigo: { type: 'string' }, erro: { type: 'string' } } },
+        },
+      },
+    },
     async (request) => {
       const parceiro = await guardarParceiro(request);
       return service.buscarStatus(request.params.id, parceiro.parceiroId);

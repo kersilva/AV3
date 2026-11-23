@@ -27,6 +27,9 @@ test('rotas internas versionadas e aliases usam JWT; rotas públicas usam chave 
   assert.equal(spec.paths['/relatorios/financeiro'], undefined);
   assert.ok(spec.paths['/api/v1/internal/parceiros-api']);
   assert.equal(spec.paths['/parceiros-api'], undefined);
+  const consultaRelatorio = spec.paths['/api/v1/public/relatorios/{id}']?.get;
+  assert.equal(consultaRelatorio?.summary, 'Consulta o status de um relatório solicitado');
+  assert.match(consultaRelatorio?.description ?? '', /Só o parceiro que criou a solicitação pode consultá-la/);
 
   const interna = await app.inject({ method: 'GET', url: '/api/v1/internal/relatorios/financeiro' });
   assert.equal(interna.statusCode, 401);
