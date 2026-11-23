@@ -118,6 +118,9 @@ export async function compositionRoot(app: FastifyInstance): Promise<void> {
   };
 
   await app.register(async (rotasLegadas) => {
+    rotasLegadas.addHook('onRoute', (rota) => {
+      rota.schema = { ...rota.schema, hide: true };
+    });
     rotasLegadas.addHook('onSend', async (request, reply, payload) => {
       const caminho = request.url.split('?')[0] ?? request.url;
       reply.header('Deprecation', 'true');

@@ -1,7 +1,9 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import Fastify from 'fastify';
+import fastifySwagger from '@fastify/swagger';
 import fastifyJwt from '@fastify/jwt';
+import { swaggerOptions } from '../src/infrastructure/swaggerConfig.js';
 
 process.env.DATABASE_URL ??= 'postgresql://test:test@127.0.0.1:55433/greencode_test';
 process.env.JWT_SECRET ??= 'integration-test-secret-with-at-least-32-bytes';
@@ -14,10 +16,17 @@ const [{ compositionRoot }, { registrarErrorHandler }] = await Promise.all([
 test('rotas internas versionadas e aliases usam JWT; rotas públicas usam chave de parceiro', async (context) => {
   const app = Fastify({ logger: false });
   registrarErrorHandler(app);
+  await app.register(fastifySwagger, swaggerOptions);
   await app.register(fastifyJwt, { secret: process.env.JWT_SECRET! });
   await compositionRoot(app);
   await app.ready();
   context.after(() => app.close());
+
+  const spec = app.swagger();
+  assert.ok(spec.paths['/api/v1/internal/relatorios/financeiro']);
+  assert.equal(spec.paths['/relatorios/financeiro'], undefined);
+  assert.ok(spec.paths['/api/v1/internal/parceiros-api']);
+  assert.equal(spec.paths['/parceiros-api'], undefined);
 
   const interna = await app.inject({ method: 'GET', url: '/api/v1/internal/relatorios/financeiro' });
   assert.equal(interna.statusCode, 401);
