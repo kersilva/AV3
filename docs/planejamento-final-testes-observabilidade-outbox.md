@@ -44,6 +44,40 @@ Este documento registra o plano aprovado e o estado da implementação.
 - Validar download do JSON e associação única do resultado analítico no teste de integração.
 - Decidir e aplicar o prazo final de remoção dos aliases internos; o README sugere mínimo de 90 dias.
 
+## Ordem otimizada para concluir os itens pendentes
+
+### Onda 1 — Itens independentes, em paralelo
+
+Estes trabalhos podem avançar ao mesmo tempo, em arquivos de teste separados:
+
+- **Falha permanente:** consumir os retries e conferir `FALHOU`, mensagem pública genérica e job retido.
+- **Idempotência concorrente:** enviar a mesma chave em paralelo e conferir uma solicitação e uma outbox.
+- **Contrato e download:** consultar o status, baixar o JSON como parceiro dono e negar o download para outro parceiro.
+- **Reinício da API com outbox pendente:** reiniciar somente o processo HTTP e conferir que o worker publica a pendência.
+- **Prazo dos aliases:** manter a política de 90 dias e registrar a data real de início no momento da publicação; não iniciar a contagem no commit de código.
+
+Os cenários devem usar fixtures exclusivas e não devem compartilhar IDs fixos. O runner pode executar os arquivos em sequência para evitar disputa por banco, Redis ou arquivos de relatório.
+
+### Onda 2 — Proteção contra processamento duplicado
+
+Antes de simular a interrupção de uma análise ativa, tornar a reivindicação e a persistência da análise idempotentes no Postgres. A proposta é vincular a execução analítica à solicitação com uma restrição única e fazer a aquisição/liberação da reivindicação de forma atômica. Definir também como um worker concorrente se comporta enquanto a reivindicação está válida e como a retomada ocorre depois de expirar. Essa regra deve cobrir workers separados e jobs stalled, não apenas chamadas duplicadas no mesmo processo.
+
+Esta onda bloqueia o teste de interrupção do worker. Ela também reduz o risco de duplicar registros analíticos se o BullMQ entregar um job novamente.
+
+### Onda 3 — Interrupção do worker durante análise
+
+Com a proteção da Onda 2, matar o processo depois da reivindicação e durante a análise; reiniciar outro worker; conferir retomada, estado terminal, uma única execução analítica e um único JSON válido. Incluir uma pausa longa o bastante para exercitar lease/lock expirado, sem depender de temporizações curtas.
+
+### Onda 4 — Validação conjunta
+
+Executar build, lint, testes unitários e todos os testes de integração contra o Compose efêmero. Confirmar o cleanup em sucesso e falha. Corrigir o plano e o README se os resultados mudarem alguma decisão ou prazo.
+
+### Caminho crítico
+
+`proteção atômica/idempotente no Postgres` → `teste de worker interrompido durante análise` → `validação integral`.
+
+As demais atividades da Onda 1 não dependem desse caminho crítico e podem avançar enquanto a solução de reivindicação é desenhada e implementada.
+
 ## Decisões propostas
 
 1. Usar `node:test`, já usado pelos testes atuais, com serviços reais de PostgreSQL e Redis em uma configuração de teste isolada.
