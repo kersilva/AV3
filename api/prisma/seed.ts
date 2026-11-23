@@ -24,6 +24,13 @@ import { LoteService } from "../src/modules/lote/LoteService.js";
 import { EquipamentoService } from "../src/modules/equipamento/EquipamentoService.js";
 import { ConfiguracaoService } from "../src/modules/configuracao/ConfiguracaoService.js";
 import { StatusLote as PrismaStatusLote } from "../src/generated/prisma/enums.js";
+import {
+  dataSeed,
+  datasHistoricoEstadoFisico,
+  datasHistoricoLote,
+  datasMovimentacoes,
+  inicioHistoricoLote,
+} from "./seed-data.js";
 
 
 
@@ -188,6 +195,12 @@ async function garantirLote(
   organizacaoId: string,
   ator: Ator,
 ) {
+  const ordemStatus = Object.values(StatusLote);
+  const indiceStatusDesejado = ordemStatus.indexOf(statusDesejado);
+  if (indiceStatusDesejado < 0) {
+    throw new Error(`Estado de lote inválido no seed: ${statusDesejado}.`);
+  }
+  const inicioHistorico = inicioHistoricoLote(indiceStatusDesejado);
   let lote = await loteRepository.buscarPorId(id);
   if (!lote) {
     const estado = await loteRepository.obterEstadoExclusao(id);
@@ -200,7 +213,7 @@ async function garantirLote(
     await loteService.criarLote(
       {
         id,
-        dataEntrada: new Date(Date.now() - 24 * 60 * 60 * 1000),
+        dataEntrada: dataSeed(inicioHistorico),
         organizacaoId,
         notaFiscal: `SEED-${id}`,
         transportadora: "Transportadora de Demonstração",
@@ -212,8 +225,13 @@ async function garantirLote(
   }
   if (!lote) throw new Error(`O lote seed ${id} não foi persistido.`);
 
-  const estados = Object.values(StatusLote);
-  const indiceDesejado = estados.indexOf(statusDesejado);
+  await prisma.lote.update({
+    where: { id },
+    data: { dataEntrada: dataSeed(inicioHistorico) },
+  });
+
+  const estados = ordemStatus;
+  const indiceDesejado = indiceStatusDesejado;
   let indiceAtual = estados.indexOf(lote.statusProcessamento);
   if (indiceDesejado < 0 || indiceAtual < 0) {
     throw new Error(`Estado de lote inválido no seed: ${statusDesejado}.`);
@@ -244,6 +262,18 @@ async function garantirLote(
     lote = await loteRepository.buscarPorId(id);
     if (!lote) throw new Error(`O lote seed ${id} não foi encontrado.`);
     indiceAtual = estados.indexOf(lote.statusProcessamento);
+  }
+
+  const historico = await prisma.historicoStatusLote.findMany({
+    where: { loteId: id },
+    orderBy: { timestamp: "asc" },
+  });
+  const datasLote = datasHistoricoLote(inicioHistorico, historico);
+  for (const [indice, linha] of historico.entries()) {
+    await prisma.historicoStatusLote.update({
+      where: { id: linha.id },
+      data: { timestamp: exigirData(datasLote, indice) },
+    });
   }
 
   return lote;
@@ -354,11 +384,39 @@ async function garantirEquipamento(
     }
     await equipamentoService.registrarMovimentacao(
       id,
-      { destino, observacao: 'Seed de demonstração: avanço no fluxo de rastreamento.' },
+      {
+        destino,
+        observacao: 'Seed de demonstração: avanço no fluxo de rastreamento.',
+      },
       passo.versao,
       ator,
     );
     indice += 1;
+  }
+
+  const inicioHistorico = posicaoNoLote * 30;
+  const historicoFisico = await prisma.historicoEstadoFisico.findMany({
+    where: { equipamentoId: id },
+    orderBy: { timestamp: "asc" },
+  });
+  const datasFisicas = datasHistoricoEstadoFisico(inicioHistorico, historicoFisico.length);
+  for (const [indice, linha] of historicoFisico.entries()) {
+    await prisma.historicoEstadoFisico.update({
+      where: { id: linha.id },
+      data: { timestamp: exigirData(datasFisicas, indice) },
+    });
+  }
+
+  const movimentacoes = await prisma.movimentacao.findMany({
+    where: { equipamentoId: id },
+    orderBy: { dataHora: "asc" },
+  });
+  const datasDeMovimentacao = datasMovimentacoes(inicioHistorico, movimentacoes.length);
+  for (const [indice, movimentacao] of movimentacoes.entries()) {
+    await prisma.movimentacao.update({
+      where: { id: movimentacao.id },
+      data: { dataHora: exigirData(datasDeMovimentacao, indice) },
+    });
   }
 
   return equipamentoService.rastrearEquipamento(id);
@@ -454,6 +512,12 @@ function conferirValores(
   if (faltantes.length > 0) {
     throw new Error(`O seed não cobriu ${nome}: ${faltantes.join(", ")}.`);
   }
+}
+
+function exigirData(datas: readonly Date[], indice: number): Date {
+  const data = datas[indice];
+  if (!data) throw new Error(`Data de seed ausente no índice ${indice}.`);
+  return data;
 }
 
 async function main() {
