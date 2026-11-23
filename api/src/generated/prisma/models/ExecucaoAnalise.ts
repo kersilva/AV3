@@ -26,6 +26,7 @@ export type AggregateExecucaoAnalise = {
 
 export type ExecucaoAnaliseMinAggregateOutputType = {
   id: string | null
+  solicitacaoRelatorioId: string | null
   tipoRelatorio: $Enums.TipoRelatorio | null
   versaoCalculo: string | null
   dataReferencia: Date | null
@@ -34,6 +35,7 @@ export type ExecucaoAnaliseMinAggregateOutputType = {
 
 export type ExecucaoAnaliseMaxAggregateOutputType = {
   id: string | null
+  solicitacaoRelatorioId: string | null
   tipoRelatorio: $Enums.TipoRelatorio | null
   versaoCalculo: string | null
   dataReferencia: Date | null
@@ -42,6 +44,7 @@ export type ExecucaoAnaliseMaxAggregateOutputType = {
 
 export type ExecucaoAnaliseCountAggregateOutputType = {
   id: number
+  solicitacaoRelatorioId: number
   tipoRelatorio: number
   parametros: number
   versaoCalculo: number
@@ -53,6 +56,7 @@ export type ExecucaoAnaliseCountAggregateOutputType = {
 
 export type ExecucaoAnaliseMinAggregateInputType = {
   id?: true
+  solicitacaoRelatorioId?: true
   tipoRelatorio?: true
   versaoCalculo?: true
   dataReferencia?: true
@@ -61,6 +65,7 @@ export type ExecucaoAnaliseMinAggregateInputType = {
 
 export type ExecucaoAnaliseMaxAggregateInputType = {
   id?: true
+  solicitacaoRelatorioId?: true
   tipoRelatorio?: true
   versaoCalculo?: true
   dataReferencia?: true
@@ -69,6 +74,7 @@ export type ExecucaoAnaliseMaxAggregateInputType = {
 
 export type ExecucaoAnaliseCountAggregateInputType = {
   id?: true
+  solicitacaoRelatorioId?: true
   tipoRelatorio?: true
   parametros?: true
   versaoCalculo?: true
@@ -151,6 +157,7 @@ export type ExecucaoAnaliseGroupByArgs<ExtArgs extends runtime.Types.Extensions.
 
 export type ExecucaoAnaliseGroupByOutputType = {
   id: string
+  solicitacaoRelatorioId: string | null
   tipoRelatorio: $Enums.TipoRelatorio
   parametros: runtime.JsonValue
   versaoCalculo: string
@@ -181,6 +188,7 @@ export type ExecucaoAnaliseWhereInput = {
   OR?: Prisma.ExecucaoAnaliseWhereInput[]
   NOT?: Prisma.ExecucaoAnaliseWhereInput | Prisma.ExecucaoAnaliseWhereInput[]
   id?: Prisma.StringFilter<"ExecucaoAnalise"> | string
+  solicitacaoRelatorioId?: Prisma.StringNullableFilter<"ExecucaoAnalise"> | string | null
   tipoRelatorio?: Prisma.EnumTipoRelatorioFilter<"ExecucaoAnalise"> | $Enums.TipoRelatorio
   parametros?: Prisma.JsonFilter<"ExecucaoAnalise">
   versaoCalculo?: Prisma.StringFilter<"ExecucaoAnalise"> | string
@@ -188,10 +196,12 @@ export type ExecucaoAnaliseWhereInput = {
   criadaEm?: Prisma.DateTimeFilter<"ExecucaoAnalise"> | Date | string
   resultados?: Prisma.ResultadoAnaliseListRelationFilter
   previsoes?: Prisma.PrevisaoVidaUtilListRelationFilter
+  solicitacao?: Prisma.XOR<Prisma.SolicitacaoRelatorioNullableScalarRelationFilter, Prisma.SolicitacaoRelatorioWhereInput> | null
 }
 
 export type ExecucaoAnaliseOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  solicitacaoRelatorioId?: Prisma.SortOrderInput | Prisma.SortOrder
   tipoRelatorio?: Prisma.SortOrder
   parametros?: Prisma.SortOrder
   versaoCalculo?: Prisma.SortOrder
@@ -199,10 +209,12 @@ export type ExecucaoAnaliseOrderByWithRelationInput = {
   criadaEm?: Prisma.SortOrder
   resultados?: Prisma.ResultadoAnaliseOrderByRelationAggregateInput
   previsoes?: Prisma.PrevisaoVidaUtilOrderByRelationAggregateInput
+  solicitacao?: Prisma.SolicitacaoRelatorioOrderByWithRelationInput
 }
 
 export type ExecucaoAnaliseWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  solicitacaoRelatorioId?: string
   AND?: Prisma.ExecucaoAnaliseWhereInput | Prisma.ExecucaoAnaliseWhereInput[]
   OR?: Prisma.ExecucaoAnaliseWhereInput[]
   NOT?: Prisma.ExecucaoAnaliseWhereInput | Prisma.ExecucaoAnaliseWhereInput[]
@@ -213,10 +225,12 @@ export type ExecucaoAnaliseWhereUniqueInput = Prisma.AtLeast<{
   criadaEm?: Prisma.DateTimeFilter<"ExecucaoAnalise"> | Date | string
   resultados?: Prisma.ResultadoAnaliseListRelationFilter
   previsoes?: Prisma.PrevisaoVidaUtilListRelationFilter
-}, "id">
+  solicitacao?: Prisma.XOR<Prisma.SolicitacaoRelatorioNullableScalarRelationFilter, Prisma.SolicitacaoRelatorioWhereInput> | null
+}, "id" | "solicitacaoRelatorioId">
 
 export type ExecucaoAnaliseOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  solicitacaoRelatorioId?: Prisma.SortOrderInput | Prisma.SortOrder
   tipoRelatorio?: Prisma.SortOrder
   parametros?: Prisma.SortOrder
   versaoCalculo?: Prisma.SortOrder
@@ -232,6 +246,7 @@ export type ExecucaoAnaliseScalarWhereWithAggregatesInput = {
   OR?: Prisma.ExecucaoAnaliseScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ExecucaoAnaliseScalarWhereWithAggregatesInput | Prisma.ExecucaoAnaliseScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"ExecucaoAnalise"> | string
+  solicitacaoRelatorioId?: Prisma.StringNullableWithAggregatesFilter<"ExecucaoAnalise"> | string | null
   tipoRelatorio?: Prisma.EnumTipoRelatorioWithAggregatesFilter<"ExecucaoAnalise"> | $Enums.TipoRelatorio
   parametros?: Prisma.JsonWithAggregatesFilter<"ExecucaoAnalise">
   versaoCalculo?: Prisma.StringWithAggregatesFilter<"ExecucaoAnalise"> | string
@@ -248,10 +263,12 @@ export type ExecucaoAnaliseCreateInput = {
   criadaEm?: Date | string
   resultados?: Prisma.ResultadoAnaliseCreateNestedManyWithoutExecucaoInput
   previsoes?: Prisma.PrevisaoVidaUtilCreateNestedManyWithoutExecucaoInput
+  solicitacao?: Prisma.SolicitacaoRelatorioCreateNestedOneWithoutExecucaoAnaliseInput
 }
 
 export type ExecucaoAnaliseUncheckedCreateInput = {
   id: string
+  solicitacaoRelatorioId?: string | null
   tipoRelatorio: $Enums.TipoRelatorio
   parametros: Prisma.JsonNullValueInput | runtime.InputJsonValue
   versaoCalculo: string
@@ -270,10 +287,12 @@ export type ExecucaoAnaliseUpdateInput = {
   criadaEm?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resultados?: Prisma.ResultadoAnaliseUpdateManyWithoutExecucaoNestedInput
   previsoes?: Prisma.PrevisaoVidaUtilUpdateManyWithoutExecucaoNestedInput
+  solicitacao?: Prisma.SolicitacaoRelatorioUpdateOneWithoutExecucaoAnaliseNestedInput
 }
 
 export type ExecucaoAnaliseUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  solicitacaoRelatorioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoRelatorio?: Prisma.EnumTipoRelatorioFieldUpdateOperationsInput | $Enums.TipoRelatorio
   parametros?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   versaoCalculo?: Prisma.StringFieldUpdateOperationsInput | string
@@ -285,6 +304,7 @@ export type ExecucaoAnaliseUncheckedUpdateInput = {
 
 export type ExecucaoAnaliseCreateManyInput = {
   id: string
+  solicitacaoRelatorioId?: string | null
   tipoRelatorio: $Enums.TipoRelatorio
   parametros: Prisma.JsonNullValueInput | runtime.InputJsonValue
   versaoCalculo: string
@@ -303,6 +323,7 @@ export type ExecucaoAnaliseUpdateManyMutationInput = {
 
 export type ExecucaoAnaliseUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  solicitacaoRelatorioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoRelatorio?: Prisma.EnumTipoRelatorioFieldUpdateOperationsInput | $Enums.TipoRelatorio
   parametros?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   versaoCalculo?: Prisma.StringFieldUpdateOperationsInput | string
@@ -312,6 +333,7 @@ export type ExecucaoAnaliseUncheckedUpdateManyInput = {
 
 export type ExecucaoAnaliseCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  solicitacaoRelatorioId?: Prisma.SortOrder
   tipoRelatorio?: Prisma.SortOrder
   parametros?: Prisma.SortOrder
   versaoCalculo?: Prisma.SortOrder
@@ -321,6 +343,7 @@ export type ExecucaoAnaliseCountOrderByAggregateInput = {
 
 export type ExecucaoAnaliseMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  solicitacaoRelatorioId?: Prisma.SortOrder
   tipoRelatorio?: Prisma.SortOrder
   versaoCalculo?: Prisma.SortOrder
   dataReferencia?: Prisma.SortOrder
@@ -329,6 +352,7 @@ export type ExecucaoAnaliseMaxOrderByAggregateInput = {
 
 export type ExecucaoAnaliseMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  solicitacaoRelatorioId?: Prisma.SortOrder
   tipoRelatorio?: Prisma.SortOrder
   versaoCalculo?: Prisma.SortOrder
   dataReferencia?: Prisma.SortOrder
@@ -379,6 +403,38 @@ export type ExecucaoAnaliseUpdateOneWithoutPrevisoesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ExecucaoAnaliseUpdateToOneWithWhereWithoutPrevisoesInput, Prisma.ExecucaoAnaliseUpdateWithoutPrevisoesInput>, Prisma.ExecucaoAnaliseUncheckedUpdateWithoutPrevisoesInput>
 }
 
+export type ExecucaoAnaliseCreateNestedOneWithoutSolicitacaoInput = {
+  create?: Prisma.XOR<Prisma.ExecucaoAnaliseCreateWithoutSolicitacaoInput, Prisma.ExecucaoAnaliseUncheckedCreateWithoutSolicitacaoInput>
+  connectOrCreate?: Prisma.ExecucaoAnaliseCreateOrConnectWithoutSolicitacaoInput
+  connect?: Prisma.ExecucaoAnaliseWhereUniqueInput
+}
+
+export type ExecucaoAnaliseUncheckedCreateNestedOneWithoutSolicitacaoInput = {
+  create?: Prisma.XOR<Prisma.ExecucaoAnaliseCreateWithoutSolicitacaoInput, Prisma.ExecucaoAnaliseUncheckedCreateWithoutSolicitacaoInput>
+  connectOrCreate?: Prisma.ExecucaoAnaliseCreateOrConnectWithoutSolicitacaoInput
+  connect?: Prisma.ExecucaoAnaliseWhereUniqueInput
+}
+
+export type ExecucaoAnaliseUpdateOneWithoutSolicitacaoNestedInput = {
+  create?: Prisma.XOR<Prisma.ExecucaoAnaliseCreateWithoutSolicitacaoInput, Prisma.ExecucaoAnaliseUncheckedCreateWithoutSolicitacaoInput>
+  connectOrCreate?: Prisma.ExecucaoAnaliseCreateOrConnectWithoutSolicitacaoInput
+  upsert?: Prisma.ExecucaoAnaliseUpsertWithoutSolicitacaoInput
+  disconnect?: Prisma.ExecucaoAnaliseWhereInput | boolean
+  delete?: Prisma.ExecucaoAnaliseWhereInput | boolean
+  connect?: Prisma.ExecucaoAnaliseWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ExecucaoAnaliseUpdateToOneWithWhereWithoutSolicitacaoInput, Prisma.ExecucaoAnaliseUpdateWithoutSolicitacaoInput>, Prisma.ExecucaoAnaliseUncheckedUpdateWithoutSolicitacaoInput>
+}
+
+export type ExecucaoAnaliseUncheckedUpdateOneWithoutSolicitacaoNestedInput = {
+  create?: Prisma.XOR<Prisma.ExecucaoAnaliseCreateWithoutSolicitacaoInput, Prisma.ExecucaoAnaliseUncheckedCreateWithoutSolicitacaoInput>
+  connectOrCreate?: Prisma.ExecucaoAnaliseCreateOrConnectWithoutSolicitacaoInput
+  upsert?: Prisma.ExecucaoAnaliseUpsertWithoutSolicitacaoInput
+  disconnect?: Prisma.ExecucaoAnaliseWhereInput | boolean
+  delete?: Prisma.ExecucaoAnaliseWhereInput | boolean
+  connect?: Prisma.ExecucaoAnaliseWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ExecucaoAnaliseUpdateToOneWithWhereWithoutSolicitacaoInput, Prisma.ExecucaoAnaliseUpdateWithoutSolicitacaoInput>, Prisma.ExecucaoAnaliseUncheckedUpdateWithoutSolicitacaoInput>
+}
+
 export type ExecucaoAnaliseCreateWithoutResultadosInput = {
   id: string
   tipoRelatorio: $Enums.TipoRelatorio
@@ -387,10 +443,12 @@ export type ExecucaoAnaliseCreateWithoutResultadosInput = {
   dataReferencia: Date | string
   criadaEm?: Date | string
   previsoes?: Prisma.PrevisaoVidaUtilCreateNestedManyWithoutExecucaoInput
+  solicitacao?: Prisma.SolicitacaoRelatorioCreateNestedOneWithoutExecucaoAnaliseInput
 }
 
 export type ExecucaoAnaliseUncheckedCreateWithoutResultadosInput = {
   id: string
+  solicitacaoRelatorioId?: string | null
   tipoRelatorio: $Enums.TipoRelatorio
   parametros: Prisma.JsonNullValueInput | runtime.InputJsonValue
   versaoCalculo: string
@@ -423,10 +481,12 @@ export type ExecucaoAnaliseUpdateWithoutResultadosInput = {
   dataReferencia?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   criadaEm?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   previsoes?: Prisma.PrevisaoVidaUtilUpdateManyWithoutExecucaoNestedInput
+  solicitacao?: Prisma.SolicitacaoRelatorioUpdateOneWithoutExecucaoAnaliseNestedInput
 }
 
 export type ExecucaoAnaliseUncheckedUpdateWithoutResultadosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  solicitacaoRelatorioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipoRelatorio?: Prisma.EnumTipoRelatorioFieldUpdateOperationsInput | $Enums.TipoRelatorio
   parametros?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   versaoCalculo?: Prisma.StringFieldUpdateOperationsInput | string
@@ -443,10 +503,12 @@ export type ExecucaoAnaliseCreateWithoutPrevisoesInput = {
   dataReferencia: Date | string
   criadaEm?: Date | string
   resultados?: Prisma.ResultadoAnaliseCreateNestedManyWithoutExecucaoInput
+  solicitacao?: Prisma.SolicitacaoRelatorioCreateNestedOneWithoutExecucaoAnaliseInput
 }
 
 export type ExecucaoAnaliseUncheckedCreateWithoutPrevisoesInput = {
   id: string
+  solicitacaoRelatorioId?: string | null
   tipoRelatorio: $Enums.TipoRelatorio
   parametros: Prisma.JsonNullValueInput | runtime.InputJsonValue
   versaoCalculo: string
@@ -479,9 +541,70 @@ export type ExecucaoAnaliseUpdateWithoutPrevisoesInput = {
   dataReferencia?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   criadaEm?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resultados?: Prisma.ResultadoAnaliseUpdateManyWithoutExecucaoNestedInput
+  solicitacao?: Prisma.SolicitacaoRelatorioUpdateOneWithoutExecucaoAnaliseNestedInput
 }
 
 export type ExecucaoAnaliseUncheckedUpdateWithoutPrevisoesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  solicitacaoRelatorioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tipoRelatorio?: Prisma.EnumTipoRelatorioFieldUpdateOperationsInput | $Enums.TipoRelatorio
+  parametros?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  versaoCalculo?: Prisma.StringFieldUpdateOperationsInput | string
+  dataReferencia?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  criadaEm?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resultados?: Prisma.ResultadoAnaliseUncheckedUpdateManyWithoutExecucaoNestedInput
+}
+
+export type ExecucaoAnaliseCreateWithoutSolicitacaoInput = {
+  id: string
+  tipoRelatorio: $Enums.TipoRelatorio
+  parametros: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  versaoCalculo: string
+  dataReferencia: Date | string
+  criadaEm?: Date | string
+  resultados?: Prisma.ResultadoAnaliseCreateNestedManyWithoutExecucaoInput
+  previsoes?: Prisma.PrevisaoVidaUtilCreateNestedManyWithoutExecucaoInput
+}
+
+export type ExecucaoAnaliseUncheckedCreateWithoutSolicitacaoInput = {
+  id: string
+  tipoRelatorio: $Enums.TipoRelatorio
+  parametros: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  versaoCalculo: string
+  dataReferencia: Date | string
+  criadaEm?: Date | string
+  resultados?: Prisma.ResultadoAnaliseUncheckedCreateNestedManyWithoutExecucaoInput
+  previsoes?: Prisma.PrevisaoVidaUtilUncheckedCreateNestedManyWithoutExecucaoInput
+}
+
+export type ExecucaoAnaliseCreateOrConnectWithoutSolicitacaoInput = {
+  where: Prisma.ExecucaoAnaliseWhereUniqueInput
+  create: Prisma.XOR<Prisma.ExecucaoAnaliseCreateWithoutSolicitacaoInput, Prisma.ExecucaoAnaliseUncheckedCreateWithoutSolicitacaoInput>
+}
+
+export type ExecucaoAnaliseUpsertWithoutSolicitacaoInput = {
+  update: Prisma.XOR<Prisma.ExecucaoAnaliseUpdateWithoutSolicitacaoInput, Prisma.ExecucaoAnaliseUncheckedUpdateWithoutSolicitacaoInput>
+  create: Prisma.XOR<Prisma.ExecucaoAnaliseCreateWithoutSolicitacaoInput, Prisma.ExecucaoAnaliseUncheckedCreateWithoutSolicitacaoInput>
+  where?: Prisma.ExecucaoAnaliseWhereInput
+}
+
+export type ExecucaoAnaliseUpdateToOneWithWhereWithoutSolicitacaoInput = {
+  where?: Prisma.ExecucaoAnaliseWhereInput
+  data: Prisma.XOR<Prisma.ExecucaoAnaliseUpdateWithoutSolicitacaoInput, Prisma.ExecucaoAnaliseUncheckedUpdateWithoutSolicitacaoInput>
+}
+
+export type ExecucaoAnaliseUpdateWithoutSolicitacaoInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tipoRelatorio?: Prisma.EnumTipoRelatorioFieldUpdateOperationsInput | $Enums.TipoRelatorio
+  parametros?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  versaoCalculo?: Prisma.StringFieldUpdateOperationsInput | string
+  dataReferencia?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  criadaEm?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resultados?: Prisma.ResultadoAnaliseUpdateManyWithoutExecucaoNestedInput
+  previsoes?: Prisma.PrevisaoVidaUtilUpdateManyWithoutExecucaoNestedInput
+}
+
+export type ExecucaoAnaliseUncheckedUpdateWithoutSolicitacaoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tipoRelatorio?: Prisma.EnumTipoRelatorioFieldUpdateOperationsInput | $Enums.TipoRelatorio
   parametros?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -489,6 +612,7 @@ export type ExecucaoAnaliseUncheckedUpdateWithoutPrevisoesInput = {
   dataReferencia?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   criadaEm?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resultados?: Prisma.ResultadoAnaliseUncheckedUpdateManyWithoutExecucaoNestedInput
+  previsoes?: Prisma.PrevisaoVidaUtilUncheckedUpdateManyWithoutExecucaoNestedInput
 }
 
 
@@ -533,6 +657,7 @@ export type ExecucaoAnaliseCountOutputTypeCountPrevisoesArgs<ExtArgs extends run
 
 export type ExecucaoAnaliseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  solicitacaoRelatorioId?: boolean
   tipoRelatorio?: boolean
   parametros?: boolean
   versaoCalculo?: boolean
@@ -540,29 +665,35 @@ export type ExecucaoAnaliseSelect<ExtArgs extends runtime.Types.Extensions.Inter
   criadaEm?: boolean
   resultados?: boolean | Prisma.ExecucaoAnalise$resultadosArgs<ExtArgs>
   previsoes?: boolean | Prisma.ExecucaoAnalise$previsoesArgs<ExtArgs>
+  solicitacao?: boolean | Prisma.ExecucaoAnalise$solicitacaoArgs<ExtArgs>
   _count?: boolean | Prisma.ExecucaoAnaliseCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["execucaoAnalise"]>
 
 export type ExecucaoAnaliseSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  solicitacaoRelatorioId?: boolean
   tipoRelatorio?: boolean
   parametros?: boolean
   versaoCalculo?: boolean
   dataReferencia?: boolean
   criadaEm?: boolean
+  solicitacao?: boolean | Prisma.ExecucaoAnalise$solicitacaoArgs<ExtArgs>
 }, ExtArgs["result"]["execucaoAnalise"]>
 
 export type ExecucaoAnaliseSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  solicitacaoRelatorioId?: boolean
   tipoRelatorio?: boolean
   parametros?: boolean
   versaoCalculo?: boolean
   dataReferencia?: boolean
   criadaEm?: boolean
+  solicitacao?: boolean | Prisma.ExecucaoAnalise$solicitacaoArgs<ExtArgs>
 }, ExtArgs["result"]["execucaoAnalise"]>
 
 export type ExecucaoAnaliseSelectScalar = {
   id?: boolean
+  solicitacaoRelatorioId?: boolean
   tipoRelatorio?: boolean
   parametros?: boolean
   versaoCalculo?: boolean
@@ -570,23 +701,30 @@ export type ExecucaoAnaliseSelectScalar = {
   criadaEm?: boolean
 }
 
-export type ExecucaoAnaliseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tipoRelatorio" | "parametros" | "versaoCalculo" | "dataReferencia" | "criadaEm", ExtArgs["result"]["execucaoAnalise"]>
+export type ExecucaoAnaliseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "solicitacaoRelatorioId" | "tipoRelatorio" | "parametros" | "versaoCalculo" | "dataReferencia" | "criadaEm", ExtArgs["result"]["execucaoAnalise"]>
 export type ExecucaoAnaliseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   resultados?: boolean | Prisma.ExecucaoAnalise$resultadosArgs<ExtArgs>
   previsoes?: boolean | Prisma.ExecucaoAnalise$previsoesArgs<ExtArgs>
+  solicitacao?: boolean | Prisma.ExecucaoAnalise$solicitacaoArgs<ExtArgs>
   _count?: boolean | Prisma.ExecucaoAnaliseCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type ExecucaoAnaliseIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type ExecucaoAnaliseIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type ExecucaoAnaliseIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  solicitacao?: boolean | Prisma.ExecucaoAnalise$solicitacaoArgs<ExtArgs>
+}
+export type ExecucaoAnaliseIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  solicitacao?: boolean | Prisma.ExecucaoAnalise$solicitacaoArgs<ExtArgs>
+}
 
 export type $ExecucaoAnalisePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "ExecucaoAnalise"
   objects: {
     resultados: Prisma.$ResultadoAnalisePayload<ExtArgs>[]
     previsoes: Prisma.$PrevisaoVidaUtilPayload<ExtArgs>[]
+    solicitacao: Prisma.$SolicitacaoRelatorioPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    solicitacaoRelatorioId: string | null
     tipoRelatorio: $Enums.TipoRelatorio
     parametros: runtime.JsonValue
     versaoCalculo: string
@@ -988,6 +1126,7 @@ export interface Prisma__ExecucaoAnaliseClient<T, Null = never, ExtArgs extends 
   readonly [Symbol.toStringTag]: "PrismaPromise"
   resultados<T extends Prisma.ExecucaoAnalise$resultadosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ExecucaoAnalise$resultadosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ResultadoAnalisePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   previsoes<T extends Prisma.ExecucaoAnalise$previsoesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ExecucaoAnalise$previsoesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PrevisaoVidaUtilPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  solicitacao<T extends Prisma.ExecucaoAnalise$solicitacaoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ExecucaoAnalise$solicitacaoArgs<ExtArgs>>): Prisma.Prisma__SolicitacaoRelatorioClient<runtime.Types.Result.GetResult<Prisma.$SolicitacaoRelatorioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1018,6 +1157,7 @@ export interface Prisma__ExecucaoAnaliseClient<T, Null = never, ExtArgs extends 
  */
 export interface ExecucaoAnaliseFieldRefs {
   readonly id: Prisma.FieldRef<"ExecucaoAnalise", 'String'>
+  readonly solicitacaoRelatorioId: Prisma.FieldRef<"ExecucaoAnalise", 'String'>
   readonly tipoRelatorio: Prisma.FieldRef<"ExecucaoAnalise", 'TipoRelatorio'>
   readonly parametros: Prisma.FieldRef<"ExecucaoAnalise", 'Json'>
   readonly versaoCalculo: Prisma.FieldRef<"ExecucaoAnalise", 'String'>
@@ -1277,6 +1417,10 @@ export type ExecucaoAnaliseCreateManyAndReturnArgs<ExtArgs extends runtime.Types
    */
   data: Prisma.ExecucaoAnaliseCreateManyInput | Prisma.ExecucaoAnaliseCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ExecucaoAnaliseIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1347,6 +1491,10 @@ export type ExecucaoAnaliseUpdateManyAndReturnArgs<ExtArgs extends runtime.Types
    * Limit how many ExecucaoAnalises to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ExecucaoAnaliseIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1461,6 +1609,25 @@ export type ExecucaoAnalise$previsoesArgs<ExtArgs extends runtime.Types.Extensio
   take?: number
   skip?: number
   distinct?: Prisma.PrevisaoVidaUtilScalarFieldEnum | Prisma.PrevisaoVidaUtilScalarFieldEnum[]
+}
+
+/**
+ * ExecucaoAnalise.solicitacao
+ */
+export type ExecucaoAnalise$solicitacaoArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SolicitacaoRelatorio
+   */
+  select?: Prisma.SolicitacaoRelatorioSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SolicitacaoRelatorio
+   */
+  omit?: Prisma.SolicitacaoRelatorioOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SolicitacaoRelatorioInclude<ExtArgs> | null
+  where?: Prisma.SolicitacaoRelatorioWhereInput
 }
 
 /**

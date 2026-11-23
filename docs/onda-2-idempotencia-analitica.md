@@ -2,7 +2,7 @@
 
 ## Status
 
-Planejada. Esta onda é o caminho crítico para interromper o worker com segurança. A decisão sobre a estratégia de reivindicação deve preceder a migração e os testes de interrupção.
+Implementada e validada em ambiente efêmero. A estratégia usa lease no Postgres com token aleatório e versão crescente. O processamento concorrente reagenda o job no BullMQ com atraso, sem marcar sucesso. A versão funciona como fencing token nas gravações finais.
 
 ## Lógica atual
 
@@ -27,6 +27,15 @@ Antes de codificar, especificar:
 4. Como outro worker recupera uma reivindicação expirada e como um worker antigo é impedido de confirmar resultado após perder a posse (fencing/version token).
 5. Como a chave única de execução é aplicada e como a análise perdedora recupera o resultado já persistido, em vez de criar outra execução.
 6. Como erros transitórios e terminais liberam ou preservam a reivindicação para que BullMQ e a outbox mantenham o fluxo atual.
+
+### Decisão adotada
+
+- `SolicitacaoRelatorio` terá `leaseToken`, `leaseExpiresAt` e `claimVersion`. Uma instrução SQL condicional faz o claim, incrementa `tentativas` e a versão de forma atômica.
+- Lease inicial de 2 minutos, renovado a cada 30 segundos enquanto o processador estiver ativo. A duração é configurável por variável de ambiente para testes e operação.
+- Quando há lease válido, o processador usa `job.moveToDelayed` e lança `DelayedError`. Isso mantém o job pendente sem consumir retry e sem confirmar conclusão.
+- Conclusão, erro, duração e resultado só podem ser persistidos com `leaseToken` + `claimVersion` atuais. Worker que perdeu a posse não confirma estado.
+- `ExecucaoAnalise.solicitacaoRelatorioId` será opcional e único. Execuções históricas e análises sem solicitação continuam válidas.
+- O erro transitório libera o lease antes de propagar a falha para o retry existente. Na tentativa final, o listener registra FALHOU de forma condicional e também libera o lease.
 
 Não assumir que somente um `updateMany` com status `PENDENTE` resolve o caso: retries já deixam a solicitação em `PROCESSANDO`, e um worker stalled pode continuar ativo após perder o lock Redis.
 
@@ -69,10 +78,12 @@ Os testes devem controlar a barreira/relógio ou usar TTLs configuráveis curtos
 - A aquisição é comprovadamente atômica sob concorrência real com PostgreSQL.
 - A regra de lease/expiração e o comportamento da segunda entrega estão documentados.
 - Testes de corrida passam repetidamente sem depender de ordem de agendamento.
-- Build, lint e suíte unitária passam; a migração é aplicada em banco efêmero e local conforme o fluxo autorizado.
+- Build, lint, 8 testes unitários e 6 testes de integração passam; a migração é aplicada em banco efêmero. A aplicação no banco local ainda não foi feita porque a conexão local não estava disponível durante a geração inicial.
 
 ## Registro de testes adicionais durante a implementação
 
 Ao descobrir uma corrida ou janela de falha sem cobertura, adicionar primeiro um teste de regressão. Registrar aqui nome, arquivo, sequência de concorrência reproduzida, regra esperada e resultado. Atualizar o registro no mesmo commit da correção.
 
-- Ainda não há testes adicionais registrados; registrar os casos assim que a implementação desta onda começar.
+- `ReportClaim.integration.test.ts` — reproduz worker concorrente sob lease ativo, expira lease enquanto o primeiro está parado em barreira, conclui com segundo worker e retoma o antigo. Espera duas tentativas de negócio, uma execução analítica e nenhuma gravação final pelo worker antigo. Adicionado porque o teste de claim simples não detecta worker pausado que volta após a expiração.
+- `processarRelatorioJob.ts` — o claim é feito antes da leitura dos parâmetros e incremento de tentativas no SQL atômico; isso fecha a janela entre leitura e atualização observada no fluxo anterior.
+- O teste de claim também cobre o reagendamento via `moveToDelayed` e confirma que o listener de falha de uma entrega antiga não muda o estado quando outro worker possui lease válido.

@@ -277,6 +277,7 @@ export class AnaliseService {
       const execucao = await tx.execucaoAnalise.create({
         data: {
           id: randomUUID(),
+          solicitacaoRelatorioId: solicitacaoRelatorioId ?? null,
           tipoRelatorio: 'COMPLETO',
           parametros: { agrupamentos: ['mes', 'responsavel'], dataReferencia: dataReferencia.toISOString() },
           versaoCalculo: VERSAO_CALCULO,

@@ -28,11 +28,13 @@ export type AggregateSolicitacaoRelatorio = {
 
 export type SolicitacaoRelatorioAvgAggregateOutputType = {
   tentativas: number | null
+  claimVersion: number | null
   duracaoProcessamentoMs: number | null
 }
 
 export type SolicitacaoRelatorioSumAggregateOutputType = {
   tentativas: number | null
+  claimVersion: number | null
   duracaoProcessamentoMs: number | null
 }
 
@@ -46,6 +48,9 @@ export type SolicitacaoRelatorioMinAggregateOutputType = {
   resultUrl: string | null
   erroMensagem: string | null
   tentativas: number | null
+  leaseToken: string | null
+  leaseExpiresAt: Date | null
+  claimVersion: number | null
   processamentoIniciadoEm: Date | null
   ultimaTentativaIniciadaEm: Date | null
   duracaoProcessamentoMs: number | null
@@ -64,6 +69,9 @@ export type SolicitacaoRelatorioMaxAggregateOutputType = {
   resultUrl: string | null
   erroMensagem: string | null
   tentativas: number | null
+  leaseToken: string | null
+  leaseExpiresAt: Date | null
+  claimVersion: number | null
   processamentoIniciadoEm: Date | null
   ultimaTentativaIniciadaEm: Date | null
   duracaoProcessamentoMs: number | null
@@ -84,6 +92,9 @@ export type SolicitacaoRelatorioCountAggregateOutputType = {
   erroMensagem: number
   resultado: number
   tentativas: number
+  leaseToken: number
+  leaseExpiresAt: number
+  claimVersion: number
   processamentoIniciadoEm: number
   ultimaTentativaIniciadaEm: number
   duracaoProcessamentoMs: number
@@ -96,11 +107,13 @@ export type SolicitacaoRelatorioCountAggregateOutputType = {
 
 export type SolicitacaoRelatorioAvgAggregateInputType = {
   tentativas?: true
+  claimVersion?: true
   duracaoProcessamentoMs?: true
 }
 
 export type SolicitacaoRelatorioSumAggregateInputType = {
   tentativas?: true
+  claimVersion?: true
   duracaoProcessamentoMs?: true
 }
 
@@ -114,6 +127,9 @@ export type SolicitacaoRelatorioMinAggregateInputType = {
   resultUrl?: true
   erroMensagem?: true
   tentativas?: true
+  leaseToken?: true
+  leaseExpiresAt?: true
+  claimVersion?: true
   processamentoIniciadoEm?: true
   ultimaTentativaIniciadaEm?: true
   duracaoProcessamentoMs?: true
@@ -132,6 +148,9 @@ export type SolicitacaoRelatorioMaxAggregateInputType = {
   resultUrl?: true
   erroMensagem?: true
   tentativas?: true
+  leaseToken?: true
+  leaseExpiresAt?: true
+  claimVersion?: true
   processamentoIniciadoEm?: true
   ultimaTentativaIniciadaEm?: true
   duracaoProcessamentoMs?: true
@@ -152,6 +171,9 @@ export type SolicitacaoRelatorioCountAggregateInputType = {
   erroMensagem?: true
   resultado?: true
   tentativas?: true
+  leaseToken?: true
+  leaseExpiresAt?: true
+  claimVersion?: true
   processamentoIniciadoEm?: true
   ultimaTentativaIniciadaEm?: true
   duracaoProcessamentoMs?: true
@@ -259,6 +281,9 @@ export type SolicitacaoRelatorioGroupByOutputType = {
   erroMensagem: string | null
   resultado: runtime.JsonValue | null
   tentativas: number
+  leaseToken: string | null
+  leaseExpiresAt: Date | null
+  claimVersion: number
   processamentoIniciadoEm: Date | null
   ultimaTentativaIniciadaEm: Date | null
   duracaoProcessamentoMs: number
@@ -302,6 +327,9 @@ export type SolicitacaoRelatorioWhereInput = {
   erroMensagem?: Prisma.StringNullableFilter<"SolicitacaoRelatorio"> | string | null
   resultado?: Prisma.JsonNullableFilter<"SolicitacaoRelatorio">
   tentativas?: Prisma.IntFilter<"SolicitacaoRelatorio"> | number
+  leaseToken?: Prisma.StringNullableFilter<"SolicitacaoRelatorio"> | string | null
+  leaseExpiresAt?: Prisma.DateTimeNullableFilter<"SolicitacaoRelatorio"> | Date | string | null
+  claimVersion?: Prisma.IntFilter<"SolicitacaoRelatorio"> | number
   processamentoIniciadoEm?: Prisma.DateTimeNullableFilter<"SolicitacaoRelatorio"> | Date | string | null
   ultimaTentativaIniciadaEm?: Prisma.DateTimeNullableFilter<"SolicitacaoRelatorio"> | Date | string | null
   duracaoProcessamentoMs?: Prisma.IntFilter<"SolicitacaoRelatorio"> | number
@@ -312,6 +340,7 @@ export type SolicitacaoRelatorioWhereInput = {
   usuario?: Prisma.XOR<Prisma.UsuarioNullableScalarRelationFilter, Prisma.UsuarioWhereInput> | null
   previsoes?: Prisma.PrevisaoVidaUtilListRelationFilter
   outbox?: Prisma.XOR<Prisma.OutboxRelatorioNullableScalarRelationFilter, Prisma.OutboxRelatorioWhereInput> | null
+  execucaoAnalise?: Prisma.XOR<Prisma.ExecucaoAnaliseNullableScalarRelationFilter, Prisma.ExecucaoAnaliseWhereInput> | null
 }
 
 export type SolicitacaoRelatorioOrderByWithRelationInput = {
@@ -326,6 +355,9 @@ export type SolicitacaoRelatorioOrderByWithRelationInput = {
   erroMensagem?: Prisma.SortOrderInput | Prisma.SortOrder
   resultado?: Prisma.SortOrderInput | Prisma.SortOrder
   tentativas?: Prisma.SortOrder
+  leaseToken?: Prisma.SortOrderInput | Prisma.SortOrder
+  leaseExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  claimVersion?: Prisma.SortOrder
   processamentoIniciadoEm?: Prisma.SortOrderInput | Prisma.SortOrder
   ultimaTentativaIniciadaEm?: Prisma.SortOrderInput | Prisma.SortOrder
   duracaoProcessamentoMs?: Prisma.SortOrder
@@ -336,6 +368,7 @@ export type SolicitacaoRelatorioOrderByWithRelationInput = {
   usuario?: Prisma.UsuarioOrderByWithRelationInput
   previsoes?: Prisma.PrevisaoVidaUtilOrderByRelationAggregateInput
   outbox?: Prisma.OutboxRelatorioOrderByWithRelationInput
+  execucaoAnalise?: Prisma.ExecucaoAnaliseOrderByWithRelationInput
 }
 
 export type SolicitacaoRelatorioWhereUniqueInput = Prisma.AtLeast<{
@@ -354,6 +387,9 @@ export type SolicitacaoRelatorioWhereUniqueInput = Prisma.AtLeast<{
   erroMensagem?: Prisma.StringNullableFilter<"SolicitacaoRelatorio"> | string | null
   resultado?: Prisma.JsonNullableFilter<"SolicitacaoRelatorio">
   tentativas?: Prisma.IntFilter<"SolicitacaoRelatorio"> | number
+  leaseToken?: Prisma.StringNullableFilter<"SolicitacaoRelatorio"> | string | null
+  leaseExpiresAt?: Prisma.DateTimeNullableFilter<"SolicitacaoRelatorio"> | Date | string | null
+  claimVersion?: Prisma.IntFilter<"SolicitacaoRelatorio"> | number
   processamentoIniciadoEm?: Prisma.DateTimeNullableFilter<"SolicitacaoRelatorio"> | Date | string | null
   ultimaTentativaIniciadaEm?: Prisma.DateTimeNullableFilter<"SolicitacaoRelatorio"> | Date | string | null
   duracaoProcessamentoMs?: Prisma.IntFilter<"SolicitacaoRelatorio"> | number
@@ -364,6 +400,7 @@ export type SolicitacaoRelatorioWhereUniqueInput = Prisma.AtLeast<{
   usuario?: Prisma.XOR<Prisma.UsuarioNullableScalarRelationFilter, Prisma.UsuarioWhereInput> | null
   previsoes?: Prisma.PrevisaoVidaUtilListRelationFilter
   outbox?: Prisma.XOR<Prisma.OutboxRelatorioNullableScalarRelationFilter, Prisma.OutboxRelatorioWhereInput> | null
+  execucaoAnalise?: Prisma.XOR<Prisma.ExecucaoAnaliseNullableScalarRelationFilter, Prisma.ExecucaoAnaliseWhereInput> | null
 }, "id" | "parceiroId_chaveIdempotencia">
 
 export type SolicitacaoRelatorioOrderByWithAggregationInput = {
@@ -378,6 +415,9 @@ export type SolicitacaoRelatorioOrderByWithAggregationInput = {
   erroMensagem?: Prisma.SortOrderInput | Prisma.SortOrder
   resultado?: Prisma.SortOrderInput | Prisma.SortOrder
   tentativas?: Prisma.SortOrder
+  leaseToken?: Prisma.SortOrderInput | Prisma.SortOrder
+  leaseExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  claimVersion?: Prisma.SortOrder
   processamentoIniciadoEm?: Prisma.SortOrderInput | Prisma.SortOrder
   ultimaTentativaIniciadaEm?: Prisma.SortOrderInput | Prisma.SortOrder
   duracaoProcessamentoMs?: Prisma.SortOrder
@@ -406,6 +446,9 @@ export type SolicitacaoRelatorioScalarWhereWithAggregatesInput = {
   erroMensagem?: Prisma.StringNullableWithAggregatesFilter<"SolicitacaoRelatorio"> | string | null
   resultado?: Prisma.JsonNullableWithAggregatesFilter<"SolicitacaoRelatorio">
   tentativas?: Prisma.IntWithAggregatesFilter<"SolicitacaoRelatorio"> | number
+  leaseToken?: Prisma.StringNullableWithAggregatesFilter<"SolicitacaoRelatorio"> | string | null
+  leaseExpiresAt?: Prisma.DateTimeNullableWithAggregatesFilter<"SolicitacaoRelatorio"> | Date | string | null
+  claimVersion?: Prisma.IntWithAggregatesFilter<"SolicitacaoRelatorio"> | number
   processamentoIniciadoEm?: Prisma.DateTimeNullableWithAggregatesFilter<"SolicitacaoRelatorio"> | Date | string | null
   ultimaTentativaIniciadaEm?: Prisma.DateTimeNullableWithAggregatesFilter<"SolicitacaoRelatorio"> | Date | string | null
   duracaoProcessamentoMs?: Prisma.IntWithAggregatesFilter<"SolicitacaoRelatorio"> | number
@@ -424,6 +467,9 @@ export type SolicitacaoRelatorioCreateInput = {
   erroMensagem?: string | null
   resultado?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tentativas?: number
+  leaseToken?: string | null
+  leaseExpiresAt?: Date | string | null
+  claimVersion?: number
   processamentoIniciadoEm?: Date | string | null
   ultimaTentativaIniciadaEm?: Date | string | null
   duracaoProcessamentoMs?: number
@@ -434,6 +480,7 @@ export type SolicitacaoRelatorioCreateInput = {
   usuario?: Prisma.UsuarioCreateNestedOneWithoutSolicitacoesRelatorioInput
   previsoes?: Prisma.PrevisaoVidaUtilCreateNestedManyWithoutSolicitacaoInput
   outbox?: Prisma.OutboxRelatorioCreateNestedOneWithoutSolicitacaoInput
+  execucaoAnalise?: Prisma.ExecucaoAnaliseCreateNestedOneWithoutSolicitacaoInput
 }
 
 export type SolicitacaoRelatorioUncheckedCreateInput = {
@@ -448,6 +495,9 @@ export type SolicitacaoRelatorioUncheckedCreateInput = {
   erroMensagem?: string | null
   resultado?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tentativas?: number
+  leaseToken?: string | null
+  leaseExpiresAt?: Date | string | null
+  claimVersion?: number
   processamentoIniciadoEm?: Date | string | null
   ultimaTentativaIniciadaEm?: Date | string | null
   duracaoProcessamentoMs?: number
@@ -456,6 +506,7 @@ export type SolicitacaoRelatorioUncheckedCreateInput = {
   chaveIdempotencia?: string | null
   previsoes?: Prisma.PrevisaoVidaUtilUncheckedCreateNestedManyWithoutSolicitacaoInput
   outbox?: Prisma.OutboxRelatorioUncheckedCreateNestedOneWithoutSolicitacaoInput
+  execucaoAnalise?: Prisma.ExecucaoAnaliseUncheckedCreateNestedOneWithoutSolicitacaoInput
 }
 
 export type SolicitacaoRelatorioUpdateInput = {
@@ -468,6 +519,9 @@ export type SolicitacaoRelatorioUpdateInput = {
   erroMensagem?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resultado?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tentativas?: Prisma.IntFieldUpdateOperationsInput | number
+  leaseToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leaseExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  claimVersion?: Prisma.IntFieldUpdateOperationsInput | number
   processamentoIniciadoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ultimaTentativaIniciadaEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   duracaoProcessamentoMs?: Prisma.IntFieldUpdateOperationsInput | number
@@ -478,6 +532,7 @@ export type SolicitacaoRelatorioUpdateInput = {
   usuario?: Prisma.UsuarioUpdateOneWithoutSolicitacoesRelatorioNestedInput
   previsoes?: Prisma.PrevisaoVidaUtilUpdateManyWithoutSolicitacaoNestedInput
   outbox?: Prisma.OutboxRelatorioUpdateOneWithoutSolicitacaoNestedInput
+  execucaoAnalise?: Prisma.ExecucaoAnaliseUpdateOneWithoutSolicitacaoNestedInput
 }
 
 export type SolicitacaoRelatorioUncheckedUpdateInput = {
@@ -492,6 +547,9 @@ export type SolicitacaoRelatorioUncheckedUpdateInput = {
   erroMensagem?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resultado?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tentativas?: Prisma.IntFieldUpdateOperationsInput | number
+  leaseToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leaseExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  claimVersion?: Prisma.IntFieldUpdateOperationsInput | number
   processamentoIniciadoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ultimaTentativaIniciadaEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   duracaoProcessamentoMs?: Prisma.IntFieldUpdateOperationsInput | number
@@ -500,6 +558,7 @@ export type SolicitacaoRelatorioUncheckedUpdateInput = {
   chaveIdempotencia?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   previsoes?: Prisma.PrevisaoVidaUtilUncheckedUpdateManyWithoutSolicitacaoNestedInput
   outbox?: Prisma.OutboxRelatorioUncheckedUpdateOneWithoutSolicitacaoNestedInput
+  execucaoAnalise?: Prisma.ExecucaoAnaliseUncheckedUpdateOneWithoutSolicitacaoNestedInput
 }
 
 export type SolicitacaoRelatorioCreateManyInput = {
@@ -514,6 +573,9 @@ export type SolicitacaoRelatorioCreateManyInput = {
   erroMensagem?: string | null
   resultado?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tentativas?: number
+  leaseToken?: string | null
+  leaseExpiresAt?: Date | string | null
+  claimVersion?: number
   processamentoIniciadoEm?: Date | string | null
   ultimaTentativaIniciadaEm?: Date | string | null
   duracaoProcessamentoMs?: number
@@ -532,6 +594,9 @@ export type SolicitacaoRelatorioUpdateManyMutationInput = {
   erroMensagem?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resultado?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tentativas?: Prisma.IntFieldUpdateOperationsInput | number
+  leaseToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leaseExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  claimVersion?: Prisma.IntFieldUpdateOperationsInput | number
   processamentoIniciadoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ultimaTentativaIniciadaEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   duracaoProcessamentoMs?: Prisma.IntFieldUpdateOperationsInput | number
@@ -552,6 +617,9 @@ export type SolicitacaoRelatorioUncheckedUpdateManyInput = {
   erroMensagem?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resultado?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tentativas?: Prisma.IntFieldUpdateOperationsInput | number
+  leaseToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leaseExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  claimVersion?: Prisma.IntFieldUpdateOperationsInput | number
   processamentoIniciadoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ultimaTentativaIniciadaEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   duracaoProcessamentoMs?: Prisma.IntFieldUpdateOperationsInput | number
@@ -592,6 +660,9 @@ export type SolicitacaoRelatorioCountOrderByAggregateInput = {
   erroMensagem?: Prisma.SortOrder
   resultado?: Prisma.SortOrder
   tentativas?: Prisma.SortOrder
+  leaseToken?: Prisma.SortOrder
+  leaseExpiresAt?: Prisma.SortOrder
+  claimVersion?: Prisma.SortOrder
   processamentoIniciadoEm?: Prisma.SortOrder
   ultimaTentativaIniciadaEm?: Prisma.SortOrder
   duracaoProcessamentoMs?: Prisma.SortOrder
@@ -602,6 +673,7 @@ export type SolicitacaoRelatorioCountOrderByAggregateInput = {
 
 export type SolicitacaoRelatorioAvgOrderByAggregateInput = {
   tentativas?: Prisma.SortOrder
+  claimVersion?: Prisma.SortOrder
   duracaoProcessamentoMs?: Prisma.SortOrder
 }
 
@@ -615,6 +687,9 @@ export type SolicitacaoRelatorioMaxOrderByAggregateInput = {
   resultUrl?: Prisma.SortOrder
   erroMensagem?: Prisma.SortOrder
   tentativas?: Prisma.SortOrder
+  leaseToken?: Prisma.SortOrder
+  leaseExpiresAt?: Prisma.SortOrder
+  claimVersion?: Prisma.SortOrder
   processamentoIniciadoEm?: Prisma.SortOrder
   ultimaTentativaIniciadaEm?: Prisma.SortOrder
   duracaoProcessamentoMs?: Prisma.SortOrder
@@ -633,6 +708,9 @@ export type SolicitacaoRelatorioMinOrderByAggregateInput = {
   resultUrl?: Prisma.SortOrder
   erroMensagem?: Prisma.SortOrder
   tentativas?: Prisma.SortOrder
+  leaseToken?: Prisma.SortOrder
+  leaseExpiresAt?: Prisma.SortOrder
+  claimVersion?: Prisma.SortOrder
   processamentoIniciadoEm?: Prisma.SortOrder
   ultimaTentativaIniciadaEm?: Prisma.SortOrder
   duracaoProcessamentoMs?: Prisma.SortOrder
@@ -643,6 +721,7 @@ export type SolicitacaoRelatorioMinOrderByAggregateInput = {
 
 export type SolicitacaoRelatorioSumOrderByAggregateInput = {
   tentativas?: Prisma.SortOrder
+  claimVersion?: Prisma.SortOrder
   duracaoProcessamentoMs?: Prisma.SortOrder
 }
 
@@ -691,6 +770,22 @@ export type SolicitacaoRelatorioUncheckedUpdateManyWithoutUsuarioNestedInput = {
   update?: Prisma.SolicitacaoRelatorioUpdateWithWhereUniqueWithoutUsuarioInput | Prisma.SolicitacaoRelatorioUpdateWithWhereUniqueWithoutUsuarioInput[]
   updateMany?: Prisma.SolicitacaoRelatorioUpdateManyWithWhereWithoutUsuarioInput | Prisma.SolicitacaoRelatorioUpdateManyWithWhereWithoutUsuarioInput[]
   deleteMany?: Prisma.SolicitacaoRelatorioScalarWhereInput | Prisma.SolicitacaoRelatorioScalarWhereInput[]
+}
+
+export type SolicitacaoRelatorioCreateNestedOneWithoutExecucaoAnaliseInput = {
+  create?: Prisma.XOR<Prisma.SolicitacaoRelatorioCreateWithoutExecucaoAnaliseInput, Prisma.SolicitacaoRelatorioUncheckedCreateWithoutExecucaoAnaliseInput>
+  connectOrCreate?: Prisma.SolicitacaoRelatorioCreateOrConnectWithoutExecucaoAnaliseInput
+  connect?: Prisma.SolicitacaoRelatorioWhereUniqueInput
+}
+
+export type SolicitacaoRelatorioUpdateOneWithoutExecucaoAnaliseNestedInput = {
+  create?: Prisma.XOR<Prisma.SolicitacaoRelatorioCreateWithoutExecucaoAnaliseInput, Prisma.SolicitacaoRelatorioUncheckedCreateWithoutExecucaoAnaliseInput>
+  connectOrCreate?: Prisma.SolicitacaoRelatorioCreateOrConnectWithoutExecucaoAnaliseInput
+  upsert?: Prisma.SolicitacaoRelatorioUpsertWithoutExecucaoAnaliseInput
+  disconnect?: Prisma.SolicitacaoRelatorioWhereInput | boolean
+  delete?: Prisma.SolicitacaoRelatorioWhereInput | boolean
+  connect?: Prisma.SolicitacaoRelatorioWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SolicitacaoRelatorioUpdateToOneWithWhereWithoutExecucaoAnaliseInput, Prisma.SolicitacaoRelatorioUpdateWithoutExecucaoAnaliseInput>, Prisma.SolicitacaoRelatorioUncheckedUpdateWithoutExecucaoAnaliseInput>
 }
 
 export type SolicitacaoRelatorioCreateNestedOneWithoutPrevisoesInput = {
@@ -779,6 +874,9 @@ export type SolicitacaoRelatorioCreateWithoutUsuarioInput = {
   erroMensagem?: string | null
   resultado?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tentativas?: number
+  leaseToken?: string | null
+  leaseExpiresAt?: Date | string | null
+  claimVersion?: number
   processamentoIniciadoEm?: Date | string | null
   ultimaTentativaIniciadaEm?: Date | string | null
   duracaoProcessamentoMs?: number
@@ -788,6 +886,7 @@ export type SolicitacaoRelatorioCreateWithoutUsuarioInput = {
   parceiro?: Prisma.ParceiroApiCreateNestedOneWithoutSolicitacoesInput
   previsoes?: Prisma.PrevisaoVidaUtilCreateNestedManyWithoutSolicitacaoInput
   outbox?: Prisma.OutboxRelatorioCreateNestedOneWithoutSolicitacaoInput
+  execucaoAnalise?: Prisma.ExecucaoAnaliseCreateNestedOneWithoutSolicitacaoInput
 }
 
 export type SolicitacaoRelatorioUncheckedCreateWithoutUsuarioInput = {
@@ -801,6 +900,9 @@ export type SolicitacaoRelatorioUncheckedCreateWithoutUsuarioInput = {
   erroMensagem?: string | null
   resultado?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tentativas?: number
+  leaseToken?: string | null
+  leaseExpiresAt?: Date | string | null
+  claimVersion?: number
   processamentoIniciadoEm?: Date | string | null
   ultimaTentativaIniciadaEm?: Date | string | null
   duracaoProcessamentoMs?: number
@@ -809,6 +911,7 @@ export type SolicitacaoRelatorioUncheckedCreateWithoutUsuarioInput = {
   chaveIdempotencia?: string | null
   previsoes?: Prisma.PrevisaoVidaUtilUncheckedCreateNestedManyWithoutSolicitacaoInput
   outbox?: Prisma.OutboxRelatorioUncheckedCreateNestedOneWithoutSolicitacaoInput
+  execucaoAnalise?: Prisma.ExecucaoAnaliseUncheckedCreateNestedOneWithoutSolicitacaoInput
 }
 
 export type SolicitacaoRelatorioCreateOrConnectWithoutUsuarioInput = {
@@ -852,12 +955,131 @@ export type SolicitacaoRelatorioScalarWhereInput = {
   erroMensagem?: Prisma.StringNullableFilter<"SolicitacaoRelatorio"> | string | null
   resultado?: Prisma.JsonNullableFilter<"SolicitacaoRelatorio">
   tentativas?: Prisma.IntFilter<"SolicitacaoRelatorio"> | number
+  leaseToken?: Prisma.StringNullableFilter<"SolicitacaoRelatorio"> | string | null
+  leaseExpiresAt?: Prisma.DateTimeNullableFilter<"SolicitacaoRelatorio"> | Date | string | null
+  claimVersion?: Prisma.IntFilter<"SolicitacaoRelatorio"> | number
   processamentoIniciadoEm?: Prisma.DateTimeNullableFilter<"SolicitacaoRelatorio"> | Date | string | null
   ultimaTentativaIniciadaEm?: Prisma.DateTimeNullableFilter<"SolicitacaoRelatorio"> | Date | string | null
   duracaoProcessamentoMs?: Prisma.IntFilter<"SolicitacaoRelatorio"> | number
   criadoEm?: Prisma.DateTimeFilter<"SolicitacaoRelatorio"> | Date | string
   concluidoEm?: Prisma.DateTimeNullableFilter<"SolicitacaoRelatorio"> | Date | string | null
   chaveIdempotencia?: Prisma.StringNullableFilter<"SolicitacaoRelatorio"> | string | null
+}
+
+export type SolicitacaoRelatorioCreateWithoutExecucaoAnaliseInput = {
+  id: string
+  tipoRelatorio: $Enums.TipoRelatorio
+  parametros: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: $Enums.StatusSolicitacao
+  jobIdFila?: string | null
+  resultUrl?: string | null
+  erroMensagem?: string | null
+  resultado?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  tentativas?: number
+  leaseToken?: string | null
+  leaseExpiresAt?: Date | string | null
+  claimVersion?: number
+  processamentoIniciadoEm?: Date | string | null
+  ultimaTentativaIniciadaEm?: Date | string | null
+  duracaoProcessamentoMs?: number
+  criadoEm?: Date | string
+  concluidoEm?: Date | string | null
+  chaveIdempotencia?: string | null
+  parceiro?: Prisma.ParceiroApiCreateNestedOneWithoutSolicitacoesInput
+  usuario?: Prisma.UsuarioCreateNestedOneWithoutSolicitacoesRelatorioInput
+  previsoes?: Prisma.PrevisaoVidaUtilCreateNestedManyWithoutSolicitacaoInput
+  outbox?: Prisma.OutboxRelatorioCreateNestedOneWithoutSolicitacaoInput
+}
+
+export type SolicitacaoRelatorioUncheckedCreateWithoutExecucaoAnaliseInput = {
+  id: string
+  parceiroId?: string | null
+  usuarioId?: string | null
+  tipoRelatorio: $Enums.TipoRelatorio
+  parametros: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: $Enums.StatusSolicitacao
+  jobIdFila?: string | null
+  resultUrl?: string | null
+  erroMensagem?: string | null
+  resultado?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  tentativas?: number
+  leaseToken?: string | null
+  leaseExpiresAt?: Date | string | null
+  claimVersion?: number
+  processamentoIniciadoEm?: Date | string | null
+  ultimaTentativaIniciadaEm?: Date | string | null
+  duracaoProcessamentoMs?: number
+  criadoEm?: Date | string
+  concluidoEm?: Date | string | null
+  chaveIdempotencia?: string | null
+  previsoes?: Prisma.PrevisaoVidaUtilUncheckedCreateNestedManyWithoutSolicitacaoInput
+  outbox?: Prisma.OutboxRelatorioUncheckedCreateNestedOneWithoutSolicitacaoInput
+}
+
+export type SolicitacaoRelatorioCreateOrConnectWithoutExecucaoAnaliseInput = {
+  where: Prisma.SolicitacaoRelatorioWhereUniqueInput
+  create: Prisma.XOR<Prisma.SolicitacaoRelatorioCreateWithoutExecucaoAnaliseInput, Prisma.SolicitacaoRelatorioUncheckedCreateWithoutExecucaoAnaliseInput>
+}
+
+export type SolicitacaoRelatorioUpsertWithoutExecucaoAnaliseInput = {
+  update: Prisma.XOR<Prisma.SolicitacaoRelatorioUpdateWithoutExecucaoAnaliseInput, Prisma.SolicitacaoRelatorioUncheckedUpdateWithoutExecucaoAnaliseInput>
+  create: Prisma.XOR<Prisma.SolicitacaoRelatorioCreateWithoutExecucaoAnaliseInput, Prisma.SolicitacaoRelatorioUncheckedCreateWithoutExecucaoAnaliseInput>
+  where?: Prisma.SolicitacaoRelatorioWhereInput
+}
+
+export type SolicitacaoRelatorioUpdateToOneWithWhereWithoutExecucaoAnaliseInput = {
+  where?: Prisma.SolicitacaoRelatorioWhereInput
+  data: Prisma.XOR<Prisma.SolicitacaoRelatorioUpdateWithoutExecucaoAnaliseInput, Prisma.SolicitacaoRelatorioUncheckedUpdateWithoutExecucaoAnaliseInput>
+}
+
+export type SolicitacaoRelatorioUpdateWithoutExecucaoAnaliseInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tipoRelatorio?: Prisma.EnumTipoRelatorioFieldUpdateOperationsInput | $Enums.TipoRelatorio
+  parametros?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: Prisma.EnumStatusSolicitacaoFieldUpdateOperationsInput | $Enums.StatusSolicitacao
+  jobIdFila?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resultUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  erroMensagem?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resultado?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  tentativas?: Prisma.IntFieldUpdateOperationsInput | number
+  leaseToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leaseExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  claimVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  processamentoIniciadoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ultimaTentativaIniciadaEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  duracaoProcessamentoMs?: Prisma.IntFieldUpdateOperationsInput | number
+  criadoEm?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  concluidoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  chaveIdempotencia?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parceiro?: Prisma.ParceiroApiUpdateOneWithoutSolicitacoesNestedInput
+  usuario?: Prisma.UsuarioUpdateOneWithoutSolicitacoesRelatorioNestedInput
+  previsoes?: Prisma.PrevisaoVidaUtilUpdateManyWithoutSolicitacaoNestedInput
+  outbox?: Prisma.OutboxRelatorioUpdateOneWithoutSolicitacaoNestedInput
+}
+
+export type SolicitacaoRelatorioUncheckedUpdateWithoutExecucaoAnaliseInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  parceiroId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  usuarioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tipoRelatorio?: Prisma.EnumTipoRelatorioFieldUpdateOperationsInput | $Enums.TipoRelatorio
+  parametros?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  status?: Prisma.EnumStatusSolicitacaoFieldUpdateOperationsInput | $Enums.StatusSolicitacao
+  jobIdFila?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resultUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  erroMensagem?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resultado?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  tentativas?: Prisma.IntFieldUpdateOperationsInput | number
+  leaseToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leaseExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  claimVersion?: Prisma.IntFieldUpdateOperationsInput | number
+  processamentoIniciadoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ultimaTentativaIniciadaEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  duracaoProcessamentoMs?: Prisma.IntFieldUpdateOperationsInput | number
+  criadoEm?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  concluidoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  chaveIdempotencia?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  previsoes?: Prisma.PrevisaoVidaUtilUncheckedUpdateManyWithoutSolicitacaoNestedInput
+  outbox?: Prisma.OutboxRelatorioUncheckedUpdateOneWithoutSolicitacaoNestedInput
 }
 
 export type SolicitacaoRelatorioCreateWithoutPrevisoesInput = {
@@ -870,6 +1092,9 @@ export type SolicitacaoRelatorioCreateWithoutPrevisoesInput = {
   erroMensagem?: string | null
   resultado?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tentativas?: number
+  leaseToken?: string | null
+  leaseExpiresAt?: Date | string | null
+  claimVersion?: number
   processamentoIniciadoEm?: Date | string | null
   ultimaTentativaIniciadaEm?: Date | string | null
   duracaoProcessamentoMs?: number
@@ -879,6 +1104,7 @@ export type SolicitacaoRelatorioCreateWithoutPrevisoesInput = {
   parceiro?: Prisma.ParceiroApiCreateNestedOneWithoutSolicitacoesInput
   usuario?: Prisma.UsuarioCreateNestedOneWithoutSolicitacoesRelatorioInput
   outbox?: Prisma.OutboxRelatorioCreateNestedOneWithoutSolicitacaoInput
+  execucaoAnalise?: Prisma.ExecucaoAnaliseCreateNestedOneWithoutSolicitacaoInput
 }
 
 export type SolicitacaoRelatorioUncheckedCreateWithoutPrevisoesInput = {
@@ -893,6 +1119,9 @@ export type SolicitacaoRelatorioUncheckedCreateWithoutPrevisoesInput = {
   erroMensagem?: string | null
   resultado?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tentativas?: number
+  leaseToken?: string | null
+  leaseExpiresAt?: Date | string | null
+  claimVersion?: number
   processamentoIniciadoEm?: Date | string | null
   ultimaTentativaIniciadaEm?: Date | string | null
   duracaoProcessamentoMs?: number
@@ -900,6 +1129,7 @@ export type SolicitacaoRelatorioUncheckedCreateWithoutPrevisoesInput = {
   concluidoEm?: Date | string | null
   chaveIdempotencia?: string | null
   outbox?: Prisma.OutboxRelatorioUncheckedCreateNestedOneWithoutSolicitacaoInput
+  execucaoAnalise?: Prisma.ExecucaoAnaliseUncheckedCreateNestedOneWithoutSolicitacaoInput
 }
 
 export type SolicitacaoRelatorioCreateOrConnectWithoutPrevisoesInput = {
@@ -928,6 +1158,9 @@ export type SolicitacaoRelatorioUpdateWithoutPrevisoesInput = {
   erroMensagem?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resultado?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tentativas?: Prisma.IntFieldUpdateOperationsInput | number
+  leaseToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leaseExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  claimVersion?: Prisma.IntFieldUpdateOperationsInput | number
   processamentoIniciadoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ultimaTentativaIniciadaEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   duracaoProcessamentoMs?: Prisma.IntFieldUpdateOperationsInput | number
@@ -937,6 +1170,7 @@ export type SolicitacaoRelatorioUpdateWithoutPrevisoesInput = {
   parceiro?: Prisma.ParceiroApiUpdateOneWithoutSolicitacoesNestedInput
   usuario?: Prisma.UsuarioUpdateOneWithoutSolicitacoesRelatorioNestedInput
   outbox?: Prisma.OutboxRelatorioUpdateOneWithoutSolicitacaoNestedInput
+  execucaoAnalise?: Prisma.ExecucaoAnaliseUpdateOneWithoutSolicitacaoNestedInput
 }
 
 export type SolicitacaoRelatorioUncheckedUpdateWithoutPrevisoesInput = {
@@ -951,6 +1185,9 @@ export type SolicitacaoRelatorioUncheckedUpdateWithoutPrevisoesInput = {
   erroMensagem?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resultado?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tentativas?: Prisma.IntFieldUpdateOperationsInput | number
+  leaseToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leaseExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  claimVersion?: Prisma.IntFieldUpdateOperationsInput | number
   processamentoIniciadoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ultimaTentativaIniciadaEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   duracaoProcessamentoMs?: Prisma.IntFieldUpdateOperationsInput | number
@@ -958,6 +1195,7 @@ export type SolicitacaoRelatorioUncheckedUpdateWithoutPrevisoesInput = {
   concluidoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   chaveIdempotencia?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   outbox?: Prisma.OutboxRelatorioUncheckedUpdateOneWithoutSolicitacaoNestedInput
+  execucaoAnalise?: Prisma.ExecucaoAnaliseUncheckedUpdateOneWithoutSolicitacaoNestedInput
 }
 
 export type SolicitacaoRelatorioCreateWithoutParceiroInput = {
@@ -970,6 +1208,9 @@ export type SolicitacaoRelatorioCreateWithoutParceiroInput = {
   erroMensagem?: string | null
   resultado?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tentativas?: number
+  leaseToken?: string | null
+  leaseExpiresAt?: Date | string | null
+  claimVersion?: number
   processamentoIniciadoEm?: Date | string | null
   ultimaTentativaIniciadaEm?: Date | string | null
   duracaoProcessamentoMs?: number
@@ -979,6 +1220,7 @@ export type SolicitacaoRelatorioCreateWithoutParceiroInput = {
   usuario?: Prisma.UsuarioCreateNestedOneWithoutSolicitacoesRelatorioInput
   previsoes?: Prisma.PrevisaoVidaUtilCreateNestedManyWithoutSolicitacaoInput
   outbox?: Prisma.OutboxRelatorioCreateNestedOneWithoutSolicitacaoInput
+  execucaoAnalise?: Prisma.ExecucaoAnaliseCreateNestedOneWithoutSolicitacaoInput
 }
 
 export type SolicitacaoRelatorioUncheckedCreateWithoutParceiroInput = {
@@ -992,6 +1234,9 @@ export type SolicitacaoRelatorioUncheckedCreateWithoutParceiroInput = {
   erroMensagem?: string | null
   resultado?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tentativas?: number
+  leaseToken?: string | null
+  leaseExpiresAt?: Date | string | null
+  claimVersion?: number
   processamentoIniciadoEm?: Date | string | null
   ultimaTentativaIniciadaEm?: Date | string | null
   duracaoProcessamentoMs?: number
@@ -1000,6 +1245,7 @@ export type SolicitacaoRelatorioUncheckedCreateWithoutParceiroInput = {
   chaveIdempotencia?: string | null
   previsoes?: Prisma.PrevisaoVidaUtilUncheckedCreateNestedManyWithoutSolicitacaoInput
   outbox?: Prisma.OutboxRelatorioUncheckedCreateNestedOneWithoutSolicitacaoInput
+  execucaoAnalise?: Prisma.ExecucaoAnaliseUncheckedCreateNestedOneWithoutSolicitacaoInput
 }
 
 export type SolicitacaoRelatorioCreateOrConnectWithoutParceiroInput = {
@@ -1038,6 +1284,9 @@ export type SolicitacaoRelatorioCreateWithoutOutboxInput = {
   erroMensagem?: string | null
   resultado?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tentativas?: number
+  leaseToken?: string | null
+  leaseExpiresAt?: Date | string | null
+  claimVersion?: number
   processamentoIniciadoEm?: Date | string | null
   ultimaTentativaIniciadaEm?: Date | string | null
   duracaoProcessamentoMs?: number
@@ -1047,6 +1296,7 @@ export type SolicitacaoRelatorioCreateWithoutOutboxInput = {
   parceiro?: Prisma.ParceiroApiCreateNestedOneWithoutSolicitacoesInput
   usuario?: Prisma.UsuarioCreateNestedOneWithoutSolicitacoesRelatorioInput
   previsoes?: Prisma.PrevisaoVidaUtilCreateNestedManyWithoutSolicitacaoInput
+  execucaoAnalise?: Prisma.ExecucaoAnaliseCreateNestedOneWithoutSolicitacaoInput
 }
 
 export type SolicitacaoRelatorioUncheckedCreateWithoutOutboxInput = {
@@ -1061,6 +1311,9 @@ export type SolicitacaoRelatorioUncheckedCreateWithoutOutboxInput = {
   erroMensagem?: string | null
   resultado?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tentativas?: number
+  leaseToken?: string | null
+  leaseExpiresAt?: Date | string | null
+  claimVersion?: number
   processamentoIniciadoEm?: Date | string | null
   ultimaTentativaIniciadaEm?: Date | string | null
   duracaoProcessamentoMs?: number
@@ -1068,6 +1321,7 @@ export type SolicitacaoRelatorioUncheckedCreateWithoutOutboxInput = {
   concluidoEm?: Date | string | null
   chaveIdempotencia?: string | null
   previsoes?: Prisma.PrevisaoVidaUtilUncheckedCreateNestedManyWithoutSolicitacaoInput
+  execucaoAnalise?: Prisma.ExecucaoAnaliseUncheckedCreateNestedOneWithoutSolicitacaoInput
 }
 
 export type SolicitacaoRelatorioCreateOrConnectWithoutOutboxInput = {
@@ -1096,6 +1350,9 @@ export type SolicitacaoRelatorioUpdateWithoutOutboxInput = {
   erroMensagem?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resultado?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tentativas?: Prisma.IntFieldUpdateOperationsInput | number
+  leaseToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leaseExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  claimVersion?: Prisma.IntFieldUpdateOperationsInput | number
   processamentoIniciadoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ultimaTentativaIniciadaEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   duracaoProcessamentoMs?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1105,6 +1362,7 @@ export type SolicitacaoRelatorioUpdateWithoutOutboxInput = {
   parceiro?: Prisma.ParceiroApiUpdateOneWithoutSolicitacoesNestedInput
   usuario?: Prisma.UsuarioUpdateOneWithoutSolicitacoesRelatorioNestedInput
   previsoes?: Prisma.PrevisaoVidaUtilUpdateManyWithoutSolicitacaoNestedInput
+  execucaoAnalise?: Prisma.ExecucaoAnaliseUpdateOneWithoutSolicitacaoNestedInput
 }
 
 export type SolicitacaoRelatorioUncheckedUpdateWithoutOutboxInput = {
@@ -1119,6 +1377,9 @@ export type SolicitacaoRelatorioUncheckedUpdateWithoutOutboxInput = {
   erroMensagem?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resultado?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tentativas?: Prisma.IntFieldUpdateOperationsInput | number
+  leaseToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leaseExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  claimVersion?: Prisma.IntFieldUpdateOperationsInput | number
   processamentoIniciadoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ultimaTentativaIniciadaEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   duracaoProcessamentoMs?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1126,6 +1387,7 @@ export type SolicitacaoRelatorioUncheckedUpdateWithoutOutboxInput = {
   concluidoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   chaveIdempotencia?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   previsoes?: Prisma.PrevisaoVidaUtilUncheckedUpdateManyWithoutSolicitacaoNestedInput
+  execucaoAnalise?: Prisma.ExecucaoAnaliseUncheckedUpdateOneWithoutSolicitacaoNestedInput
 }
 
 export type SolicitacaoRelatorioCreateManyUsuarioInput = {
@@ -1139,6 +1401,9 @@ export type SolicitacaoRelatorioCreateManyUsuarioInput = {
   erroMensagem?: string | null
   resultado?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tentativas?: number
+  leaseToken?: string | null
+  leaseExpiresAt?: Date | string | null
+  claimVersion?: number
   processamentoIniciadoEm?: Date | string | null
   ultimaTentativaIniciadaEm?: Date | string | null
   duracaoProcessamentoMs?: number
@@ -1157,6 +1422,9 @@ export type SolicitacaoRelatorioUpdateWithoutUsuarioInput = {
   erroMensagem?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resultado?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tentativas?: Prisma.IntFieldUpdateOperationsInput | number
+  leaseToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leaseExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  claimVersion?: Prisma.IntFieldUpdateOperationsInput | number
   processamentoIniciadoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ultimaTentativaIniciadaEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   duracaoProcessamentoMs?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1166,6 +1434,7 @@ export type SolicitacaoRelatorioUpdateWithoutUsuarioInput = {
   parceiro?: Prisma.ParceiroApiUpdateOneWithoutSolicitacoesNestedInput
   previsoes?: Prisma.PrevisaoVidaUtilUpdateManyWithoutSolicitacaoNestedInput
   outbox?: Prisma.OutboxRelatorioUpdateOneWithoutSolicitacaoNestedInput
+  execucaoAnalise?: Prisma.ExecucaoAnaliseUpdateOneWithoutSolicitacaoNestedInput
 }
 
 export type SolicitacaoRelatorioUncheckedUpdateWithoutUsuarioInput = {
@@ -1179,6 +1448,9 @@ export type SolicitacaoRelatorioUncheckedUpdateWithoutUsuarioInput = {
   erroMensagem?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resultado?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tentativas?: Prisma.IntFieldUpdateOperationsInput | number
+  leaseToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leaseExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  claimVersion?: Prisma.IntFieldUpdateOperationsInput | number
   processamentoIniciadoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ultimaTentativaIniciadaEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   duracaoProcessamentoMs?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1187,6 +1459,7 @@ export type SolicitacaoRelatorioUncheckedUpdateWithoutUsuarioInput = {
   chaveIdempotencia?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   previsoes?: Prisma.PrevisaoVidaUtilUncheckedUpdateManyWithoutSolicitacaoNestedInput
   outbox?: Prisma.OutboxRelatorioUncheckedUpdateOneWithoutSolicitacaoNestedInput
+  execucaoAnalise?: Prisma.ExecucaoAnaliseUncheckedUpdateOneWithoutSolicitacaoNestedInput
 }
 
 export type SolicitacaoRelatorioUncheckedUpdateManyWithoutUsuarioInput = {
@@ -1200,6 +1473,9 @@ export type SolicitacaoRelatorioUncheckedUpdateManyWithoutUsuarioInput = {
   erroMensagem?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resultado?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tentativas?: Prisma.IntFieldUpdateOperationsInput | number
+  leaseToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leaseExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  claimVersion?: Prisma.IntFieldUpdateOperationsInput | number
   processamentoIniciadoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ultimaTentativaIniciadaEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   duracaoProcessamentoMs?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1219,6 +1495,9 @@ export type SolicitacaoRelatorioCreateManyParceiroInput = {
   erroMensagem?: string | null
   resultado?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tentativas?: number
+  leaseToken?: string | null
+  leaseExpiresAt?: Date | string | null
+  claimVersion?: number
   processamentoIniciadoEm?: Date | string | null
   ultimaTentativaIniciadaEm?: Date | string | null
   duracaoProcessamentoMs?: number
@@ -1237,6 +1516,9 @@ export type SolicitacaoRelatorioUpdateWithoutParceiroInput = {
   erroMensagem?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resultado?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tentativas?: Prisma.IntFieldUpdateOperationsInput | number
+  leaseToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leaseExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  claimVersion?: Prisma.IntFieldUpdateOperationsInput | number
   processamentoIniciadoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ultimaTentativaIniciadaEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   duracaoProcessamentoMs?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1246,6 +1528,7 @@ export type SolicitacaoRelatorioUpdateWithoutParceiroInput = {
   usuario?: Prisma.UsuarioUpdateOneWithoutSolicitacoesRelatorioNestedInput
   previsoes?: Prisma.PrevisaoVidaUtilUpdateManyWithoutSolicitacaoNestedInput
   outbox?: Prisma.OutboxRelatorioUpdateOneWithoutSolicitacaoNestedInput
+  execucaoAnalise?: Prisma.ExecucaoAnaliseUpdateOneWithoutSolicitacaoNestedInput
 }
 
 export type SolicitacaoRelatorioUncheckedUpdateWithoutParceiroInput = {
@@ -1259,6 +1542,9 @@ export type SolicitacaoRelatorioUncheckedUpdateWithoutParceiroInput = {
   erroMensagem?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resultado?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tentativas?: Prisma.IntFieldUpdateOperationsInput | number
+  leaseToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leaseExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  claimVersion?: Prisma.IntFieldUpdateOperationsInput | number
   processamentoIniciadoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ultimaTentativaIniciadaEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   duracaoProcessamentoMs?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1267,6 +1553,7 @@ export type SolicitacaoRelatorioUncheckedUpdateWithoutParceiroInput = {
   chaveIdempotencia?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   previsoes?: Prisma.PrevisaoVidaUtilUncheckedUpdateManyWithoutSolicitacaoNestedInput
   outbox?: Prisma.OutboxRelatorioUncheckedUpdateOneWithoutSolicitacaoNestedInput
+  execucaoAnalise?: Prisma.ExecucaoAnaliseUncheckedUpdateOneWithoutSolicitacaoNestedInput
 }
 
 export type SolicitacaoRelatorioUncheckedUpdateManyWithoutParceiroInput = {
@@ -1280,6 +1567,9 @@ export type SolicitacaoRelatorioUncheckedUpdateManyWithoutParceiroInput = {
   erroMensagem?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   resultado?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   tentativas?: Prisma.IntFieldUpdateOperationsInput | number
+  leaseToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  leaseExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  claimVersion?: Prisma.IntFieldUpdateOperationsInput | number
   processamentoIniciadoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ultimaTentativaIniciadaEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   duracaoProcessamentoMs?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1331,6 +1621,9 @@ export type SolicitacaoRelatorioSelect<ExtArgs extends runtime.Types.Extensions.
   erroMensagem?: boolean
   resultado?: boolean
   tentativas?: boolean
+  leaseToken?: boolean
+  leaseExpiresAt?: boolean
+  claimVersion?: boolean
   processamentoIniciadoEm?: boolean
   ultimaTentativaIniciadaEm?: boolean
   duracaoProcessamentoMs?: boolean
@@ -1341,6 +1634,7 @@ export type SolicitacaoRelatorioSelect<ExtArgs extends runtime.Types.Extensions.
   usuario?: boolean | Prisma.SolicitacaoRelatorio$usuarioArgs<ExtArgs>
   previsoes?: boolean | Prisma.SolicitacaoRelatorio$previsoesArgs<ExtArgs>
   outbox?: boolean | Prisma.SolicitacaoRelatorio$outboxArgs<ExtArgs>
+  execucaoAnalise?: boolean | Prisma.SolicitacaoRelatorio$execucaoAnaliseArgs<ExtArgs>
   _count?: boolean | Prisma.SolicitacaoRelatorioCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["solicitacaoRelatorio"]>
 
@@ -1356,6 +1650,9 @@ export type SolicitacaoRelatorioSelectCreateManyAndReturn<ExtArgs extends runtim
   erroMensagem?: boolean
   resultado?: boolean
   tentativas?: boolean
+  leaseToken?: boolean
+  leaseExpiresAt?: boolean
+  claimVersion?: boolean
   processamentoIniciadoEm?: boolean
   ultimaTentativaIniciadaEm?: boolean
   duracaoProcessamentoMs?: boolean
@@ -1378,6 +1675,9 @@ export type SolicitacaoRelatorioSelectUpdateManyAndReturn<ExtArgs extends runtim
   erroMensagem?: boolean
   resultado?: boolean
   tentativas?: boolean
+  leaseToken?: boolean
+  leaseExpiresAt?: boolean
+  claimVersion?: boolean
   processamentoIniciadoEm?: boolean
   ultimaTentativaIniciadaEm?: boolean
   duracaoProcessamentoMs?: boolean
@@ -1400,6 +1700,9 @@ export type SolicitacaoRelatorioSelectScalar = {
   erroMensagem?: boolean
   resultado?: boolean
   tentativas?: boolean
+  leaseToken?: boolean
+  leaseExpiresAt?: boolean
+  claimVersion?: boolean
   processamentoIniciadoEm?: boolean
   ultimaTentativaIniciadaEm?: boolean
   duracaoProcessamentoMs?: boolean
@@ -1408,12 +1711,13 @@ export type SolicitacaoRelatorioSelectScalar = {
   chaveIdempotencia?: boolean
 }
 
-export type SolicitacaoRelatorioOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "parceiroId" | "usuarioId" | "tipoRelatorio" | "parametros" | "status" | "jobIdFila" | "resultUrl" | "erroMensagem" | "resultado" | "tentativas" | "processamentoIniciadoEm" | "ultimaTentativaIniciadaEm" | "duracaoProcessamentoMs" | "criadoEm" | "concluidoEm" | "chaveIdempotencia", ExtArgs["result"]["solicitacaoRelatorio"]>
+export type SolicitacaoRelatorioOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "parceiroId" | "usuarioId" | "tipoRelatorio" | "parametros" | "status" | "jobIdFila" | "resultUrl" | "erroMensagem" | "resultado" | "tentativas" | "leaseToken" | "leaseExpiresAt" | "claimVersion" | "processamentoIniciadoEm" | "ultimaTentativaIniciadaEm" | "duracaoProcessamentoMs" | "criadoEm" | "concluidoEm" | "chaveIdempotencia", ExtArgs["result"]["solicitacaoRelatorio"]>
 export type SolicitacaoRelatorioInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   parceiro?: boolean | Prisma.SolicitacaoRelatorio$parceiroArgs<ExtArgs>
   usuario?: boolean | Prisma.SolicitacaoRelatorio$usuarioArgs<ExtArgs>
   previsoes?: boolean | Prisma.SolicitacaoRelatorio$previsoesArgs<ExtArgs>
   outbox?: boolean | Prisma.SolicitacaoRelatorio$outboxArgs<ExtArgs>
+  execucaoAnalise?: boolean | Prisma.SolicitacaoRelatorio$execucaoAnaliseArgs<ExtArgs>
   _count?: boolean | Prisma.SolicitacaoRelatorioCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type SolicitacaoRelatorioIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1432,6 +1736,7 @@ export type $SolicitacaoRelatorioPayload<ExtArgs extends runtime.Types.Extension
     usuario: Prisma.$UsuarioPayload<ExtArgs> | null
     previsoes: Prisma.$PrevisaoVidaUtilPayload<ExtArgs>[]
     outbox: Prisma.$OutboxRelatorioPayload<ExtArgs> | null
+    execucaoAnalise: Prisma.$ExecucaoAnalisePayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1445,6 +1750,9 @@ export type $SolicitacaoRelatorioPayload<ExtArgs extends runtime.Types.Extension
     erroMensagem: string | null
     resultado: runtime.JsonValue | null
     tentativas: number
+    leaseToken: string | null
+    leaseExpiresAt: Date | null
+    claimVersion: number
     processamentoIniciadoEm: Date | null
     ultimaTentativaIniciadaEm: Date | null
     duracaoProcessamentoMs: number
@@ -1849,6 +2157,7 @@ export interface Prisma__SolicitacaoRelatorioClient<T, Null = never, ExtArgs ext
   usuario<T extends Prisma.SolicitacaoRelatorio$usuarioArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SolicitacaoRelatorio$usuarioArgs<ExtArgs>>): Prisma.Prisma__UsuarioClient<runtime.Types.Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   previsoes<T extends Prisma.SolicitacaoRelatorio$previsoesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SolicitacaoRelatorio$previsoesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PrevisaoVidaUtilPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   outbox<T extends Prisma.SolicitacaoRelatorio$outboxArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SolicitacaoRelatorio$outboxArgs<ExtArgs>>): Prisma.Prisma__OutboxRelatorioClient<runtime.Types.Result.GetResult<Prisma.$OutboxRelatorioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  execucaoAnalise<T extends Prisma.SolicitacaoRelatorio$execucaoAnaliseArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SolicitacaoRelatorio$execucaoAnaliseArgs<ExtArgs>>): Prisma.Prisma__ExecucaoAnaliseClient<runtime.Types.Result.GetResult<Prisma.$ExecucaoAnalisePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1889,6 +2198,9 @@ export interface SolicitacaoRelatorioFieldRefs {
   readonly erroMensagem: Prisma.FieldRef<"SolicitacaoRelatorio", 'String'>
   readonly resultado: Prisma.FieldRef<"SolicitacaoRelatorio", 'Json'>
   readonly tentativas: Prisma.FieldRef<"SolicitacaoRelatorio", 'Int'>
+  readonly leaseToken: Prisma.FieldRef<"SolicitacaoRelatorio", 'String'>
+  readonly leaseExpiresAt: Prisma.FieldRef<"SolicitacaoRelatorio", 'DateTime'>
+  readonly claimVersion: Prisma.FieldRef<"SolicitacaoRelatorio", 'Int'>
   readonly processamentoIniciadoEm: Prisma.FieldRef<"SolicitacaoRelatorio", 'DateTime'>
   readonly ultimaTentativaIniciadaEm: Prisma.FieldRef<"SolicitacaoRelatorio", 'DateTime'>
   readonly duracaoProcessamentoMs: Prisma.FieldRef<"SolicitacaoRelatorio", 'Int'>
@@ -2374,6 +2686,25 @@ export type SolicitacaoRelatorio$outboxArgs<ExtArgs extends runtime.Types.Extens
    */
   include?: Prisma.OutboxRelatorioInclude<ExtArgs> | null
   where?: Prisma.OutboxRelatorioWhereInput
+}
+
+/**
+ * SolicitacaoRelatorio.execucaoAnalise
+ */
+export type SolicitacaoRelatorio$execucaoAnaliseArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ExecucaoAnalise
+   */
+  select?: Prisma.ExecucaoAnaliseSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ExecucaoAnalise
+   */
+  omit?: Prisma.ExecucaoAnaliseOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ExecucaoAnaliseInclude<ExtArgs> | null
+  where?: Prisma.ExecucaoAnaliseWhereInput
 }
 
 /**

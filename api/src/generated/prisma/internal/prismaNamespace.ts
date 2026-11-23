@@ -2114,6 +2114,7 @@ export type HistoricoEstadoFisicoScalarFieldEnum = (typeof HistoricoEstadoFisico
 
 export const ExecucaoAnaliseScalarFieldEnum = {
   id: 'id',
+  solicitacaoRelatorioId: 'solicitacaoRelatorioId',
   tipoRelatorio: 'tipoRelatorio',
   parametros: 'parametros',
   versaoCalculo: 'versaoCalculo',
@@ -2217,6 +2218,9 @@ export const SolicitacaoRelatorioScalarFieldEnum = {
   erroMensagem: 'erroMensagem',
   resultado: 'resultado',
   tentativas: 'tentativas',
+  leaseToken: 'leaseToken',
+  leaseExpiresAt: 'leaseExpiresAt',
+  claimVersion: 'claimVersion',
   processamentoIniciadoEm: 'processamentoIniciadoEm',
   ultimaTentativaIniciadaEm: 'ultimaTentativaIniciadaEm',
   duracaoProcessamentoMs: 'duracaoProcessamentoMs',

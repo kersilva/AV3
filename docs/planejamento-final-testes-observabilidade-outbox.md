@@ -37,7 +37,7 @@ Este documento registra o plano aprovado e o estado da implementação.
 
 ### Ainda pendente para considerar esta etapa completa
 
-- Proteção transacional/concorrente que impeça dois cálculos analíticos simultâneos para a mesma solicitação se um lock BullMQ expirar.
+- A Onda 2 inclui claim atômico no Postgres, lease renovável com fencing, reagendamento de entregas concorrentes no BullMQ e relação única entre solicitação e execução analítica. Testes de concorrência e retomada passam junto aos demais cenários de integração.
 - Interromper o worker durante uma análise ativa e provar a retomada com uma única execução analítica.
 - Fixar a data de publicação para iniciar a contagem de 90 dias dos aliases internos; o prazo mínimo está documentado no README.
 

@@ -387,6 +387,7 @@ model HistoricoEstadoFisico {
 
 model ExecucaoAnalise {
   id             String             @id
+  solicitacaoRelatorioId String?      @unique
   tipoRelatorio  TipoRelatorio
   parametros     Json
   versaoCalculo  String
@@ -394,6 +395,7 @@ model ExecucaoAnalise {
   criadaEm       DateTime           @default(now())
   resultados     ResultadoAnalise[]
   previsoes      PrevisaoVidaUtil[]
+  solicitacao    SolicitacaoRelatorio? @relation(fields: [solicitacaoRelatorioId], references: [id], onDelete: SetNull)
 
   @@index([tipoRelatorio, criadaEm])
 }
@@ -558,6 +560,9 @@ model SolicitacaoRelatorio {
   erroMensagem      String?
   resultado         Json? // resumo persistido na mesma transação dos resultados analíticos
   tentativas        Int               @default(0)
+  leaseToken        String?
+  leaseExpiresAt    DateTime?
+  claimVersion      Int               @default(0)
   processamentoIniciadoEm DateTime? // primeira tentativa iniciada
   ultimaTentativaIniciadaEm DateTime? // início da tentativa atual/mais recente
   duracaoProcessamentoMs Int @default(0) // soma das tentativas que terminaram
@@ -569,6 +574,7 @@ model SolicitacaoRelatorio {
   usuario   Usuario?           @relation(fields: [usuarioId], references: [id])
   previsoes PrevisaoVidaUtil[]
   outbox    OutboxRelatorio?
+  execucaoAnalise ExecucaoAnalise?
 
   @@unique([parceiroId, chaveIdempotencia])
   @@index([parceiroId, status])

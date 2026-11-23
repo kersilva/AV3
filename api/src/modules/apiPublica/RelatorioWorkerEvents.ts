@@ -9,15 +9,23 @@ export async function aoFalharJobRelatorio(
   if (tentativasRealizadas < tentativasMaximas) return;
 
   try {
-    await prisma.solicitacaoRelatorio.updateMany({
-      where: { id: solicitacaoId, status: { notIn: ['CONCLUIDO', 'CANCELADO'] } },
+    const resultado = await prisma.solicitacaoRelatorio.updateMany({
+      where: {
+        id: solicitacaoId,
+        status: { notIn: ['CONCLUIDO', 'CANCELADO'] },
+        leaseToken: null,
+      },
       data: {
         status: 'FALHOU',
         erroMensagem: 'Não foi possível gerar o relatório após as tentativas configuradas.',
         concluidoEm: new Date(),
+        leaseToken: null,
+        leaseExpiresAt: null,
       },
     });
-    console.error(JSON.stringify({ evento: 'relatorio_job_falhou', solicitacaoId, erro: erro.message }));
+    if (resultado.count === 1) {
+      console.error(JSON.stringify({ evento: 'relatorio_job_falhou', solicitacaoId, erro: erro.message }));
+    }
   } catch (erroPersistencia) {
     console.error(JSON.stringify({ evento: 'relatorio_falha_status_nao_persistida', solicitacaoId, erro: erroPersistencia }));
   }

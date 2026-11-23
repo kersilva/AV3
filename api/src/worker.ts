@@ -16,7 +16,7 @@ const conexao = new Redis(redisUrl, { maxRetriesPerRequest: null, enableReadyChe
 const fila = new RelatorioQueueClient();
 const worker = new Worker<{ solicitacaoId: string }>(
   NOME_FILA_RELATORIOS,
-  async (job) => processarRelatorioJob(job.data.solicitacaoId, job.attemptsMade + 1, Number(job.opts.attempts ?? 1)),
+  async (job) => processarRelatorioJob(job.data.solicitacaoId, job.attemptsMade + 1, Number(job.opts.attempts ?? 1), { job }),
   { connection: conexao, concurrency: 2, lockDuration: 120_000, maxStalledCount: 1 },
 );
 

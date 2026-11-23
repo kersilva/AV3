@@ -151,6 +151,7 @@ test('recupera outbox após Redis e worker reiniciarem', { timeout: 90_000 }, as
       job.attemptsMade + 1,
       Number(job.opts.attempts ?? 1),
       {
+        job,
         antesDeExecutarAnalise: async () => {
           if (!provocarFalhaTransitoria) return;
           provocarFalhaTransitoria = false;
