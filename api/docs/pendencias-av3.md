@@ -4,6 +4,8 @@
 
 Este arquivo fica em `api/docs/pendencias-av3.md` no repositório.
 
+> **Nota:** este documento é um retrato do planejamento em 18/11/2026, antes das ondas de implementação. Não representa as pendências atuais. Consulte o [relatório técnico da AV3](relatorio-tecnico-av3.md) e a seção de situação atual antes de usar esta lista.
+
 ---
 
 ## Agora (antes do service de triagem)

@@ -414,9 +414,9 @@ model ResultadoAnalise {
   @@index([execucaoId])
 }
 
-// Uma previsão de vida útil por (tipo, marca?, modelo?).
-// Alvo da regressão é o TIPO, não a unidade — cada equipamento que já virou
-// INSERVIVEL contribui com um ponto (idade na morte) na regressão daquele tipo.
+// Uma previsão de vida útil por tipo de equipamento.
+// Cada histórico físico anterior à data de referência é um ponto da regressão:
+// x = idade em custódia e y = posição do estado físico na escala ordinal.
 model PrevisaoVidaUtil {
   id                     String              @id
   tipoEquipamento        TipoEquipamento
@@ -447,10 +447,10 @@ model PrevisaoVidaUtil {
 // (timestamp em HistoricoEstadoFisico com estadoNovo = INSERVIVEL) ocorreu
 // DEPOIS de PrevisaoVidaUtil.dataPrevisao.
 //
-// Viés de sobrevivência (relatório): a regressão treina apenas com equipamentos
-// que já morreram, ignorando os ainda em uso que já passaram da idade estimada.
-// Tende a subestimar a vida útil. Reportar n de óbitos vs n em serviço acima
-// da previsão; Kaplan-Meier seria a técnica correta para observações censuradas.
+// Limitação (relatório): a regressão usa eventos de estado físico de equipamentos
+// que falharam e de equipamentos ainda em uso, mas não ajusta explicitamente
+// observações censuradas. Reportar n de falhas e n ainda em uso; Kaplan-Meier é
+// uma evolução possível para tratar censura de forma estatística.
 //
 // Base de idade (relatório): usar Lote.dataEntrada como "nascimento em custódia"
 // — mede tempo em estoque, não vida desde fabricação. anoFabricacao é ano-preciso

@@ -1,6 +1,6 @@
 # Regras analíticas da AV3
 
-Status: regras acordadas e propostas de implementação registradas. Os pontos que ainda precisam de confirmação estão identificados.
+Status: regras acordadas e conferidas contra a implementação. As limitações atuais e as melhorias futuras estão no [relatório técnico](relatorio-tecnico-av3.md).
 
 ## 1. Eficiência operacional
 
@@ -23,9 +23,9 @@ Status: regras acordadas e propostas de implementação registradas. Os pontos q
 - Valores fictícios do seed devem ser identificados como dados de demonstração.
 - O sistema não calcula lucro líquido, porque não registra custos de processo.
 
-### Lacuna de dados
+### Evidência e limites
 
-O schema armazena o valor realizado e sua data, mas não guarda a referência do comprovante ou da nota fiscal. A implementação deve definir como identificar esse documento. O relatório pode informar que a conferência foi feita pelo operador, mas isso não substitui uma referência persistida.
+O schema guarda a referência textual do comprovante junto ao valor e à data de realização. A referência permite auditoria, mas não armazena o arquivo da nota ou do comprovante. O sistema também não calcula lucro líquido, porque não registra custos de processo.
 
 ## 3. Previsão de vida útil
 
@@ -57,9 +57,9 @@ O schema armazena o valor realizado e sua data, mas não guarda a referência do
 - A escala de estados é ordinal. A regressão assume que a distância entre níveis é uniforme; essa aproximação deve constar no relatório técnico.
 - Uma trajetória com datas concentradas pode deixar a variância de `x` em zero. O seed temporal é necessário para exercitar o cálculo.
 
-## 4. Pontos para fechar ou implementar
+## 4. Regras conferidas na implementação
 
-1. Persistir como a nota fiscal ou o comprovante se relaciona ao valor realizado.
-2. Reutilizar a ordem canônica definida em `Equipamento.ts` sem copiar a lista.
-3. Tratar uma inclinação nula ou negativa e uma previsão fora do intervalo plausível como resultado sem previsão válida, em vez de publicar um número enganoso.
-4. O agrupamento de eficiência por operador atribui o lote ao responsável da conclusão. A duração medida é do lote e inclui espera; ela não mede horas trabalhadas por operador.
+1. A referência do comprovante é persistida junto ao valor realizado.
+2. O cálculo reutiliza `ORDEM_ESTADO` definida em `Equipamento.ts`.
+3. Inclinação não positiva e previsão fora do intervalo plausível são retornadas como modelo inválido.
+4. O agrupamento por operador usa o responsável pela conclusão; a duração inclui espera e não representa horas individuais de trabalho.

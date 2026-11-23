@@ -26,7 +26,7 @@ Provar que uma análise ativa pode ser interrompida abruptamente, retomada por u
 - `api/src/modules/apiPublica/RelatorioApiService.ts` — ajuste da reconciliação se o resultado observar uma janela não coberta.
 - `api/scripts/runIntegrationTests.mjs` — descoberta e execução deste cenário no mesmo ambiente efêmero.
 - `compose.integration.yaml` — só se for necessário controlar persistência ou healthcheck para o cenário; não reutilizar os containers de desenvolvimento.
-- `api/docs/onda-2-idempotencia-analitica.md` — registrar qualquer mudança na regra de lease/idempotência exigida pelo teste.
+- [onda-2-idempotencia-analitica.md](onda-2-idempotencia-analitica.md) — registrar qualquer mudança na regra de lease/idempotência exigida pelo teste.
 
 ## Estratégia de teste
 
@@ -59,10 +59,13 @@ Configurar lock/lease curtos exclusivamente no processo de teste. Aguardar o est
 
 Resultado: build, lint, testes unitários e integração validados; a migração foi aplicada pelo runner no Postgres efêmero. Os três checkpoints de crash foram recuperados, com uma execução associada, JSON parseável, sem temporários abandonados e job abaixo do limite de retries.
 
+Na validação final, o prazo de espera do subprocesso foi ampliado de 20 s para 45 s, pois o teste completo passou a levar cerca de 44 s neste Windows. A falha informa o checkpoint e o estado BullMQ/Postgres. A suíte completa passou em 7/7 cenários.
+
 ## Registro de testes adicionais durante a implementação
 
 Se a implementação revelar um checkpoint adicional entre Redis, Postgres e arquivo, adicionar um teste para essa janela antes de corrigir o código. Registrar nome, arquivo, ponto de crash e invariante esperado.
 
 - `WorkerCrashRecovery.integration.test.ts` — três crashes abruptos reais: dentro da transação analítica antes da persistência, depois do commit analítico e depois da gravação atômica do JSON. Cada retomada deve terminar `CONCLUIDO`, com uma execução associada, JSON válido, sem temporário abandonado e retries abaixo do limite.
+- O teste de crash usa até 45 s para aguardar cada mensagem de subprocesso. Em timeout, informa o checkpoint esperado e os estados da fila BullMQ e da solicitação no Postgres. O prazo maior cobre variações de inicialização e recuperação nos ambientes Windows e CI sem aceitar perda de estado.
 - `AnaliseService.ts` e `processarRelatorioJob.ts` — callback de checkpoint injetável para o teste parar o processo dentro da transação analítica e verificar rollback.
 - `worker.ts` — duração do lock e intervalo de detecção stalled configuráveis por ambiente, com os valores de produção anteriores como padrão.

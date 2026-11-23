@@ -24,7 +24,7 @@ Ter uma sequência reproduzível, adequada para desenvolvimento e CI, que valide
 - `compose.integration.yaml` — Postgres e Redis efêmeros, healthchecks, AOF e volumes exclusivos.
 - `prisma/migrations/**` e `prisma/schema.prisma` — todas as migrações novas devem passar em instalação limpa.
 - `tests/**` — conjunto final de testes unitários, contrato e integração.
-- `api/docs/planejamento-final-testes-observabilidade-outbox.md` — sincronizar o resumo, critérios concluídos e pendências.
+- [planejamento-final-testes-observabilidade-outbox.md](planejamento-final-testes-observabilidade-outbox.md) — sincronizar o resumo, critérios concluídos e pendências.
 - `README.md` — comandos atuais, variáveis de métricas e política de aliases, incluindo data da publicação quando conhecida.
 - `.github/workflows/**` ou pipeline existente — considerar CI apenas se já fizer parte do repositório/escopo; não criar fornecedor ou credenciais por suposição.
 

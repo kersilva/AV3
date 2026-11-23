@@ -16,7 +16,7 @@ type MensagemWorker = { tipo: string; checkpoint?: string; id?: string; erro?: s
 type ProcessoWorker = {
   processo: ChildProcess;
   stderr: () => string;
-  esperar: (predicado: (mensagem: MensagemWorker) => boolean, timeoutMs?: number) => Promise<MensagemWorker>;
+  esperar: (predicado: (mensagem: MensagemWorker) => boolean, descricao: string, timeoutMs?: number) => Promise<MensagemWorker>;
 };
 
 const apiRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
@@ -59,6 +59,15 @@ function iniciarWorker(crashAt?: string): ProcessoWorker {
   }> = [];
   processo.on('message', (mensagem: unknown) => {
     const recebida = mensagem as MensagemWorker;
+    if (recebida.tipo === 'erro' || recebida.tipo === 'falhou') {
+      const mensagemErro = recebida.erro ?? recebida.tipo;
+      for (const item of aguardando.splice(0)) {
+        clearTimeout(item.timer);
+        item.reject(new Error(`Worker reportou ${recebida.tipo}: ${mensagemErro}. ${erros}`));
+      }
+      mensagens.push(recebida);
+      return;
+    }
     const indice = aguardando.findIndex((item) => item.predicado(recebida));
     if (indice >= 0) {
       const item = aguardando.splice(indice, 1)[0]!;
@@ -76,7 +85,12 @@ function iniciarWorker(crashAt?: string): ProcessoWorker {
   return {
     processo,
     stderr: () => erros,
-    esperar: (predicado, timeoutMs = 20_000) => {
+    esperar: (predicado, descricao, timeoutMs = 45_000) => {
+      const indiceErro = mensagens.findIndex((mensagem) => mensagem.tipo === 'erro' || mensagem.tipo === 'falhou');
+      if (indiceErro >= 0) {
+        const mensagemErro = mensagens.splice(indiceErro, 1)[0]!;
+        return Promise.reject(new Error(`Worker reportou ${mensagemErro.tipo}: ${mensagemErro.erro ?? mensagemErro.tipo}. ${erros}`));
+      }
       const indice = mensagens.findIndex(predicado);
       if (indice >= 0) return Promise.resolve(mensagens.splice(indice, 1)[0]!);
       return new Promise((resolve, reject) => {
@@ -87,7 +101,7 @@ function iniciarWorker(crashAt?: string): ProcessoWorker {
           timer: setTimeout(() => {
             const posicao = aguardando.indexOf(item);
             if (posicao >= 0) aguardando.splice(posicao, 1);
-            reject(new Error(`Timeout aguardando mensagem do worker. ${erros}`));
+            reject(new Error(`Timeout aguardando ${descricao}. ${erros}`));
           }, timeoutMs),
         };
         aguardando.push(item);
@@ -113,7 +127,7 @@ async function matarWorker(processo: ChildProcess): Promise<void> {
   await encerrado;
 }
 
-test('recupera relatórios após crash abrupto em cada checkpoint durável do worker', { timeout: 120_000 }, async (context) => {
+test('recupera relatórios após crash abrupto em cada checkpoint durável do worker', { timeout: 180_000 }, async (context) => {
   const fixture = await criarParceiroFixture(context, 'Crash recovery worker');
   const redisUrl = redisUrlAtual();
   const redis = new Redis(redisUrl, { maxRetriesPerRequest: null });
@@ -158,14 +172,32 @@ test('recupera relatórios após crash abrupto em cada checkpoint durável do wo
 
     const primeiroWorker = iniciarWorker(checkpoint);
     processos.push(primeiroWorker.processo);
-    await primeiroWorker.esperar((mensagem) => mensagem.tipo === 'pronto');
-    await primeiroWorker.esperar((mensagem) => mensagem.tipo === 'checkpoint' && mensagem.checkpoint === checkpoint);
+    await primeiroWorker.esperar((mensagem) => mensagem.tipo === 'pronto', `worker inicial ficar pronto (${checkpoint})`);
+    await primeiroWorker.esperar((mensagem) => mensagem.tipo === 'checkpoint' && mensagem.checkpoint === checkpoint, `checkpoint ${checkpoint}`);
     await matarWorker(primeiroWorker.processo);
 
     const workerRecuperacao = iniciarWorker();
     processos.push(workerRecuperacao.processo);
-    await workerRecuperacao.esperar((mensagem) => mensagem.tipo === 'pronto');
-    const concluido = await workerRecuperacao.esperar((mensagem) => mensagem.tipo === 'concluido' && mensagem.id === id);
+    await workerRecuperacao.esperar((mensagem) => mensagem.tipo === 'pronto', `worker de recuperação ficar pronto (${checkpoint})`);
+    let concluido: MensagemWorker;
+    try {
+      concluido = await workerRecuperacao.esperar(
+        (mensagem) => mensagem.tipo === 'concluido' && mensagem.id === id,
+        `conclusão do relatório após ${checkpoint}`,
+      );
+    } catch (erro) {
+      const job = await fila.getJob(id);
+      const estadoJob = job ? await job.getState() : 'ausente';
+      const estadoSolicitacao = await prisma.solicitacaoRelatorio.findUnique({
+        where: { id },
+        select: { status: true, tentativas: true, leaseExpiresAt: true, erroMensagem: true },
+      });
+      throw new Error(
+        `${erro instanceof Error ? erro.message : erro} ` +
+        `Estado após ${checkpoint}: BullMQ=${estadoJob}, attemptsMade=${job?.attemptsMade ?? 'n/a'}, ` +
+        `solicitação=${JSON.stringify(estadoSolicitacao)}.`,
+      );
+    }
     assert.equal(concluido.id, id, `recuperação após ${checkpoint}`);
     await pararWorker(workerRecuperacao.processo);
 

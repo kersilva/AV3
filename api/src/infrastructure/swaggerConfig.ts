@@ -10,7 +10,7 @@ export const swaggerOptions: SwaggerOptions = {
       description: 'API pública para parceiros em /api/v1/public e API interna para usuários e gestão em /api/v1/internal.',
       version: '1.0.0',
       contact: {
-        name: 'Técnicas de Programação - AV2',
+        name: 'Técnicas de Programação - AV3',
       },
     },
     components: {

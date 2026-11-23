@@ -2,13 +2,13 @@
 
 **Branch:** `av3/entrega`
 **Commit inicial:** `0fea8dd chore: versiona client gerado com modelos de análise`
-**Estado inicial:** `api/docs/planejamento-mvp-av3.md` e `api/docs/regras-analiticas-av3.md` estavam não rastreados. Preservar e revisar antes de incluir em commits. Usuário confirmou que o banco local contém somente dados do seed; perda desses registros é aceitável e eles podem ser recriados.
+**Estado inicial:** [planejamento-mvp-av3.md](planejamento-mvp-av3.md) e [regras-analiticas-av3.md](regras-analiticas-av3.md) estavam não rastreados. Preservar e revisar antes de incluir em commits. Usuário confirmou que o banco local contém somente dados do seed; perda desses registros é aceitável e eles podem ser recriados.
 
 ## Fase 0 — Contrato de dados e migrações
 
-- [x] [Schema Prisma](api/prisma/schema.prisma): meses previstos/erro usam Decimal; valor realizado tem referência e estimativa guarda contagem e nível de amostra.
-- [x] [Migração AV3](api/prisma/migrations/20261123120000_precisao_e_comprovante_analises/migration.sql): migração aditiva para precisão, referência e nível da estimativa. Não reescreve migração aplicada.
-- [x] [Seed](api/prisma/seed.ts): cobre seis falhas por tipo, sobreviventes, datas distribuídas, falhas futuras a um corte histórico e valores de demonstração.
+- [x] [Schema Prisma](../prisma/schema.prisma): meses previstos/erro usam Decimal; valor realizado tem referência e estimativa guarda contagem e nível de amostra.
+- [x] [Migração AV3](../prisma/migrations/20261123120000_precisao_e_comprovante_analises/migration.sql): migração aditiva para precisão, referência e nível da estimativa. Não reescreve migração aplicada.
+- [x] [Seed](../prisma/seed.ts): cobre seis falhas por tipo, sobreviventes, datas distribuídas, falhas futuras a um corte histórico e valores de demonstração.
 - [x] [Planejamento](planejamento-mvp-av3.md) e [regras analíticas](regras-analiticas-av3.md): eficiência começa no evento RECEBIDO; meses fracionários preservados; agrupamento usa responsável da conclusão.
 - [x] Banco de desenvolvimento confirmado: PostgreSQL local `localhost:5433`; usuário confirmou que contém apenas seed e autorizou migrações/schema. Migrações AV3 aplicadas sem apagar o volume.
 
@@ -35,7 +35,7 @@
 - [x] Implementar endpoints versionados de rastreabilidade, lotes e relatórios, com autorização por escopo e parceiro.
 - [x] Aplicar `Idempotency-Key` à criação de lotes e solicitações de relatório; documentar contratos no OpenAPI e README.
 - [x] Validar manualmente revogação (401), propriedade de relatório (404), conflito de idempotência (409), replay, isolamento de organização (403) e rate limit separado por chave (429). Testes automatizados de integração continuam recomendados.
-- [ ] Para a versão final, migrar rotas de usuário interno/gestão para `/api/v1/internal`, manter aliases legados com período de depreciação e preservar `/api/v1/public` como contrato independente.
+- [x] Migrar rotas de usuário interno/gestão para `/api/v1/internal`, manter aliases legados ocultos no Swagger com cabeçalhos de depreciação e preservar `/api/v1/public` como contrato de parceiros.
 
 ## Fase 4 — Processamento assíncrono e entrega final
 
@@ -45,7 +45,7 @@
 - [ ] Definir expiração e limpeza automática dos resultados.
 - [x] Gerar e entregar JSON sem expor caminhos internos; logs incluem falhas e IDs de solicitação.
 - [x] Atualizar Compose e documentação com instruções PowerShell e shell POSIX. Verificação executada em Windows; Ubuntu 24.04.03 não estava disponível.
-- [x] Verificar migrações, seed idempotente, build, lint, testes e fluxo API/worker no ambiente Windows. Instalação limpa e Ubuntu continuam sem verificação.
+- [x] Verificar migrações, seed idempotente, build, lint, testes unitários e fluxo API/worker no ambiente Windows. A suíte de integração passou em 7/7 cenários; Ubuntu e instalação limpa continuam sem verificação.
 
 ## Revisão e commits
 
@@ -62,8 +62,8 @@
 ## Riscos de pontos não verificados
 
 - Migrações aplicadas: 16/16. O seed executou duas vezes; a segunda execução concluiu sem duplicar os dados controlados.
-- Build, lint e seis testes unitários passaram. API e worker passaram por testes integrados locais.
-- `[⚠️ UNVERIFIED]` Ubuntu, instalação limpa, recuperação da outbox com Redis indisponível e expiração dos arquivos não foram verificados ou implementados.
+- Build, lint e oito testes unitários passaram. A suíte de integração passou em 7/7 cenários no runner efêmero; API e worker passaram pelos testes de reinício e recuperação.
+- `[⚠️ UNVERIFIED]` Ubuntu e instalação limpa continuam sem verificação. A recuperação da outbox após Redis reiniciar foi coberta por integração; expiração automática dos arquivos continua fora da implementação.
 - Início da eficiência: timestamp do primeiro histórico `RECEBIDO`; fim: primeira transição `TRIAGEM_CONCLUIDA`.
 - Previsões e validações preservam frações em colunas `Decimal`; arredondar somente na apresentação.
 
