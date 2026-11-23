@@ -125,6 +125,14 @@ export const NivelEstimativaRecuperacao = {
 export type NivelEstimativaRecuperacao = (typeof NivelEstimativaRecuperacao)[keyof typeof NivelEstimativaRecuperacao]
 
 
+export const StatusOutboxRelatorio = {
+  PENDENTE: 'PENDENTE',
+  PUBLICADO: 'PUBLICADO'
+} as const
+
+export type StatusOutboxRelatorio = (typeof StatusOutboxRelatorio)[keyof typeof StatusOutboxRelatorio]
+
+
 export const EscopoApi = {
   RASTREABILIDADE_LEITURA: 'RASTREABILIDADE_LEITURA',
   LOTE_ESCRITA: 'LOTE_ESCRITA',

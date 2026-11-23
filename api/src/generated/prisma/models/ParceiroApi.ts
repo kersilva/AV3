@@ -30,6 +30,7 @@ export type ParceiroApiMinAggregateOutputType = {
   emailContato: string | null
   ativo: boolean | null
   dataCriacao: Date | null
+  organizacaoId: string | null
 }
 
 export type ParceiroApiMaxAggregateOutputType = {
@@ -38,6 +39,7 @@ export type ParceiroApiMaxAggregateOutputType = {
   emailContato: string | null
   ativo: boolean | null
   dataCriacao: Date | null
+  organizacaoId: string | null
 }
 
 export type ParceiroApiCountAggregateOutputType = {
@@ -46,6 +48,7 @@ export type ParceiroApiCountAggregateOutputType = {
   emailContato: number
   ativo: number
   dataCriacao: number
+  organizacaoId: number
   _all: number
 }
 
@@ -56,6 +59,7 @@ export type ParceiroApiMinAggregateInputType = {
   emailContato?: true
   ativo?: true
   dataCriacao?: true
+  organizacaoId?: true
 }
 
 export type ParceiroApiMaxAggregateInputType = {
@@ -64,6 +68,7 @@ export type ParceiroApiMaxAggregateInputType = {
   emailContato?: true
   ativo?: true
   dataCriacao?: true
+  organizacaoId?: true
 }
 
 export type ParceiroApiCountAggregateInputType = {
@@ -72,6 +77,7 @@ export type ParceiroApiCountAggregateInputType = {
   emailContato?: true
   ativo?: true
   dataCriacao?: true
+  organizacaoId?: true
   _all?: true
 }
 
@@ -153,6 +159,7 @@ export type ParceiroApiGroupByOutputType = {
   emailContato: string
   ativo: boolean
   dataCriacao: Date
+  organizacaoId: string
   _count: ParceiroApiCountAggregateOutputType | null
   _min: ParceiroApiMinAggregateOutputType | null
   _max: ParceiroApiMaxAggregateOutputType | null
@@ -182,8 +189,11 @@ export type ParceiroApiWhereInput = {
   emailContato?: Prisma.StringFilter<"ParceiroApi"> | string
   ativo?: Prisma.BoolFilter<"ParceiroApi"> | boolean
   dataCriacao?: Prisma.DateTimeFilter<"ParceiroApi"> | Date | string
+  organizacaoId?: Prisma.StringFilter<"ParceiroApi"> | string
+  organizacao?: Prisma.XOR<Prisma.OrganizacaoScalarRelationFilter, Prisma.OrganizacaoWhereInput>
   chaves?: Prisma.ChaveApiListRelationFilter
   solicitacoes?: Prisma.SolicitacaoRelatorioListRelationFilter
+  idempotencias?: Prisma.IdempotenciaApiListRelationFilter
 }
 
 export type ParceiroApiOrderByWithRelationInput = {
@@ -192,8 +202,11 @@ export type ParceiroApiOrderByWithRelationInput = {
   emailContato?: Prisma.SortOrder
   ativo?: Prisma.SortOrder
   dataCriacao?: Prisma.SortOrder
+  organizacaoId?: Prisma.SortOrder
+  organizacao?: Prisma.OrganizacaoOrderByWithRelationInput
   chaves?: Prisma.ChaveApiOrderByRelationAggregateInput
   solicitacoes?: Prisma.SolicitacaoRelatorioOrderByRelationAggregateInput
+  idempotencias?: Prisma.IdempotenciaApiOrderByRelationAggregateInput
 }
 
 export type ParceiroApiWhereUniqueInput = Prisma.AtLeast<{
@@ -205,8 +218,11 @@ export type ParceiroApiWhereUniqueInput = Prisma.AtLeast<{
   emailContato?: Prisma.StringFilter<"ParceiroApi"> | string
   ativo?: Prisma.BoolFilter<"ParceiroApi"> | boolean
   dataCriacao?: Prisma.DateTimeFilter<"ParceiroApi"> | Date | string
+  organizacaoId?: Prisma.StringFilter<"ParceiroApi"> | string
+  organizacao?: Prisma.XOR<Prisma.OrganizacaoScalarRelationFilter, Prisma.OrganizacaoWhereInput>
   chaves?: Prisma.ChaveApiListRelationFilter
   solicitacoes?: Prisma.SolicitacaoRelatorioListRelationFilter
+  idempotencias?: Prisma.IdempotenciaApiListRelationFilter
 }, "id">
 
 export type ParceiroApiOrderByWithAggregationInput = {
@@ -215,6 +231,7 @@ export type ParceiroApiOrderByWithAggregationInput = {
   emailContato?: Prisma.SortOrder
   ativo?: Prisma.SortOrder
   dataCriacao?: Prisma.SortOrder
+  organizacaoId?: Prisma.SortOrder
   _count?: Prisma.ParceiroApiCountOrderByAggregateInput
   _max?: Prisma.ParceiroApiMaxOrderByAggregateInput
   _min?: Prisma.ParceiroApiMinOrderByAggregateInput
@@ -229,6 +246,7 @@ export type ParceiroApiScalarWhereWithAggregatesInput = {
   emailContato?: Prisma.StringWithAggregatesFilter<"ParceiroApi"> | string
   ativo?: Prisma.BoolWithAggregatesFilter<"ParceiroApi"> | boolean
   dataCriacao?: Prisma.DateTimeWithAggregatesFilter<"ParceiroApi"> | Date | string
+  organizacaoId?: Prisma.StringWithAggregatesFilter<"ParceiroApi"> | string
 }
 
 export type ParceiroApiCreateInput = {
@@ -237,8 +255,10 @@ export type ParceiroApiCreateInput = {
   emailContato: string
   ativo?: boolean
   dataCriacao?: Date | string
+  organizacao: Prisma.OrganizacaoCreateNestedOneWithoutParceirosApiInput
   chaves?: Prisma.ChaveApiCreateNestedManyWithoutParceiroInput
   solicitacoes?: Prisma.SolicitacaoRelatorioCreateNestedManyWithoutParceiroInput
+  idempotencias?: Prisma.IdempotenciaApiCreateNestedManyWithoutParceiroInput
 }
 
 export type ParceiroApiUncheckedCreateInput = {
@@ -247,8 +267,10 @@ export type ParceiroApiUncheckedCreateInput = {
   emailContato: string
   ativo?: boolean
   dataCriacao?: Date | string
+  organizacaoId: string
   chaves?: Prisma.ChaveApiUncheckedCreateNestedManyWithoutParceiroInput
   solicitacoes?: Prisma.SolicitacaoRelatorioUncheckedCreateNestedManyWithoutParceiroInput
+  idempotencias?: Prisma.IdempotenciaApiUncheckedCreateNestedManyWithoutParceiroInput
 }
 
 export type ParceiroApiUpdateInput = {
@@ -257,8 +279,10 @@ export type ParceiroApiUpdateInput = {
   emailContato?: Prisma.StringFieldUpdateOperationsInput | string
   ativo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dataCriacao?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  organizacao?: Prisma.OrganizacaoUpdateOneRequiredWithoutParceirosApiNestedInput
   chaves?: Prisma.ChaveApiUpdateManyWithoutParceiroNestedInput
   solicitacoes?: Prisma.SolicitacaoRelatorioUpdateManyWithoutParceiroNestedInput
+  idempotencias?: Prisma.IdempotenciaApiUpdateManyWithoutParceiroNestedInput
 }
 
 export type ParceiroApiUncheckedUpdateInput = {
@@ -267,8 +291,10 @@ export type ParceiroApiUncheckedUpdateInput = {
   emailContato?: Prisma.StringFieldUpdateOperationsInput | string
   ativo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dataCriacao?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  organizacaoId?: Prisma.StringFieldUpdateOperationsInput | string
   chaves?: Prisma.ChaveApiUncheckedUpdateManyWithoutParceiroNestedInput
   solicitacoes?: Prisma.SolicitacaoRelatorioUncheckedUpdateManyWithoutParceiroNestedInput
+  idempotencias?: Prisma.IdempotenciaApiUncheckedUpdateManyWithoutParceiroNestedInput
 }
 
 export type ParceiroApiCreateManyInput = {
@@ -277,6 +303,7 @@ export type ParceiroApiCreateManyInput = {
   emailContato: string
   ativo?: boolean
   dataCriacao?: Date | string
+  organizacaoId: string
 }
 
 export type ParceiroApiUpdateManyMutationInput = {
@@ -293,6 +320,17 @@ export type ParceiroApiUncheckedUpdateManyInput = {
   emailContato?: Prisma.StringFieldUpdateOperationsInput | string
   ativo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dataCriacao?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  organizacaoId?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
+export type ParceiroApiListRelationFilter = {
+  every?: Prisma.ParceiroApiWhereInput
+  some?: Prisma.ParceiroApiWhereInput
+  none?: Prisma.ParceiroApiWhereInput
+}
+
+export type ParceiroApiOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type ParceiroApiCountOrderByAggregateInput = {
@@ -301,6 +339,7 @@ export type ParceiroApiCountOrderByAggregateInput = {
   emailContato?: Prisma.SortOrder
   ativo?: Prisma.SortOrder
   dataCriacao?: Prisma.SortOrder
+  organizacaoId?: Prisma.SortOrder
 }
 
 export type ParceiroApiMaxOrderByAggregateInput = {
@@ -309,6 +348,7 @@ export type ParceiroApiMaxOrderByAggregateInput = {
   emailContato?: Prisma.SortOrder
   ativo?: Prisma.SortOrder
   dataCriacao?: Prisma.SortOrder
+  organizacaoId?: Prisma.SortOrder
 }
 
 export type ParceiroApiMinOrderByAggregateInput = {
@@ -317,6 +357,7 @@ export type ParceiroApiMinOrderByAggregateInput = {
   emailContato?: Prisma.SortOrder
   ativo?: Prisma.SortOrder
   dataCriacao?: Prisma.SortOrder
+  organizacaoId?: Prisma.SortOrder
 }
 
 export type ParceiroApiScalarRelationFilter = {
@@ -327,6 +368,62 @@ export type ParceiroApiScalarRelationFilter = {
 export type ParceiroApiNullableScalarRelationFilter = {
   is?: Prisma.ParceiroApiWhereInput | null
   isNot?: Prisma.ParceiroApiWhereInput | null
+}
+
+export type ParceiroApiCreateNestedManyWithoutOrganizacaoInput = {
+  create?: Prisma.XOR<Prisma.ParceiroApiCreateWithoutOrganizacaoInput, Prisma.ParceiroApiUncheckedCreateWithoutOrganizacaoInput> | Prisma.ParceiroApiCreateWithoutOrganizacaoInput[] | Prisma.ParceiroApiUncheckedCreateWithoutOrganizacaoInput[]
+  connectOrCreate?: Prisma.ParceiroApiCreateOrConnectWithoutOrganizacaoInput | Prisma.ParceiroApiCreateOrConnectWithoutOrganizacaoInput[]
+  createMany?: Prisma.ParceiroApiCreateManyOrganizacaoInputEnvelope
+  connect?: Prisma.ParceiroApiWhereUniqueInput | Prisma.ParceiroApiWhereUniqueInput[]
+}
+
+export type ParceiroApiUncheckedCreateNestedManyWithoutOrganizacaoInput = {
+  create?: Prisma.XOR<Prisma.ParceiroApiCreateWithoutOrganizacaoInput, Prisma.ParceiroApiUncheckedCreateWithoutOrganizacaoInput> | Prisma.ParceiroApiCreateWithoutOrganizacaoInput[] | Prisma.ParceiroApiUncheckedCreateWithoutOrganizacaoInput[]
+  connectOrCreate?: Prisma.ParceiroApiCreateOrConnectWithoutOrganizacaoInput | Prisma.ParceiroApiCreateOrConnectWithoutOrganizacaoInput[]
+  createMany?: Prisma.ParceiroApiCreateManyOrganizacaoInputEnvelope
+  connect?: Prisma.ParceiroApiWhereUniqueInput | Prisma.ParceiroApiWhereUniqueInput[]
+}
+
+export type ParceiroApiUpdateManyWithoutOrganizacaoNestedInput = {
+  create?: Prisma.XOR<Prisma.ParceiroApiCreateWithoutOrganizacaoInput, Prisma.ParceiroApiUncheckedCreateWithoutOrganizacaoInput> | Prisma.ParceiroApiCreateWithoutOrganizacaoInput[] | Prisma.ParceiroApiUncheckedCreateWithoutOrganizacaoInput[]
+  connectOrCreate?: Prisma.ParceiroApiCreateOrConnectWithoutOrganizacaoInput | Prisma.ParceiroApiCreateOrConnectWithoutOrganizacaoInput[]
+  upsert?: Prisma.ParceiroApiUpsertWithWhereUniqueWithoutOrganizacaoInput | Prisma.ParceiroApiUpsertWithWhereUniqueWithoutOrganizacaoInput[]
+  createMany?: Prisma.ParceiroApiCreateManyOrganizacaoInputEnvelope
+  set?: Prisma.ParceiroApiWhereUniqueInput | Prisma.ParceiroApiWhereUniqueInput[]
+  disconnect?: Prisma.ParceiroApiWhereUniqueInput | Prisma.ParceiroApiWhereUniqueInput[]
+  delete?: Prisma.ParceiroApiWhereUniqueInput | Prisma.ParceiroApiWhereUniqueInput[]
+  connect?: Prisma.ParceiroApiWhereUniqueInput | Prisma.ParceiroApiWhereUniqueInput[]
+  update?: Prisma.ParceiroApiUpdateWithWhereUniqueWithoutOrganizacaoInput | Prisma.ParceiroApiUpdateWithWhereUniqueWithoutOrganizacaoInput[]
+  updateMany?: Prisma.ParceiroApiUpdateManyWithWhereWithoutOrganizacaoInput | Prisma.ParceiroApiUpdateManyWithWhereWithoutOrganizacaoInput[]
+  deleteMany?: Prisma.ParceiroApiScalarWhereInput | Prisma.ParceiroApiScalarWhereInput[]
+}
+
+export type ParceiroApiUncheckedUpdateManyWithoutOrganizacaoNestedInput = {
+  create?: Prisma.XOR<Prisma.ParceiroApiCreateWithoutOrganizacaoInput, Prisma.ParceiroApiUncheckedCreateWithoutOrganizacaoInput> | Prisma.ParceiroApiCreateWithoutOrganizacaoInput[] | Prisma.ParceiroApiUncheckedCreateWithoutOrganizacaoInput[]
+  connectOrCreate?: Prisma.ParceiroApiCreateOrConnectWithoutOrganizacaoInput | Prisma.ParceiroApiCreateOrConnectWithoutOrganizacaoInput[]
+  upsert?: Prisma.ParceiroApiUpsertWithWhereUniqueWithoutOrganizacaoInput | Prisma.ParceiroApiUpsertWithWhereUniqueWithoutOrganizacaoInput[]
+  createMany?: Prisma.ParceiroApiCreateManyOrganizacaoInputEnvelope
+  set?: Prisma.ParceiroApiWhereUniqueInput | Prisma.ParceiroApiWhereUniqueInput[]
+  disconnect?: Prisma.ParceiroApiWhereUniqueInput | Prisma.ParceiroApiWhereUniqueInput[]
+  delete?: Prisma.ParceiroApiWhereUniqueInput | Prisma.ParceiroApiWhereUniqueInput[]
+  connect?: Prisma.ParceiroApiWhereUniqueInput | Prisma.ParceiroApiWhereUniqueInput[]
+  update?: Prisma.ParceiroApiUpdateWithWhereUniqueWithoutOrganizacaoInput | Prisma.ParceiroApiUpdateWithWhereUniqueWithoutOrganizacaoInput[]
+  updateMany?: Prisma.ParceiroApiUpdateManyWithWhereWithoutOrganizacaoInput | Prisma.ParceiroApiUpdateManyWithWhereWithoutOrganizacaoInput[]
+  deleteMany?: Prisma.ParceiroApiScalarWhereInput | Prisma.ParceiroApiScalarWhereInput[]
+}
+
+export type ParceiroApiCreateNestedOneWithoutIdempotenciasInput = {
+  create?: Prisma.XOR<Prisma.ParceiroApiCreateWithoutIdempotenciasInput, Prisma.ParceiroApiUncheckedCreateWithoutIdempotenciasInput>
+  connectOrCreate?: Prisma.ParceiroApiCreateOrConnectWithoutIdempotenciasInput
+  connect?: Prisma.ParceiroApiWhereUniqueInput
+}
+
+export type ParceiroApiUpdateOneRequiredWithoutIdempotenciasNestedInput = {
+  create?: Prisma.XOR<Prisma.ParceiroApiCreateWithoutIdempotenciasInput, Prisma.ParceiroApiUncheckedCreateWithoutIdempotenciasInput>
+  connectOrCreate?: Prisma.ParceiroApiCreateOrConnectWithoutIdempotenciasInput
+  upsert?: Prisma.ParceiroApiUpsertWithoutIdempotenciasInput
+  connect?: Prisma.ParceiroApiWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ParceiroApiUpdateToOneWithWhereWithoutIdempotenciasInput, Prisma.ParceiroApiUpdateWithoutIdempotenciasInput>, Prisma.ParceiroApiUncheckedUpdateWithoutIdempotenciasInput>
 }
 
 export type ParceiroApiCreateNestedOneWithoutChavesInput = {
@@ -359,13 +456,135 @@ export type ParceiroApiUpdateOneWithoutSolicitacoesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ParceiroApiUpdateToOneWithWhereWithoutSolicitacoesInput, Prisma.ParceiroApiUpdateWithoutSolicitacoesInput>, Prisma.ParceiroApiUncheckedUpdateWithoutSolicitacoesInput>
 }
 
+export type ParceiroApiCreateWithoutOrganizacaoInput = {
+  id: string
+  nome: string
+  emailContato: string
+  ativo?: boolean
+  dataCriacao?: Date | string
+  chaves?: Prisma.ChaveApiCreateNestedManyWithoutParceiroInput
+  solicitacoes?: Prisma.SolicitacaoRelatorioCreateNestedManyWithoutParceiroInput
+  idempotencias?: Prisma.IdempotenciaApiCreateNestedManyWithoutParceiroInput
+}
+
+export type ParceiroApiUncheckedCreateWithoutOrganizacaoInput = {
+  id: string
+  nome: string
+  emailContato: string
+  ativo?: boolean
+  dataCriacao?: Date | string
+  chaves?: Prisma.ChaveApiUncheckedCreateNestedManyWithoutParceiroInput
+  solicitacoes?: Prisma.SolicitacaoRelatorioUncheckedCreateNestedManyWithoutParceiroInput
+  idempotencias?: Prisma.IdempotenciaApiUncheckedCreateNestedManyWithoutParceiroInput
+}
+
+export type ParceiroApiCreateOrConnectWithoutOrganizacaoInput = {
+  where: Prisma.ParceiroApiWhereUniqueInput
+  create: Prisma.XOR<Prisma.ParceiroApiCreateWithoutOrganizacaoInput, Prisma.ParceiroApiUncheckedCreateWithoutOrganizacaoInput>
+}
+
+export type ParceiroApiCreateManyOrganizacaoInputEnvelope = {
+  data: Prisma.ParceiroApiCreateManyOrganizacaoInput | Prisma.ParceiroApiCreateManyOrganizacaoInput[]
+  skipDuplicates?: boolean
+}
+
+export type ParceiroApiUpsertWithWhereUniqueWithoutOrganizacaoInput = {
+  where: Prisma.ParceiroApiWhereUniqueInput
+  update: Prisma.XOR<Prisma.ParceiroApiUpdateWithoutOrganizacaoInput, Prisma.ParceiroApiUncheckedUpdateWithoutOrganizacaoInput>
+  create: Prisma.XOR<Prisma.ParceiroApiCreateWithoutOrganizacaoInput, Prisma.ParceiroApiUncheckedCreateWithoutOrganizacaoInput>
+}
+
+export type ParceiroApiUpdateWithWhereUniqueWithoutOrganizacaoInput = {
+  where: Prisma.ParceiroApiWhereUniqueInput
+  data: Prisma.XOR<Prisma.ParceiroApiUpdateWithoutOrganizacaoInput, Prisma.ParceiroApiUncheckedUpdateWithoutOrganizacaoInput>
+}
+
+export type ParceiroApiUpdateManyWithWhereWithoutOrganizacaoInput = {
+  where: Prisma.ParceiroApiScalarWhereInput
+  data: Prisma.XOR<Prisma.ParceiroApiUpdateManyMutationInput, Prisma.ParceiroApiUncheckedUpdateManyWithoutOrganizacaoInput>
+}
+
+export type ParceiroApiScalarWhereInput = {
+  AND?: Prisma.ParceiroApiScalarWhereInput | Prisma.ParceiroApiScalarWhereInput[]
+  OR?: Prisma.ParceiroApiScalarWhereInput[]
+  NOT?: Prisma.ParceiroApiScalarWhereInput | Prisma.ParceiroApiScalarWhereInput[]
+  id?: Prisma.StringFilter<"ParceiroApi"> | string
+  nome?: Prisma.StringFilter<"ParceiroApi"> | string
+  emailContato?: Prisma.StringFilter<"ParceiroApi"> | string
+  ativo?: Prisma.BoolFilter<"ParceiroApi"> | boolean
+  dataCriacao?: Prisma.DateTimeFilter<"ParceiroApi"> | Date | string
+  organizacaoId?: Prisma.StringFilter<"ParceiroApi"> | string
+}
+
+export type ParceiroApiCreateWithoutIdempotenciasInput = {
+  id: string
+  nome: string
+  emailContato: string
+  ativo?: boolean
+  dataCriacao?: Date | string
+  organizacao: Prisma.OrganizacaoCreateNestedOneWithoutParceirosApiInput
+  chaves?: Prisma.ChaveApiCreateNestedManyWithoutParceiroInput
+  solicitacoes?: Prisma.SolicitacaoRelatorioCreateNestedManyWithoutParceiroInput
+}
+
+export type ParceiroApiUncheckedCreateWithoutIdempotenciasInput = {
+  id: string
+  nome: string
+  emailContato: string
+  ativo?: boolean
+  dataCriacao?: Date | string
+  organizacaoId: string
+  chaves?: Prisma.ChaveApiUncheckedCreateNestedManyWithoutParceiroInput
+  solicitacoes?: Prisma.SolicitacaoRelatorioUncheckedCreateNestedManyWithoutParceiroInput
+}
+
+export type ParceiroApiCreateOrConnectWithoutIdempotenciasInput = {
+  where: Prisma.ParceiroApiWhereUniqueInput
+  create: Prisma.XOR<Prisma.ParceiroApiCreateWithoutIdempotenciasInput, Prisma.ParceiroApiUncheckedCreateWithoutIdempotenciasInput>
+}
+
+export type ParceiroApiUpsertWithoutIdempotenciasInput = {
+  update: Prisma.XOR<Prisma.ParceiroApiUpdateWithoutIdempotenciasInput, Prisma.ParceiroApiUncheckedUpdateWithoutIdempotenciasInput>
+  create: Prisma.XOR<Prisma.ParceiroApiCreateWithoutIdempotenciasInput, Prisma.ParceiroApiUncheckedCreateWithoutIdempotenciasInput>
+  where?: Prisma.ParceiroApiWhereInput
+}
+
+export type ParceiroApiUpdateToOneWithWhereWithoutIdempotenciasInput = {
+  where?: Prisma.ParceiroApiWhereInput
+  data: Prisma.XOR<Prisma.ParceiroApiUpdateWithoutIdempotenciasInput, Prisma.ParceiroApiUncheckedUpdateWithoutIdempotenciasInput>
+}
+
+export type ParceiroApiUpdateWithoutIdempotenciasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nome?: Prisma.StringFieldUpdateOperationsInput | string
+  emailContato?: Prisma.StringFieldUpdateOperationsInput | string
+  ativo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  dataCriacao?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  organizacao?: Prisma.OrganizacaoUpdateOneRequiredWithoutParceirosApiNestedInput
+  chaves?: Prisma.ChaveApiUpdateManyWithoutParceiroNestedInput
+  solicitacoes?: Prisma.SolicitacaoRelatorioUpdateManyWithoutParceiroNestedInput
+}
+
+export type ParceiroApiUncheckedUpdateWithoutIdempotenciasInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nome?: Prisma.StringFieldUpdateOperationsInput | string
+  emailContato?: Prisma.StringFieldUpdateOperationsInput | string
+  ativo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  dataCriacao?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  organizacaoId?: Prisma.StringFieldUpdateOperationsInput | string
+  chaves?: Prisma.ChaveApiUncheckedUpdateManyWithoutParceiroNestedInput
+  solicitacoes?: Prisma.SolicitacaoRelatorioUncheckedUpdateManyWithoutParceiroNestedInput
+}
+
 export type ParceiroApiCreateWithoutChavesInput = {
   id: string
   nome: string
   emailContato: string
   ativo?: boolean
   dataCriacao?: Date | string
+  organizacao: Prisma.OrganizacaoCreateNestedOneWithoutParceirosApiInput
   solicitacoes?: Prisma.SolicitacaoRelatorioCreateNestedManyWithoutParceiroInput
+  idempotencias?: Prisma.IdempotenciaApiCreateNestedManyWithoutParceiroInput
 }
 
 export type ParceiroApiUncheckedCreateWithoutChavesInput = {
@@ -374,7 +593,9 @@ export type ParceiroApiUncheckedCreateWithoutChavesInput = {
   emailContato: string
   ativo?: boolean
   dataCriacao?: Date | string
+  organizacaoId: string
   solicitacoes?: Prisma.SolicitacaoRelatorioUncheckedCreateNestedManyWithoutParceiroInput
+  idempotencias?: Prisma.IdempotenciaApiUncheckedCreateNestedManyWithoutParceiroInput
 }
 
 export type ParceiroApiCreateOrConnectWithoutChavesInput = {
@@ -399,7 +620,9 @@ export type ParceiroApiUpdateWithoutChavesInput = {
   emailContato?: Prisma.StringFieldUpdateOperationsInput | string
   ativo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dataCriacao?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  organizacao?: Prisma.OrganizacaoUpdateOneRequiredWithoutParceirosApiNestedInput
   solicitacoes?: Prisma.SolicitacaoRelatorioUpdateManyWithoutParceiroNestedInput
+  idempotencias?: Prisma.IdempotenciaApiUpdateManyWithoutParceiroNestedInput
 }
 
 export type ParceiroApiUncheckedUpdateWithoutChavesInput = {
@@ -408,7 +631,9 @@ export type ParceiroApiUncheckedUpdateWithoutChavesInput = {
   emailContato?: Prisma.StringFieldUpdateOperationsInput | string
   ativo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dataCriacao?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  organizacaoId?: Prisma.StringFieldUpdateOperationsInput | string
   solicitacoes?: Prisma.SolicitacaoRelatorioUncheckedUpdateManyWithoutParceiroNestedInput
+  idempotencias?: Prisma.IdempotenciaApiUncheckedUpdateManyWithoutParceiroNestedInput
 }
 
 export type ParceiroApiCreateWithoutSolicitacoesInput = {
@@ -417,7 +642,9 @@ export type ParceiroApiCreateWithoutSolicitacoesInput = {
   emailContato: string
   ativo?: boolean
   dataCriacao?: Date | string
+  organizacao: Prisma.OrganizacaoCreateNestedOneWithoutParceirosApiInput
   chaves?: Prisma.ChaveApiCreateNestedManyWithoutParceiroInput
+  idempotencias?: Prisma.IdempotenciaApiCreateNestedManyWithoutParceiroInput
 }
 
 export type ParceiroApiUncheckedCreateWithoutSolicitacoesInput = {
@@ -426,7 +653,9 @@ export type ParceiroApiUncheckedCreateWithoutSolicitacoesInput = {
   emailContato: string
   ativo?: boolean
   dataCriacao?: Date | string
+  organizacaoId: string
   chaves?: Prisma.ChaveApiUncheckedCreateNestedManyWithoutParceiroInput
+  idempotencias?: Prisma.IdempotenciaApiUncheckedCreateNestedManyWithoutParceiroInput
 }
 
 export type ParceiroApiCreateOrConnectWithoutSolicitacoesInput = {
@@ -451,7 +680,9 @@ export type ParceiroApiUpdateWithoutSolicitacoesInput = {
   emailContato?: Prisma.StringFieldUpdateOperationsInput | string
   ativo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dataCriacao?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  organizacao?: Prisma.OrganizacaoUpdateOneRequiredWithoutParceirosApiNestedInput
   chaves?: Prisma.ChaveApiUpdateManyWithoutParceiroNestedInput
+  idempotencias?: Prisma.IdempotenciaApiUpdateManyWithoutParceiroNestedInput
 }
 
 export type ParceiroApiUncheckedUpdateWithoutSolicitacoesInput = {
@@ -460,7 +691,47 @@ export type ParceiroApiUncheckedUpdateWithoutSolicitacoesInput = {
   emailContato?: Prisma.StringFieldUpdateOperationsInput | string
   ativo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   dataCriacao?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  organizacaoId?: Prisma.StringFieldUpdateOperationsInput | string
   chaves?: Prisma.ChaveApiUncheckedUpdateManyWithoutParceiroNestedInput
+  idempotencias?: Prisma.IdempotenciaApiUncheckedUpdateManyWithoutParceiroNestedInput
+}
+
+export type ParceiroApiCreateManyOrganizacaoInput = {
+  id: string
+  nome: string
+  emailContato: string
+  ativo?: boolean
+  dataCriacao?: Date | string
+}
+
+export type ParceiroApiUpdateWithoutOrganizacaoInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nome?: Prisma.StringFieldUpdateOperationsInput | string
+  emailContato?: Prisma.StringFieldUpdateOperationsInput | string
+  ativo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  dataCriacao?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chaves?: Prisma.ChaveApiUpdateManyWithoutParceiroNestedInput
+  solicitacoes?: Prisma.SolicitacaoRelatorioUpdateManyWithoutParceiroNestedInput
+  idempotencias?: Prisma.IdempotenciaApiUpdateManyWithoutParceiroNestedInput
+}
+
+export type ParceiroApiUncheckedUpdateWithoutOrganizacaoInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nome?: Prisma.StringFieldUpdateOperationsInput | string
+  emailContato?: Prisma.StringFieldUpdateOperationsInput | string
+  ativo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  dataCriacao?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chaves?: Prisma.ChaveApiUncheckedUpdateManyWithoutParceiroNestedInput
+  solicitacoes?: Prisma.SolicitacaoRelatorioUncheckedUpdateManyWithoutParceiroNestedInput
+  idempotencias?: Prisma.IdempotenciaApiUncheckedUpdateManyWithoutParceiroNestedInput
+}
+
+export type ParceiroApiUncheckedUpdateManyWithoutOrganizacaoInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  nome?: Prisma.StringFieldUpdateOperationsInput | string
+  emailContato?: Prisma.StringFieldUpdateOperationsInput | string
+  ativo?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  dataCriacao?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -471,11 +742,13 @@ export type ParceiroApiUncheckedUpdateWithoutSolicitacoesInput = {
 export type ParceiroApiCountOutputType = {
   chaves: number
   solicitacoes: number
+  idempotencias: number
 }
 
 export type ParceiroApiCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   chaves?: boolean | ParceiroApiCountOutputTypeCountChavesArgs
   solicitacoes?: boolean | ParceiroApiCountOutputTypeCountSolicitacoesArgs
+  idempotencias?: boolean | ParceiroApiCountOutputTypeCountIdempotenciasArgs
 }
 
 /**
@@ -502,6 +775,13 @@ export type ParceiroApiCountOutputTypeCountSolicitacoesArgs<ExtArgs extends runt
   where?: Prisma.SolicitacaoRelatorioWhereInput
 }
 
+/**
+ * ParceiroApiCountOutputType without action
+ */
+export type ParceiroApiCountOutputTypeCountIdempotenciasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.IdempotenciaApiWhereInput
+}
+
 
 export type ParceiroApiSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -509,8 +789,11 @@ export type ParceiroApiSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   emailContato?: boolean
   ativo?: boolean
   dataCriacao?: boolean
+  organizacaoId?: boolean
+  organizacao?: boolean | Prisma.OrganizacaoDefaultArgs<ExtArgs>
   chaves?: boolean | Prisma.ParceiroApi$chavesArgs<ExtArgs>
   solicitacoes?: boolean | Prisma.ParceiroApi$solicitacoesArgs<ExtArgs>
+  idempotencias?: boolean | Prisma.ParceiroApi$idempotenciasArgs<ExtArgs>
   _count?: boolean | Prisma.ParceiroApiCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["parceiroApi"]>
 
@@ -520,6 +803,8 @@ export type ParceiroApiSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   emailContato?: boolean
   ativo?: boolean
   dataCriacao?: boolean
+  organizacaoId?: boolean
+  organizacao?: boolean | Prisma.OrganizacaoDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["parceiroApi"]>
 
 export type ParceiroApiSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -528,6 +813,8 @@ export type ParceiroApiSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   emailContato?: boolean
   ativo?: boolean
   dataCriacao?: boolean
+  organizacaoId?: boolean
+  organizacao?: boolean | Prisma.OrganizacaoDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["parceiroApi"]>
 
 export type ParceiroApiSelectScalar = {
@@ -536,22 +823,31 @@ export type ParceiroApiSelectScalar = {
   emailContato?: boolean
   ativo?: boolean
   dataCriacao?: boolean
+  organizacaoId?: boolean
 }
 
-export type ParceiroApiOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nome" | "emailContato" | "ativo" | "dataCriacao", ExtArgs["result"]["parceiroApi"]>
+export type ParceiroApiOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nome" | "emailContato" | "ativo" | "dataCriacao" | "organizacaoId", ExtArgs["result"]["parceiroApi"]>
 export type ParceiroApiInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organizacao?: boolean | Prisma.OrganizacaoDefaultArgs<ExtArgs>
   chaves?: boolean | Prisma.ParceiroApi$chavesArgs<ExtArgs>
   solicitacoes?: boolean | Prisma.ParceiroApi$solicitacoesArgs<ExtArgs>
+  idempotencias?: boolean | Prisma.ParceiroApi$idempotenciasArgs<ExtArgs>
   _count?: boolean | Prisma.ParceiroApiCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type ParceiroApiIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type ParceiroApiIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type ParceiroApiIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organizacao?: boolean | Prisma.OrganizacaoDefaultArgs<ExtArgs>
+}
+export type ParceiroApiIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organizacao?: boolean | Prisma.OrganizacaoDefaultArgs<ExtArgs>
+}
 
 export type $ParceiroApiPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "ParceiroApi"
   objects: {
+    organizacao: Prisma.$OrganizacaoPayload<ExtArgs>
     chaves: Prisma.$ChaveApiPayload<ExtArgs>[]
     solicitacoes: Prisma.$SolicitacaoRelatorioPayload<ExtArgs>[]
+    idempotencias: Prisma.$IdempotenciaApiPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -559,6 +855,7 @@ export type $ParceiroApiPayload<ExtArgs extends runtime.Types.Extensions.Interna
     emailContato: string
     ativo: boolean
     dataCriacao: Date
+    organizacaoId: string
   }, ExtArgs["result"]["parceiroApi"]>
   composites: {}
 }
@@ -953,8 +1250,10 @@ readonly fields: ParceiroApiFieldRefs;
  */
 export interface Prisma__ParceiroApiClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  organizacao<T extends Prisma.OrganizacaoDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrganizacaoDefaultArgs<ExtArgs>>): Prisma.Prisma__OrganizacaoClient<runtime.Types.Result.GetResult<Prisma.$OrganizacaoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   chaves<T extends Prisma.ParceiroApi$chavesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ParceiroApi$chavesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChaveApiPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   solicitacoes<T extends Prisma.ParceiroApi$solicitacoesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ParceiroApi$solicitacoesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SolicitacaoRelatorioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  idempotencias<T extends Prisma.ParceiroApi$idempotenciasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ParceiroApi$idempotenciasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$IdempotenciaApiPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -989,6 +1288,7 @@ export interface ParceiroApiFieldRefs {
   readonly emailContato: Prisma.FieldRef<"ParceiroApi", 'String'>
   readonly ativo: Prisma.FieldRef<"ParceiroApi", 'Boolean'>
   readonly dataCriacao: Prisma.FieldRef<"ParceiroApi", 'DateTime'>
+  readonly organizacaoId: Prisma.FieldRef<"ParceiroApi", 'String'>
 }
     
 
@@ -1243,6 +1543,10 @@ export type ParceiroApiCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Ext
    */
   data: Prisma.ParceiroApiCreateManyInput | Prisma.ParceiroApiCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ParceiroApiIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1313,6 +1617,10 @@ export type ParceiroApiUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Ext
    * Limit how many ParceiroApis to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ParceiroApiIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1427,6 +1735,30 @@ export type ParceiroApi$solicitacoesArgs<ExtArgs extends runtime.Types.Extension
   take?: number
   skip?: number
   distinct?: Prisma.SolicitacaoRelatorioScalarFieldEnum | Prisma.SolicitacaoRelatorioScalarFieldEnum[]
+}
+
+/**
+ * ParceiroApi.idempotencias
+ */
+export type ParceiroApi$idempotenciasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the IdempotenciaApi
+   */
+  select?: Prisma.IdempotenciaApiSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the IdempotenciaApi
+   */
+  omit?: Prisma.IdempotenciaApiOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.IdempotenciaApiInclude<ExtArgs> | null
+  where?: Prisma.IdempotenciaApiWhereInput
+  orderBy?: Prisma.IdempotenciaApiOrderByWithRelationInput | Prisma.IdempotenciaApiOrderByWithRelationInput[]
+  cursor?: Prisma.IdempotenciaApiWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.IdempotenciaApiScalarFieldEnum | Prisma.IdempotenciaApiScalarFieldEnum[]
 }
 
 /**

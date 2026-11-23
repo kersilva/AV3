@@ -28,6 +28,7 @@
       // Modules
       "@autenticacao/*": ["./src/modules/autenticacao/*"],
       "@analise/*": ["./src/modules/analise/*"],
+      "@apiPublica/*": ["./src/modules/apiPublica/*"],
       "@configuracao/*": ["./src/modules/configuracao/*"],
       "@contrato/*": ["./src/modules/contrato/*"],
       "@equipamento/*": ["./src/modules/equipamento/*"],

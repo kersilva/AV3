@@ -562,6 +562,23 @@ export type EnumStatusSolicitacaoWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumStatusSolicitacaoFilter<$PrismaModel>
 }
 
+export type EnumStatusOutboxRelatorioFilter<$PrismaModel = never> = {
+  equals?: $Enums.StatusOutboxRelatorio | Prisma.EnumStatusOutboxRelatorioFieldRefInput<$PrismaModel>
+  in?: $Enums.StatusOutboxRelatorio[] | Prisma.ListEnumStatusOutboxRelatorioFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StatusOutboxRelatorio[] | Prisma.ListEnumStatusOutboxRelatorioFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStatusOutboxRelatorioFilter<$PrismaModel> | $Enums.StatusOutboxRelatorio
+}
+
+export type EnumStatusOutboxRelatorioWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.StatusOutboxRelatorio | Prisma.EnumStatusOutboxRelatorioFieldRefInput<$PrismaModel>
+  in?: $Enums.StatusOutboxRelatorio[] | Prisma.ListEnumStatusOutboxRelatorioFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StatusOutboxRelatorio[] | Prisma.ListEnumStatusOutboxRelatorioFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStatusOutboxRelatorioWithAggregatesFilter<$PrismaModel> | $Enums.StatusOutboxRelatorio
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumStatusOutboxRelatorioFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumStatusOutboxRelatorioFilter<$PrismaModel>
+}
+
 export type NestedStringFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -1067,6 +1084,23 @@ export type NestedEnumStatusSolicitacaoWithAggregatesFilter<$PrismaModel = never
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumStatusSolicitacaoFilter<$PrismaModel>
   _max?: Prisma.NestedEnumStatusSolicitacaoFilter<$PrismaModel>
+}
+
+export type NestedEnumStatusOutboxRelatorioFilter<$PrismaModel = never> = {
+  equals?: $Enums.StatusOutboxRelatorio | Prisma.EnumStatusOutboxRelatorioFieldRefInput<$PrismaModel>
+  in?: $Enums.StatusOutboxRelatorio[] | Prisma.ListEnumStatusOutboxRelatorioFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StatusOutboxRelatorio[] | Prisma.ListEnumStatusOutboxRelatorioFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStatusOutboxRelatorioFilter<$PrismaModel> | $Enums.StatusOutboxRelatorio
+}
+
+export type NestedEnumStatusOutboxRelatorioWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.StatusOutboxRelatorio | Prisma.EnumStatusOutboxRelatorioFieldRefInput<$PrismaModel>
+  in?: $Enums.StatusOutboxRelatorio[] | Prisma.ListEnumStatusOutboxRelatorioFieldRefInput<$PrismaModel>
+  notIn?: $Enums.StatusOutboxRelatorio[] | Prisma.ListEnumStatusOutboxRelatorioFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumStatusOutboxRelatorioWithAggregatesFilter<$PrismaModel> | $Enums.StatusOutboxRelatorio
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumStatusOutboxRelatorioFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumStatusOutboxRelatorioFilter<$PrismaModel>
 }
 
 

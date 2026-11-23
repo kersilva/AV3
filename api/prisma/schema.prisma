@@ -111,6 +111,11 @@ enum NivelEstimativaRecuperacao {
   TIPO_ESTADO
 }
 
+enum StatusOutboxRelatorio {
+  PENDENTE
+  PUBLICADO
+}
+
 // Escopos de uma chave de API. Enum em vez de String[] para evitar o mesmo
 // problema de typos que corrigimos em Movimentacao.origem/destino: permissões
 // diferentes por erro de digitação, sem erro em runtime.
@@ -295,6 +300,7 @@ model Organizacao {
 
   contratoVigente Contrato[]
   lotes           Lote[]
+  parceirosApi    ParceiroApi[]
 }
 
 // ====================
@@ -476,9 +482,27 @@ model ParceiroApi {
   emailContato String
   ativo        Boolean  @default(true)
   dataCriacao  DateTime @default(now())
+  organizacaoId String
 
+  organizacao  Organizacao @relation(fields: [organizacaoId], references: [id], onDelete: Restrict)
   chaves       ChaveApi[]
   solicitacoes SolicitacaoRelatorio[]
+  idempotencias IdempotenciaApi[]
+}
+
+model IdempotenciaApi {
+  id           String   @id
+  parceiroId   String
+  chave        String
+  fingerprint  String
+  statusCode   Int
+  resposta     Json
+  criadaEm     DateTime @default(now())
+
+  parceiro ParceiroApi @relation(fields: [parceiroId], references: [id], onDelete: Cascade)
+
+  @@unique([parceiroId, chave])
+  @@index([criadaEm])
 }
 
 // Padrão Stripe/GitHub: a chave crua é mostrada uma única vez na geração;
@@ -532,6 +556,7 @@ model SolicitacaoRelatorio {
   jobIdFila         String? // ID do BullMQ, para correlação
   resultUrl         String? // onde baixar quando pronto
   erroMensagem      String?
+  resultado         Json? // resumo persistido na mesma transação dos resultados analíticos
   tentativas        Int               @default(0)
   criadoEm          DateTime          @default(now())
   concluidoEm       DateTime?
@@ -540,9 +565,22 @@ model SolicitacaoRelatorio {
   parceiro  ParceiroApi?       @relation(fields: [parceiroId], references: [id])
   usuario   Usuario?           @relation(fields: [usuarioId], references: [id])
   previsoes PrevisaoVidaUtil[]
+  outbox    OutboxRelatorio?
 
   @@unique([parceiroId, chaveIdempotencia])
   @@index([parceiroId, status])
   @@index([usuarioId, status])
+  @@index([status, criadoEm])
+}
+
+model OutboxRelatorio {
+  id             String              @id
+  solicitacaoId  String              @unique
+  status         StatusOutboxRelatorio @default(PENDENTE)
+  criadoEm       DateTime            @default(now())
+  publicadoEm    DateTime?
+
+  solicitacao SolicitacaoRelatorio @relation(fields: [solicitacaoId], references: [id], onDelete: Cascade)
+
   @@index([status, criadoEm])
 }

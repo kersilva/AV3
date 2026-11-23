@@ -32,6 +32,13 @@ import { AnaliseService } from '@analise/AnaliseService.js';
 import { AnaliseController } from '@analise/AnaliseController.js';
 import { RecuperacaoController } from '@analise/RecuperacaoController.js';
 import { RecuperacaoService } from '@analise/RecuperacaoService.js';
+import { ApiKeyService } from '@apiPublica/ApiKeyService.js';
+import { ParceiroApiController } from '@apiPublica/ParceiroApiController.js';
+import { ApiPublicaService } from '@apiPublica/ApiPublicaService.js';
+import { ApiPublicaController } from '@apiPublica/ApiPublicaController.js';
+import { RelatorioQueueClient } from '@apiPublica/RelatorioQueue.js';
+import { RelatorioApiService } from '@apiPublica/RelatorioApiService.js';
+import { RelatorioApiController } from '@apiPublica/RelatorioApiController.js';
 import { BcryptHash } from '@infra/crypto/BcryptHash.js';
 import { AutorizacaoService } from '@autenticacao/AutorizacaoService.js';
 import { criarGuardAutorizacao } from '@infra/fastify/AutorizacaoPreHandler.js';
@@ -45,6 +52,12 @@ export async function compositionRoot(app: FastifyInstance): Promise<void> {
   const hash = new BcryptHash();
   const autorizacao = new AutorizacaoService(usuarioRepository);
   const exigirPapeis = criarGuardAutorizacao(autorizacao);
+  if (!app.hasRequestDecorator('apiParceiro')) app.decorateRequest('apiParceiro', null);
+  const apiKeys = new ApiKeyService();
+  const apiPublica = new ApiPublicaService();
+  const filaRelatorios = new RelatorioQueueClient();
+  const relatoriosPublicos = new RelatorioApiService(filaRelatorios);
+  app.addHook('onClose', async () => filaRelatorios.fechar());
   const autenticacao = new AutenticacaoService(usuarioRepository, hash, unitOfWork);
   const configuracao = new ConfiguracaoService(new PrismaConfiguracaoRepository(), unitOfWork);
   const contrato = new ContratoService(new PrismaContratoRepository(), unitOfWork);
@@ -100,4 +113,7 @@ export async function compositionRoot(app: FastifyInstance): Promise<void> {
   await RelatorioController(app, relatorioAccess, relatorio);
   await AnaliseController(app, relatorioAccess, analise);
   await RecuperacaoController(app, almoxarifado, recuperacao);
+  await ParceiroApiController(app, admin, apiKeys);
+  await ApiPublicaController(app, apiKeys, apiPublica);
+  await RelatorioApiController(app, apiKeys, relatoriosPublicos);
 }

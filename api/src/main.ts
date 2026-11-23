@@ -1,8 +1,10 @@
 import 'dotenv/config';
-import Fastify from 'fastify';
+import Fastify, { type FastifyRequest } from 'fastify';
+import { createHash } from 'node:crypto';
 import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
 import fastifyJwt from '@fastify/jwt';
+import fastifyRateLimit from '@fastify/rate-limit';
 import { compositionRoot } from '@infra/compositionRoot.js';
 import { registrarErrorHandler } from '@infra/errorHandler.js';
 import { ErroValidacao } from '@/shared/errors/DomainError.js';
@@ -19,6 +21,15 @@ registrarErrorHandler(app);
 
 await app.register(fastifySwagger, swaggerOptions);
 await app.register(fastifySwaggerUi, swaggerUiOptions);
+await app.register(fastifyRateLimit, {
+  global: false,
+  keyGenerator: (request: FastifyRequest) => {
+    const token = request.headers['x-api-key'];
+    return typeof token === 'string'
+      ? createHash('sha256').update(token).digest('hex')
+      : request.ip;
+  },
+});
 
 await app.register(fastifyJwt, { secret });
 await compositionRoot(app);

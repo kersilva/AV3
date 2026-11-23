@@ -67,8 +67,10 @@ export const ModelName = {
   PrevisaoVidaUtil: 'PrevisaoVidaUtil',
   ValidacaoPrevisao: 'ValidacaoPrevisao',
   ParceiroApi: 'ParceiroApi',
+  IdempotenciaApi: 'IdempotenciaApi',
   ChaveApi: 'ChaveApi',
-  SolicitacaoRelatorio: 'SolicitacaoRelatorio'
+  SolicitacaoRelatorio: 'SolicitacaoRelatorio',
+  OutboxRelatorio: 'OutboxRelatorio'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -303,10 +305,24 @@ export const ParceiroApiScalarFieldEnum = {
   nome: 'nome',
   emailContato: 'emailContato',
   ativo: 'ativo',
-  dataCriacao: 'dataCriacao'
+  dataCriacao: 'dataCriacao',
+  organizacaoId: 'organizacaoId'
 } as const
 
 export type ParceiroApiScalarFieldEnum = (typeof ParceiroApiScalarFieldEnum)[keyof typeof ParceiroApiScalarFieldEnum]
+
+
+export const IdempotenciaApiScalarFieldEnum = {
+  id: 'id',
+  parceiroId: 'parceiroId',
+  chave: 'chave',
+  fingerprint: 'fingerprint',
+  statusCode: 'statusCode',
+  resposta: 'resposta',
+  criadaEm: 'criadaEm'
+} as const
+
+export type IdempotenciaApiScalarFieldEnum = (typeof IdempotenciaApiScalarFieldEnum)[keyof typeof IdempotenciaApiScalarFieldEnum]
 
 
 export const ChaveApiScalarFieldEnum = {
@@ -333,6 +349,7 @@ export const SolicitacaoRelatorioScalarFieldEnum = {
   jobIdFila: 'jobIdFila',
   resultUrl: 'resultUrl',
   erroMensagem: 'erroMensagem',
+  resultado: 'resultado',
   tentativas: 'tentativas',
   criadoEm: 'criadoEm',
   concluidoEm: 'concluidoEm',
@@ -340,6 +357,17 @@ export const SolicitacaoRelatorioScalarFieldEnum = {
 } as const
 
 export type SolicitacaoRelatorioScalarFieldEnum = (typeof SolicitacaoRelatorioScalarFieldEnum)[keyof typeof SolicitacaoRelatorioScalarFieldEnum]
+
+
+export const OutboxRelatorioScalarFieldEnum = {
+  id: 'id',
+  solicitacaoId: 'solicitacaoId',
+  status: 'status',
+  criadoEm: 'criadoEm',
+  publicadoEm: 'publicadoEm'
+} as const
+
+export type OutboxRelatorioScalarFieldEnum = (typeof OutboxRelatorioScalarFieldEnum)[keyof typeof OutboxRelatorioScalarFieldEnum]
 
 
 export const SortOrder = {

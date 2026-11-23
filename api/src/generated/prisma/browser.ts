@@ -98,6 +98,11 @@ export type ValidacaoPrevisao = Prisma.ValidacaoPrevisaoModel
  */
 export type ParceiroApi = Prisma.ParceiroApiModel
 /**
+ * Model IdempotenciaApi
+ * 
+ */
+export type IdempotenciaApi = Prisma.IdempotenciaApiModel
+/**
  * Model ChaveApi
  * 
  */
@@ -107,3 +112,8 @@ export type ChaveApi = Prisma.ChaveApiModel
  * 
  */
 export type SolicitacaoRelatorio = Prisma.SolicitacaoRelatorioModel
+/**
+ * Model OutboxRelatorio
+ * 
+ */
+export type OutboxRelatorio = Prisma.OutboxRelatorioModel

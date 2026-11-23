@@ -20,6 +20,12 @@ export const swaggerOptions: SwaggerOptions = {
           scheme: 'bearer',
           bearerFormat: 'JWT',
         },
+        apiKeyAuth: {
+          type: 'apiKey',
+          in: 'header',
+          name: 'x-api-key',
+          description: 'Chave de API do parceiro externo. O segredo é exibido apenas uma vez na emissão.',
+        },
       },
     },
     tags: [
@@ -32,6 +38,7 @@ export const swaggerOptions: SwaggerOptions = {
       { name: 'Auditoria', description: 'Consulta ao journal' },
       { name: 'Relatórios', description: 'Relatórios operacionais e análises persistidas' },
       { name: 'Configuração', description: 'Configurações do sistema' },
+      { name: 'API pública', description: 'Integrações versionadas para parceiros externos' },
     ],
   },
 };

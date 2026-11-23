@@ -258,6 +258,7 @@ export type OrganizacaoWhereInput = {
   versao?: Prisma.IntFilter<"Organizacao"> | number
   contratoVigente?: Prisma.ContratoListRelationFilter
   lotes?: Prisma.LoteListRelationFilter
+  parceirosApi?: Prisma.ParceiroApiListRelationFilter
 }
 
 export type OrganizacaoOrderByWithRelationInput = {
@@ -273,6 +274,7 @@ export type OrganizacaoOrderByWithRelationInput = {
   versao?: Prisma.SortOrder
   contratoVigente?: Prisma.ContratoOrderByRelationAggregateInput
   lotes?: Prisma.LoteOrderByRelationAggregateInput
+  parceirosApi?: Prisma.ParceiroApiOrderByRelationAggregateInput
 }
 
 export type OrganizacaoWhereUniqueInput = Prisma.AtLeast<{
@@ -291,6 +293,7 @@ export type OrganizacaoWhereUniqueInput = Prisma.AtLeast<{
   versao?: Prisma.IntFilter<"Organizacao"> | number
   contratoVigente?: Prisma.ContratoListRelationFilter
   lotes?: Prisma.LoteListRelationFilter
+  parceirosApi?: Prisma.ParceiroApiListRelationFilter
 }, "id" | "cnpj">
 
 export type OrganizacaoOrderByWithAggregationInput = {
@@ -340,6 +343,7 @@ export type OrganizacaoCreateInput = {
   versao?: number
   contratoVigente?: Prisma.ContratoCreateNestedManyWithoutOrganizacaoInput
   lotes?: Prisma.LoteCreateNestedManyWithoutOrganizacaoInput
+  parceirosApi?: Prisma.ParceiroApiCreateNestedManyWithoutOrganizacaoInput
 }
 
 export type OrganizacaoUncheckedCreateInput = {
@@ -355,6 +359,7 @@ export type OrganizacaoUncheckedCreateInput = {
   versao?: number
   contratoVigente?: Prisma.ContratoUncheckedCreateNestedManyWithoutOrganizacaoInput
   lotes?: Prisma.LoteUncheckedCreateNestedManyWithoutOrganizacaoInput
+  parceirosApi?: Prisma.ParceiroApiUncheckedCreateNestedManyWithoutOrganizacaoInput
 }
 
 export type OrganizacaoUpdateInput = {
@@ -370,6 +375,7 @@ export type OrganizacaoUpdateInput = {
   versao?: Prisma.IntFieldUpdateOperationsInput | number
   contratoVigente?: Prisma.ContratoUpdateManyWithoutOrganizacaoNestedInput
   lotes?: Prisma.LoteUpdateManyWithoutOrganizacaoNestedInput
+  parceirosApi?: Prisma.ParceiroApiUpdateManyWithoutOrganizacaoNestedInput
 }
 
 export type OrganizacaoUncheckedUpdateInput = {
@@ -385,6 +391,7 @@ export type OrganizacaoUncheckedUpdateInput = {
   versao?: Prisma.IntFieldUpdateOperationsInput | number
   contratoVigente?: Prisma.ContratoUncheckedUpdateManyWithoutOrganizacaoNestedInput
   lotes?: Prisma.LoteUncheckedUpdateManyWithoutOrganizacaoNestedInput
+  parceirosApi?: Prisma.ParceiroApiUncheckedUpdateManyWithoutOrganizacaoNestedInput
 }
 
 export type OrganizacaoCreateManyInput = {
@@ -506,6 +513,20 @@ export type OrganizacaoUpdateOneRequiredWithoutLotesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.OrganizacaoUpdateToOneWithWhereWithoutLotesInput, Prisma.OrganizacaoUpdateWithoutLotesInput>, Prisma.OrganizacaoUncheckedUpdateWithoutLotesInput>
 }
 
+export type OrganizacaoCreateNestedOneWithoutParceirosApiInput = {
+  create?: Prisma.XOR<Prisma.OrganizacaoCreateWithoutParceirosApiInput, Prisma.OrganizacaoUncheckedCreateWithoutParceirosApiInput>
+  connectOrCreate?: Prisma.OrganizacaoCreateOrConnectWithoutParceirosApiInput
+  connect?: Prisma.OrganizacaoWhereUniqueInput
+}
+
+export type OrganizacaoUpdateOneRequiredWithoutParceirosApiNestedInput = {
+  create?: Prisma.XOR<Prisma.OrganizacaoCreateWithoutParceirosApiInput, Prisma.OrganizacaoUncheckedCreateWithoutParceirosApiInput>
+  connectOrCreate?: Prisma.OrganizacaoCreateOrConnectWithoutParceirosApiInput
+  upsert?: Prisma.OrganizacaoUpsertWithoutParceirosApiInput
+  connect?: Prisma.OrganizacaoWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.OrganizacaoUpdateToOneWithWhereWithoutParceirosApiInput, Prisma.OrganizacaoUpdateWithoutParceirosApiInput>, Prisma.OrganizacaoUncheckedUpdateWithoutParceirosApiInput>
+}
+
 export type OrganizacaoCreateWithoutContratoVigenteInput = {
   id: string
   razaoSocial: string
@@ -518,6 +539,7 @@ export type OrganizacaoCreateWithoutContratoVigenteInput = {
   excluidoEm?: Date | string | null
   versao?: number
   lotes?: Prisma.LoteCreateNestedManyWithoutOrganizacaoInput
+  parceirosApi?: Prisma.ParceiroApiCreateNestedManyWithoutOrganizacaoInput
 }
 
 export type OrganizacaoUncheckedCreateWithoutContratoVigenteInput = {
@@ -532,6 +554,7 @@ export type OrganizacaoUncheckedCreateWithoutContratoVigenteInput = {
   excluidoEm?: Date | string | null
   versao?: number
   lotes?: Prisma.LoteUncheckedCreateNestedManyWithoutOrganizacaoInput
+  parceirosApi?: Prisma.ParceiroApiUncheckedCreateNestedManyWithoutOrganizacaoInput
 }
 
 export type OrganizacaoCreateOrConnectWithoutContratoVigenteInput = {
@@ -562,6 +585,7 @@ export type OrganizacaoUpdateWithoutContratoVigenteInput = {
   excluidoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   versao?: Prisma.IntFieldUpdateOperationsInput | number
   lotes?: Prisma.LoteUpdateManyWithoutOrganizacaoNestedInput
+  parceirosApi?: Prisma.ParceiroApiUpdateManyWithoutOrganizacaoNestedInput
 }
 
 export type OrganizacaoUncheckedUpdateWithoutContratoVigenteInput = {
@@ -576,6 +600,7 @@ export type OrganizacaoUncheckedUpdateWithoutContratoVigenteInput = {
   excluidoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   versao?: Prisma.IntFieldUpdateOperationsInput | number
   lotes?: Prisma.LoteUncheckedUpdateManyWithoutOrganizacaoNestedInput
+  parceirosApi?: Prisma.ParceiroApiUncheckedUpdateManyWithoutOrganizacaoNestedInput
 }
 
 export type OrganizacaoCreateWithoutLotesInput = {
@@ -590,6 +615,7 @@ export type OrganizacaoCreateWithoutLotesInput = {
   excluidoEm?: Date | string | null
   versao?: number
   contratoVigente?: Prisma.ContratoCreateNestedManyWithoutOrganizacaoInput
+  parceirosApi?: Prisma.ParceiroApiCreateNestedManyWithoutOrganizacaoInput
 }
 
 export type OrganizacaoUncheckedCreateWithoutLotesInput = {
@@ -604,6 +630,7 @@ export type OrganizacaoUncheckedCreateWithoutLotesInput = {
   excluidoEm?: Date | string | null
   versao?: number
   contratoVigente?: Prisma.ContratoUncheckedCreateNestedManyWithoutOrganizacaoInput
+  parceirosApi?: Prisma.ParceiroApiUncheckedCreateNestedManyWithoutOrganizacaoInput
 }
 
 export type OrganizacaoCreateOrConnectWithoutLotesInput = {
@@ -634,6 +661,7 @@ export type OrganizacaoUpdateWithoutLotesInput = {
   excluidoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   versao?: Prisma.IntFieldUpdateOperationsInput | number
   contratoVigente?: Prisma.ContratoUpdateManyWithoutOrganizacaoNestedInput
+  parceirosApi?: Prisma.ParceiroApiUpdateManyWithoutOrganizacaoNestedInput
 }
 
 export type OrganizacaoUncheckedUpdateWithoutLotesInput = {
@@ -648,6 +676,83 @@ export type OrganizacaoUncheckedUpdateWithoutLotesInput = {
   excluidoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   versao?: Prisma.IntFieldUpdateOperationsInput | number
   contratoVigente?: Prisma.ContratoUncheckedUpdateManyWithoutOrganizacaoNestedInput
+  parceirosApi?: Prisma.ParceiroApiUncheckedUpdateManyWithoutOrganizacaoNestedInput
+}
+
+export type OrganizacaoCreateWithoutParceirosApiInput = {
+  id: string
+  razaoSocial: string
+  cnpj: string
+  inscricaoEstadual: string
+  enderecoCompleto: string
+  telefone: string
+  email: string
+  dataCadastro?: Date | string
+  excluidoEm?: Date | string | null
+  versao?: number
+  contratoVigente?: Prisma.ContratoCreateNestedManyWithoutOrganizacaoInput
+  lotes?: Prisma.LoteCreateNestedManyWithoutOrganizacaoInput
+}
+
+export type OrganizacaoUncheckedCreateWithoutParceirosApiInput = {
+  id: string
+  razaoSocial: string
+  cnpj: string
+  inscricaoEstadual: string
+  enderecoCompleto: string
+  telefone: string
+  email: string
+  dataCadastro?: Date | string
+  excluidoEm?: Date | string | null
+  versao?: number
+  contratoVigente?: Prisma.ContratoUncheckedCreateNestedManyWithoutOrganizacaoInput
+  lotes?: Prisma.LoteUncheckedCreateNestedManyWithoutOrganizacaoInput
+}
+
+export type OrganizacaoCreateOrConnectWithoutParceirosApiInput = {
+  where: Prisma.OrganizacaoWhereUniqueInput
+  create: Prisma.XOR<Prisma.OrganizacaoCreateWithoutParceirosApiInput, Prisma.OrganizacaoUncheckedCreateWithoutParceirosApiInput>
+}
+
+export type OrganizacaoUpsertWithoutParceirosApiInput = {
+  update: Prisma.XOR<Prisma.OrganizacaoUpdateWithoutParceirosApiInput, Prisma.OrganizacaoUncheckedUpdateWithoutParceirosApiInput>
+  create: Prisma.XOR<Prisma.OrganizacaoCreateWithoutParceirosApiInput, Prisma.OrganizacaoUncheckedCreateWithoutParceirosApiInput>
+  where?: Prisma.OrganizacaoWhereInput
+}
+
+export type OrganizacaoUpdateToOneWithWhereWithoutParceirosApiInput = {
+  where?: Prisma.OrganizacaoWhereInput
+  data: Prisma.XOR<Prisma.OrganizacaoUpdateWithoutParceirosApiInput, Prisma.OrganizacaoUncheckedUpdateWithoutParceirosApiInput>
+}
+
+export type OrganizacaoUpdateWithoutParceirosApiInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  razaoSocial?: Prisma.StringFieldUpdateOperationsInput | string
+  cnpj?: Prisma.StringFieldUpdateOperationsInput | string
+  inscricaoEstadual?: Prisma.StringFieldUpdateOperationsInput | string
+  enderecoCompleto?: Prisma.StringFieldUpdateOperationsInput | string
+  telefone?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  dataCadastro?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  excluidoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  versao?: Prisma.IntFieldUpdateOperationsInput | number
+  contratoVigente?: Prisma.ContratoUpdateManyWithoutOrganizacaoNestedInput
+  lotes?: Prisma.LoteUpdateManyWithoutOrganizacaoNestedInput
+}
+
+export type OrganizacaoUncheckedUpdateWithoutParceirosApiInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  razaoSocial?: Prisma.StringFieldUpdateOperationsInput | string
+  cnpj?: Prisma.StringFieldUpdateOperationsInput | string
+  inscricaoEstadual?: Prisma.StringFieldUpdateOperationsInput | string
+  enderecoCompleto?: Prisma.StringFieldUpdateOperationsInput | string
+  telefone?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  dataCadastro?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  excluidoEm?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  versao?: Prisma.IntFieldUpdateOperationsInput | number
+  contratoVigente?: Prisma.ContratoUncheckedUpdateManyWithoutOrganizacaoNestedInput
+  lotes?: Prisma.LoteUncheckedUpdateManyWithoutOrganizacaoNestedInput
 }
 
 
@@ -658,11 +763,13 @@ export type OrganizacaoUncheckedUpdateWithoutLotesInput = {
 export type OrganizacaoCountOutputType = {
   contratoVigente: number
   lotes: number
+  parceirosApi: number
 }
 
 export type OrganizacaoCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   contratoVigente?: boolean | OrganizacaoCountOutputTypeCountContratoVigenteArgs
   lotes?: boolean | OrganizacaoCountOutputTypeCountLotesArgs
+  parceirosApi?: boolean | OrganizacaoCountOutputTypeCountParceirosApiArgs
 }
 
 /**
@@ -689,6 +796,13 @@ export type OrganizacaoCountOutputTypeCountLotesArgs<ExtArgs extends runtime.Typ
   where?: Prisma.LoteWhereInput
 }
 
+/**
+ * OrganizacaoCountOutputType without action
+ */
+export type OrganizacaoCountOutputTypeCountParceirosApiArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ParceiroApiWhereInput
+}
+
 
 export type OrganizacaoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -703,6 +817,7 @@ export type OrganizacaoSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   versao?: boolean
   contratoVigente?: boolean | Prisma.Organizacao$contratoVigenteArgs<ExtArgs>
   lotes?: boolean | Prisma.Organizacao$lotesArgs<ExtArgs>
+  parceirosApi?: boolean | Prisma.Organizacao$parceirosApiArgs<ExtArgs>
   _count?: boolean | Prisma.OrganizacaoCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["organizacao"]>
 
@@ -749,6 +864,7 @@ export type OrganizacaoOmit<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type OrganizacaoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   contratoVigente?: boolean | Prisma.Organizacao$contratoVigenteArgs<ExtArgs>
   lotes?: boolean | Prisma.Organizacao$lotesArgs<ExtArgs>
+  parceirosApi?: boolean | Prisma.Organizacao$parceirosApiArgs<ExtArgs>
   _count?: boolean | Prisma.OrganizacaoCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type OrganizacaoIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -759,6 +875,7 @@ export type $OrganizacaoPayload<ExtArgs extends runtime.Types.Extensions.Interna
   objects: {
     contratoVigente: Prisma.$ContratoPayload<ExtArgs>[]
     lotes: Prisma.$LotePayload<ExtArgs>[]
+    parceirosApi: Prisma.$ParceiroApiPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1167,6 +1284,7 @@ export interface Prisma__OrganizacaoClient<T, Null = never, ExtArgs extends runt
   readonly [Symbol.toStringTag]: "PrismaPromise"
   contratoVigente<T extends Prisma.Organizacao$contratoVigenteArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organizacao$contratoVigenteArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ContratoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   lotes<T extends Prisma.Organizacao$lotesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organizacao$lotesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  parceirosApi<T extends Prisma.Organizacao$parceirosApiArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organizacao$parceirosApiArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ParceiroApiPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1644,6 +1762,30 @@ export type Organizacao$lotesArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.LoteScalarFieldEnum | Prisma.LoteScalarFieldEnum[]
+}
+
+/**
+ * Organizacao.parceirosApi
+ */
+export type Organizacao$parceirosApiArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ParceiroApi
+   */
+  select?: Prisma.ParceiroApiSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ParceiroApi
+   */
+  omit?: Prisma.ParceiroApiOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ParceiroApiInclude<ExtArgs> | null
+  where?: Prisma.ParceiroApiWhereInput
+  orderBy?: Prisma.ParceiroApiOrderByWithRelationInput | Prisma.ParceiroApiOrderByWithRelationInput[]
+  cursor?: Prisma.ParceiroApiWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ParceiroApiScalarFieldEnum | Prisma.ParceiroApiScalarFieldEnum[]
 }
 
 /**
