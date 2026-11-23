@@ -1896,7 +1896,10 @@ export const EquipamentoScalarFieldEnum = {
   valorEstimadoRecuperacao: 'valorEstimadoRecuperacao',
   valorRealizadoRecuperacao: 'valorRealizadoRecuperacao',
   dataEstimativa: 'dataEstimativa',
-  dataRealizacao: 'dataRealizacao'
+  amostrasEstimativa: 'amostrasEstimativa',
+  nivelEstimativa: 'nivelEstimativa',
+  dataRealizacao: 'dataRealizacao',
+  referenciaComprovante: 'referenciaComprovante'
 } as const
 
 export type EquipamentoScalarFieldEnum = (typeof EquipamentoScalarFieldEnum)[keyof typeof EquipamentoScalarFieldEnum]
@@ -2241,6 +2244,20 @@ export type EnumEstadoFisicoFieldRefInput<$PrismaModel> = FieldRefInputType<$Pri
  * Reference to a field of type 'EstadoFisico[]'
  */
 export type ListEnumEstadoFisicoFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EstadoFisico[]'>
+    
+
+
+/**
+ * Reference to a field of type 'NivelEstimativaRecuperacao'
+ */
+export type EnumNivelEstimativaRecuperacaoFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NivelEstimativaRecuperacao'>
+    
+
+
+/**
+ * Reference to a field of type 'NivelEstimativaRecuperacao[]'
+ */
+export type ListEnumNivelEstimativaRecuperacaoFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NivelEstimativaRecuperacao[]'>
     
 
 

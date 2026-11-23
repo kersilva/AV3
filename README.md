@@ -203,9 +203,20 @@ Use a mesma lógica para as demais rotas: abra a operação no Swagger, confira 
 - **Equipamentos:** `GET` e `POST /equipamentos`; `GET` e `DELETE /equipamentos/:id`; `PATCH /equipamentos/:id/estado`; `PATCH /equipamentos/:id/status`; `POST /equipamentos/:id/movimentacoes`; `GET /equipamentos/:id/movimentacoes`; `PATCH /equipamentos/:id/reativar`.
 - **Configuração:** `GET` e `PUT /configuracao`.
 - **Journal:** `GET /journal`.
-- **Relatórios:** `GET /relatorios/organizacoes/:organizacaoId`, `GET /relatorios/status/:status`, `GET /relatorios/financeiro`.
+- **Relatórios:** `GET /relatorios/organizacoes/:organizacaoId`, `GET /relatorios/status/:status`, `GET /relatorios/financeiro`, `POST /relatorios/analiticos`, `GET /relatorios/analiticos/:id`.
 
 As rotas protegidas exigem autenticação. O Swagger informa o papel necessário em cada rota. Os papéis disponíveis são `ADMINISTRADOR`, `OPERADOR_CADASTRO`, `GESTOR_ALMOXARIFADO` e `AUDITOR`.
+
+### Análises da AV3
+
+`POST /relatorios/analiticos` executa as análises e guarda cada execução para consulta posterior em `GET /relatorios/analiticos/{id}`. O corpo pode conter `dataReferencia` em ISO 8601; essa data limita os históricos usados no cálculo.
+
+- Eficiência usa o primeiro histórico `RECEBIDO` e a primeira conclusão de triagem do mesmo lote. O tempo inclui espera e os agrupamentos indicam o operador responsável pela conclusão.
+- Recuperação é **bruta**. Para registrar uma estimativa durante a triagem, use `POST /equipamentos/{id}/estimativa-recuperacao` com a versão atual. O resultado informa a quantidade de amostras e se elas vêm do seed de demonstração.
+- Após o desmonte, registre valor realizado e documento em `POST /equipamentos/{id}/recuperacao-realizada`. Consulte ambos em `GET /equipamentos/{id}/recuperacao`.
+- Previsões OLS são agrupadas por tipo. O relatório indica tipos com dados insuficientes ou regressão inválida. A previsão inclui frações de mês; a escala ordinal assume distância igual entre estados e tende a subestimar a vida por não modelar equipamentos censurados.
+
+O seed inclui trajetórias físicas ao longo do tempo, seis falhas por tipo, equipamentos ainda em uso e valores fictícios com referência `DEMO-SEED:`. Para demonstrar validação futura, execute uma análise com corte `2025-12-15T00:00:00.000Z` e depois execute outra com a data atual. Falhas posteriores ao primeiro corte poderão validar a previsão histórica.
 
 ### Versões e exclusão
 

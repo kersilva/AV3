@@ -23,7 +23,7 @@ export type NovoEquipamento = Omit<EquipamentoPersistido, 'versao' | 'statusRast
   statusRastreamento?: StatusRastreamento;
 };
 
-const ORDEM_ESTADO: EstadoFisico[] = [
+export const ORDEM_ESTADO: readonly EstadoFisico[] = Object.freeze([
   EstadoFisico.NOVO,
   EstadoFisico.BOM_ESTADO,
   EstadoFisico.USADO_LEVE,
@@ -31,7 +31,7 @@ const ORDEM_ESTADO: EstadoFisico[] = [
   EstadoFisico.DANIFICADO_LEVE,
   EstadoFisico.DANIFICADO_GRAVE,
   EstadoFisico.INSERVIVEL,
-];
+]);
 
 export class Equipamento {
   private constructor(

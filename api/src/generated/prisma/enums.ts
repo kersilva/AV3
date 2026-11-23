@@ -110,10 +110,19 @@ export const MetricaAnalise = {
   VIDA_UTIL_INTERCEPTO: 'VIDA_UTIL_INTERCEPTO',
   VIDA_UTIL_R2: 'VIDA_UTIL_R2',
   VIDA_UTIL_PREVISTA_MESES: 'VIDA_UTIL_PREVISTA_MESES',
+  VIDA_UTIL_RESTANTE_MESES: 'VIDA_UTIL_RESTANTE_MESES',
   VIDA_UTIL_AMOSTRAS: 'VIDA_UTIL_AMOSTRAS'
 } as const
 
 export type MetricaAnalise = (typeof MetricaAnalise)[keyof typeof MetricaAnalise]
+
+
+export const NivelEstimativaRecuperacao = {
+  CORRESPONDENCIA_COMPLETA: 'CORRESPONDENCIA_COMPLETA',
+  TIPO_ESTADO: 'TIPO_ESTADO'
+} as const
+
+export type NivelEstimativaRecuperacao = (typeof NivelEstimativaRecuperacao)[keyof typeof NivelEstimativaRecuperacao]
 
 
 export const EscopoApi = {

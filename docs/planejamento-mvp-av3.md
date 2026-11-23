@@ -26,7 +26,7 @@ O banco contém apenas a estrutura. No código atual não encontrei usos de `exe
 
 ## Decisões e riscos a resolver antes de codificar análises
 
-1. **Eficiência:** escolher uma regra única para o início. O documento `docs/regras-analiticas-av3.md` define `Lote.dataEntrada`; comentários do schema também falam no timestamp de criação do histórico (`statusAnterior = null`) ou em `EM_TRIAGEM`. Para o MVP, usar `dataEntrada` até `TRIAGEM_CONCLUIDA`, conforme a regra analítica registrada; medir por lote, nunca cruzar eventos. O relatório deve dizer que o total inclui espera. Atribuição ao operador é o responsável pela conclusão.
+1. **Eficiência:** usar o timestamp da transição inicial `RECEBIDO` até a primeira `TRIAGEM_CONCLUIDA`, conforme `docs/regras-analiticas-av3.md`; medir por lote, nunca cruzar eventos. O relatório informa que o total inclui espera. Atribuição ao operador é o responsável pela conclusão.
 2. **Recuperação:** usar o rótulo “recuperação bruta”. Só aceitar valor realizado com data. Estimar por tipo + estado conhecido na data + marca + modelo; fallback para tipo + estado; sem amostra, sem estimativa. Incluir amostras e a origem demonstrativa do seed. Definir como persistir referência do comprovante antes de tratar valores como auditáveis.
 3. **Previsão:** manter `ORDEM_ESTADO` como fonte da escala. Ajustar regressão apenas com eventos até a data de corte; exigir cinco equipamentos com falha; tratar variância zero, inclinação não positiva e previsão fora do intervalo como “sem previsão válida”. Medir vida desde `Lote.dataEntrada`, reportar sobreviventes e viés de sobrevivência.
 4. **Precisão de meses:** decidir se previsões e erros devem aceitar frações (Decimal) ou se o relatório arredondará de forma explícita. Não arredondar em passos intermediários.
@@ -100,6 +100,4 @@ Essa ordem entrega valor analítico independente da fila e reduz dependências e
 
 ## Questões para confirmar
 
-1. O início da eficiência deve ser `Lote.dataEntrada` (regra analítica atual) ou o timestamp da primeira transição `RECEBIDO`?
-2. A previsão em meses precisa preservar frações ou o relatório pode arredondar para mês inteiro?
-3. Para a entrega acadêmica, a API pública e a fila são requisitos obrigatórios na demonstração final, ou basta apresentar uma delas funcionando e justificar a outra?
+1. Para a entrega acadêmica, a API pública e a fila serão implementadas como requisitos finais do PDF; webhooks e escala horizontal ficam fora do escopo inicial.

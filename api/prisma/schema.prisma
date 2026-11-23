@@ -102,7 +102,13 @@ enum MetricaAnalise {
   VIDA_UTIL_INTERCEPTO
   VIDA_UTIL_R2
   VIDA_UTIL_PREVISTA_MESES
+  VIDA_UTIL_RESTANTE_MESES
   VIDA_UTIL_AMOSTRAS
+}
+
+enum NivelEstimativaRecuperacao {
+  CORRESPONDENCIA_COMPLETA
+  TIPO_ESTADO
 }
 
 // Escopos de uma chave de API. Enum em vez de String[] para evitar o mesmo
@@ -241,7 +247,10 @@ model Equipamento {
   valorEstimadoRecuperacao  Decimal?  @db.Decimal(10, 2)
   valorRealizadoRecuperacao Decimal?  @db.Decimal(10, 2)
   dataEstimativa            DateTime?
+  amostrasEstimativa        Int?
+  nivelEstimativa           NivelEstimativaRecuperacao?
   dataRealizacao            DateTime?
+  referenciaComprovante     String?
 
   lote Lote @relation(fields: [loteId], references: [id])
 
@@ -407,7 +416,7 @@ model PrevisaoVidaUtil {
   modelo                 String?
   dataPrevisao           DateTime            @default(now())
   metodologia            MetodologiaPrevisao
-  vidaUtilEstimadaMeses  Int
+  vidaUtilEstimadaMeses  Decimal              @db.Decimal(10, 2)
   r2                     Decimal?            @db.Decimal(6, 4) // coeficiente de determinação
   amostras               Int // n que alimentou a regressão
   parametros             Json // slope, intercept, etc — transparência
@@ -442,8 +451,8 @@ model ValidacaoPrevisao {
   id                String   @id
   previsaoId        String
   equipamentoId     String
-  idadeRealMeses    Int // idade do equipamento no óbito, em meses
-  erroAbsolutoMeses Int // |idadeReal - vidaUtilEstimada| da previsão
+  idadeRealMeses    Decimal @db.Decimal(10, 2) // idade do equipamento no óbito, em meses
+  erroAbsolutoMeses Decimal @db.Decimal(10, 2) // |idadeReal - vidaUtilEstimada| da previsão
   registradaEm      DateTime @default(now())
 
   previsao    PrevisaoVidaUtil @relation(fields: [previsaoId], references: [id])

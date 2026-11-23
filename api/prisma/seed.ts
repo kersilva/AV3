@@ -8,6 +8,7 @@ import { ContratoService } from "../src/modules/contrato/ContratoService.js";
 import { PrismaContratoRepository } from "../src/infrastructure/repositories/PrismaContratoRepository.js";
 import type { NovaOrganizacao } from "../src/domain/repositories/OrganizacaoRepository.js";
 import type { NovoEquipamento } from "../src/domain/entities/Equipamento.js";
+import { ORDEM_ESTADO } from "../src/domain/entities/Equipamento.js";
 import { prisma } from "../src/infrastructure/database.js";
 import { PrismaJournalTransacaoRepository } from "../src/infrastructure/repositories/PrismaJournalTransacaoRepository.js";
 import { PrismaUsuarioRepository } from "../src/infrastructure/repositories/PrismaUsuarioRepository.js";
@@ -286,11 +287,14 @@ async function garantirEquipamento(
   loteId: string,
   posicaoNoLote: number,
   ator: Ator,
+  sufixo = '',
+  trajetoria: readonly EstadoFisico[] = [estadoFisico],
 ) {
-  const id = `seed-equipamento-${tipo.toLowerCase()}`;
+  const complementoId = sufixo ? `-${sufixo}` : '';
+  const id = `seed-equipamento-${tipo.toLowerCase()}${complementoId}`;
   const dados: NovoEquipamento = {
     id,
-    codigoBarrasInterno: `SEED-${tipo}`,
+    codigoBarrasInterno: `SEED-${tipo}${complementoId}`,
     tipo,
     marca: "Greencode",
     modelo: `Modelo ${tipo}`,
@@ -325,13 +329,22 @@ async function garantirEquipamento(
     throw new Error(`O equipamento seed ${id} tem dados incompatíveis.`);
   }
 
-  let estado = await equipamentoService.rastrearEquipamento(id);
-  if (estado.estadoFisico !== estadoFisico) {
-    estado = await equipamentoService.atualizarEstadoFisico(
+  let estadoAtual = await equipamentoService.rastrearEquipamento(id);
+  const indiceEstadoAtual = ORDEM_ESTADO.indexOf(estadoAtual.estadoFisico);
+  const indiceFinal = ORDEM_ESTADO.indexOf(estadoFisico);
+  const indiceInicialTrajetoria = trajetoria.indexOf(estadoAtual.estadoFisico);
+  const indiceFinalTrajetoria = trajetoria.indexOf(estadoFisico);
+  const estadosPendentes = trajetoria.length > 1 && indiceInicialTrajetoria >= 0 && indiceFinalTrajetoria >= indiceInicialTrajetoria
+    ? trajetoria.slice(indiceInicialTrajetoria + 1, indiceFinalTrajetoria + 1)
+    : indiceEstadoAtual < indiceFinal
+      ? [estadoFisico]
+      : [];
+  for (const estadoAlvo of estadosPendentes) {
+    estadoAtual = await equipamentoService.atualizarEstadoFisico(
       id,
-      estadoFisico,
-      "Seed de demonstração: ajuste para cobrir os estados físicos.",
-      estado.versao,
+      estadoAlvo,
+      "Seed de demonstração: trajetória histórica para as análises da AV3.",
+      estadoAtual.versao,
       ator,
     );
   }
@@ -503,6 +516,41 @@ async function verificarCoberturaDosEnums() {
   );
 }
 
+async function verificarCoberturaAnalitica() {
+  const corteHistorico = new Date('2025-12-15T00:00:00.000Z');
+  for (const tipo of Object.values(TipoEquipamento)) {
+    const equipamentos = await prisma.equipamento.findMany({
+      where: { tipo, excluidoEm: null },
+      include: { historicoEstadoFisico: { orderBy: [{ timestamp: 'asc' }, { id: 'asc' }] } },
+    });
+    const datasFalha = equipamentos.flatMap((equipamento) => {
+      const falha = equipamento.historicoEstadoFisico.find(
+        (evento) => evento.estadoNovo === EstadoFisico.INSERVIVEL,
+      );
+      return falha ? [falha.timestamp] : [];
+    });
+    const falhasNoCorte = datasFalha.filter((data) => data <= corteHistorico).length;
+    const falhasDepoisDoCorte = datasFalha.filter((data) => data > corteHistorico).length;
+    const sobreviventes = equipamentos.filter(
+      (equipamento) =>
+        equipamento.historicoEstadoFisico.at(-1)?.estadoNovo !== EstadoFisico.INSERVIVEL,
+    ).length;
+    const amostrasDemonstracao = equipamentos.filter(
+      (equipamento) =>
+        equipamento.valorRealizadoRecuperacao !== null &&
+        equipamento.dataRealizacao !== null &&
+        equipamento.referenciaComprovante?.startsWith('DEMO-SEED:'),
+    ).length;
+    if (falhasNoCorte < 5 || falhasDepoisDoCorte < 1 || sobreviventes < 1 || amostrasDemonstracao < 2) {
+      throw new Error(
+        `Cobertura analítica insuficiente para ${tipo}: falhasNoCorte=${falhasNoCorte}, ` +
+          `falhasDepoisDoCorte=${falhasDepoisDoCorte}, sobreviventes=${sobreviventes}, ` +
+          `amostrasDemonstracao=${amostrasDemonstracao}.`,
+      );
+    }
+  }
+}
+
 function conferirValores(
   nome: string,
   esperados: readonly string[],
@@ -568,7 +616,62 @@ async function main() {
       ator,
     );
   }
+  for (let indiceTipo = 0; indiceTipo < tipos.length; indiceTipo += 1) {
+    const tipo = tipos[indiceTipo]!;
+    const loteAnalitico = await garantirLote(
+      `seed-lote-analitico-${tipo.toLowerCase()}`,
+      StatusLote.RECEBIDO,
+      organizacao.id,
+      ator,
+    );
+    for (let indiceFalha = 1; indiceFalha <= 6; indiceFalha += 1) {
+      const posicao = indiceFalha;
+      const equipamento = await garantirEquipamento(
+        tipo,
+        EstadoFisico.INSERVIVEL,
+        StatusRastreamento.EM_DESMONTE,
+        loteAnalitico.id,
+        posicao,
+        ator,
+        `falha-${indiceFalha}`,
+        ORDEM_ESTADO,
+      );
+    }
+    const posicaoSobrevivente = 7;
+    await garantirEquipamento(
+      tipo,
+      EstadoFisico.USADO_MODERADO,
+      StatusRastreamento.EM_TRIAGEM,
+      loteAnalitico.id,
+      posicaoSobrevivente,
+      ator,
+      'sobrevivente',
+      ORDEM_ESTADO.slice(0, 4),
+    );
+    for (let indiceAmostra = 1; indiceAmostra <= 2; indiceAmostra += 1) {
+      const posicao = 7 + indiceAmostra;
+      const equipamentoAmostra = await garantirEquipamento(
+        tipo,
+        EstadoFisico.USADO_MODERADO,
+        StatusRastreamento.PECAS_REAPROVEITADAS,
+        loteAnalitico.id,
+        posicao,
+        ator,
+        `amostra-valor-${indiceAmostra}`,
+        ORDEM_ESTADO.slice(0, 4),
+      );
+      await prisma.equipamento.update({
+        where: { id: equipamentoAmostra.id },
+        data: {
+          valorRealizadoRecuperacao: 80 + indiceTipo * 25 + indiceAmostra * 10,
+          dataRealizacao: dataSeed(posicao * 30 + 120),
+          referenciaComprovante: `DEMO-SEED:NF-${tipo}-${indiceAmostra}`,
+        },
+      });
+    }
+  }
   await verificarCoberturaDosEnums();
+  await verificarCoberturaAnalitica();
 
   console.info("Seed concluído. Os dados de demonstração estão disponíveis.");
 }

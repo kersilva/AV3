@@ -27,21 +27,21 @@ export type AggregateValidacaoPrevisao = {
 }
 
 export type ValidacaoPrevisaoAvgAggregateOutputType = {
-  idadeRealMeses: number | null
-  erroAbsolutoMeses: number | null
+  idadeRealMeses: runtime.Decimal | null
+  erroAbsolutoMeses: runtime.Decimal | null
 }
 
 export type ValidacaoPrevisaoSumAggregateOutputType = {
-  idadeRealMeses: number | null
-  erroAbsolutoMeses: number | null
+  idadeRealMeses: runtime.Decimal | null
+  erroAbsolutoMeses: runtime.Decimal | null
 }
 
 export type ValidacaoPrevisaoMinAggregateOutputType = {
   id: string | null
   previsaoId: string | null
   equipamentoId: string | null
-  idadeRealMeses: number | null
-  erroAbsolutoMeses: number | null
+  idadeRealMeses: runtime.Decimal | null
+  erroAbsolutoMeses: runtime.Decimal | null
   registradaEm: Date | null
 }
 
@@ -49,8 +49,8 @@ export type ValidacaoPrevisaoMaxAggregateOutputType = {
   id: string | null
   previsaoId: string | null
   equipamentoId: string | null
-  idadeRealMeses: number | null
-  erroAbsolutoMeses: number | null
+  idadeRealMeses: runtime.Decimal | null
+  erroAbsolutoMeses: runtime.Decimal | null
   registradaEm: Date | null
 }
 
@@ -193,8 +193,8 @@ export type ValidacaoPrevisaoGroupByOutputType = {
   id: string
   previsaoId: string
   equipamentoId: string
-  idadeRealMeses: number
-  erroAbsolutoMeses: number
+  idadeRealMeses: runtime.Decimal
+  erroAbsolutoMeses: runtime.Decimal
   registradaEm: Date
   _count: ValidacaoPrevisaoCountAggregateOutputType | null
   _avg: ValidacaoPrevisaoAvgAggregateOutputType | null
@@ -225,8 +225,8 @@ export type ValidacaoPrevisaoWhereInput = {
   id?: Prisma.StringFilter<"ValidacaoPrevisao"> | string
   previsaoId?: Prisma.StringFilter<"ValidacaoPrevisao"> | string
   equipamentoId?: Prisma.StringFilter<"ValidacaoPrevisao"> | string
-  idadeRealMeses?: Prisma.IntFilter<"ValidacaoPrevisao"> | number
-  erroAbsolutoMeses?: Prisma.IntFilter<"ValidacaoPrevisao"> | number
+  idadeRealMeses?: Prisma.DecimalFilter<"ValidacaoPrevisao"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  erroAbsolutoMeses?: Prisma.DecimalFilter<"ValidacaoPrevisao"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   registradaEm?: Prisma.DateTimeFilter<"ValidacaoPrevisao"> | Date | string
   previsao?: Prisma.XOR<Prisma.PrevisaoVidaUtilScalarRelationFilter, Prisma.PrevisaoVidaUtilWhereInput>
   equipamento?: Prisma.XOR<Prisma.EquipamentoScalarRelationFilter, Prisma.EquipamentoWhereInput>
@@ -251,8 +251,8 @@ export type ValidacaoPrevisaoWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.ValidacaoPrevisaoWhereInput | Prisma.ValidacaoPrevisaoWhereInput[]
   previsaoId?: Prisma.StringFilter<"ValidacaoPrevisao"> | string
   equipamentoId?: Prisma.StringFilter<"ValidacaoPrevisao"> | string
-  idadeRealMeses?: Prisma.IntFilter<"ValidacaoPrevisao"> | number
-  erroAbsolutoMeses?: Prisma.IntFilter<"ValidacaoPrevisao"> | number
+  idadeRealMeses?: Prisma.DecimalFilter<"ValidacaoPrevisao"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  erroAbsolutoMeses?: Prisma.DecimalFilter<"ValidacaoPrevisao"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   registradaEm?: Prisma.DateTimeFilter<"ValidacaoPrevisao"> | Date | string
   previsao?: Prisma.XOR<Prisma.PrevisaoVidaUtilScalarRelationFilter, Prisma.PrevisaoVidaUtilWhereInput>
   equipamento?: Prisma.XOR<Prisma.EquipamentoScalarRelationFilter, Prisma.EquipamentoWhereInput>
@@ -279,15 +279,15 @@ export type ValidacaoPrevisaoScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"ValidacaoPrevisao"> | string
   previsaoId?: Prisma.StringWithAggregatesFilter<"ValidacaoPrevisao"> | string
   equipamentoId?: Prisma.StringWithAggregatesFilter<"ValidacaoPrevisao"> | string
-  idadeRealMeses?: Prisma.IntWithAggregatesFilter<"ValidacaoPrevisao"> | number
-  erroAbsolutoMeses?: Prisma.IntWithAggregatesFilter<"ValidacaoPrevisao"> | number
+  idadeRealMeses?: Prisma.DecimalWithAggregatesFilter<"ValidacaoPrevisao"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  erroAbsolutoMeses?: Prisma.DecimalWithAggregatesFilter<"ValidacaoPrevisao"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   registradaEm?: Prisma.DateTimeWithAggregatesFilter<"ValidacaoPrevisao"> | Date | string
 }
 
 export type ValidacaoPrevisaoCreateInput = {
   id: string
-  idadeRealMeses: number
-  erroAbsolutoMeses: number
+  idadeRealMeses: runtime.Decimal | runtime.DecimalJsLike | number | string
+  erroAbsolutoMeses: runtime.Decimal | runtime.DecimalJsLike | number | string
   registradaEm?: Date | string
   previsao: Prisma.PrevisaoVidaUtilCreateNestedOneWithoutValidacoesInput
   equipamento: Prisma.EquipamentoCreateNestedOneWithoutValidacoesPrevisaoInput
@@ -297,15 +297,15 @@ export type ValidacaoPrevisaoUncheckedCreateInput = {
   id: string
   previsaoId: string
   equipamentoId: string
-  idadeRealMeses: number
-  erroAbsolutoMeses: number
+  idadeRealMeses: runtime.Decimal | runtime.DecimalJsLike | number | string
+  erroAbsolutoMeses: runtime.Decimal | runtime.DecimalJsLike | number | string
   registradaEm?: Date | string
 }
 
 export type ValidacaoPrevisaoUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  idadeRealMeses?: Prisma.IntFieldUpdateOperationsInput | number
-  erroAbsolutoMeses?: Prisma.IntFieldUpdateOperationsInput | number
+  idadeRealMeses?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  erroAbsolutoMeses?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   registradaEm?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   previsao?: Prisma.PrevisaoVidaUtilUpdateOneRequiredWithoutValidacoesNestedInput
   equipamento?: Prisma.EquipamentoUpdateOneRequiredWithoutValidacoesPrevisaoNestedInput
@@ -315,8 +315,8 @@ export type ValidacaoPrevisaoUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   previsaoId?: Prisma.StringFieldUpdateOperationsInput | string
   equipamentoId?: Prisma.StringFieldUpdateOperationsInput | string
-  idadeRealMeses?: Prisma.IntFieldUpdateOperationsInput | number
-  erroAbsolutoMeses?: Prisma.IntFieldUpdateOperationsInput | number
+  idadeRealMeses?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  erroAbsolutoMeses?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   registradaEm?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -324,15 +324,15 @@ export type ValidacaoPrevisaoCreateManyInput = {
   id: string
   previsaoId: string
   equipamentoId: string
-  idadeRealMeses: number
-  erroAbsolutoMeses: number
+  idadeRealMeses: runtime.Decimal | runtime.DecimalJsLike | number | string
+  erroAbsolutoMeses: runtime.Decimal | runtime.DecimalJsLike | number | string
   registradaEm?: Date | string
 }
 
 export type ValidacaoPrevisaoUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  idadeRealMeses?: Prisma.IntFieldUpdateOperationsInput | number
-  erroAbsolutoMeses?: Prisma.IntFieldUpdateOperationsInput | number
+  idadeRealMeses?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  erroAbsolutoMeses?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   registradaEm?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -340,8 +340,8 @@ export type ValidacaoPrevisaoUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   previsaoId?: Prisma.StringFieldUpdateOperationsInput | string
   equipamentoId?: Prisma.StringFieldUpdateOperationsInput | string
-  idadeRealMeses?: Prisma.IntFieldUpdateOperationsInput | number
-  erroAbsolutoMeses?: Prisma.IntFieldUpdateOperationsInput | number
+  idadeRealMeses?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  erroAbsolutoMeses?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   registradaEm?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -483,8 +483,8 @@ export type ValidacaoPrevisaoUncheckedUpdateManyWithoutPrevisaoNestedInput = {
 
 export type ValidacaoPrevisaoCreateWithoutEquipamentoInput = {
   id: string
-  idadeRealMeses: number
-  erroAbsolutoMeses: number
+  idadeRealMeses: runtime.Decimal | runtime.DecimalJsLike | number | string
+  erroAbsolutoMeses: runtime.Decimal | runtime.DecimalJsLike | number | string
   registradaEm?: Date | string
   previsao: Prisma.PrevisaoVidaUtilCreateNestedOneWithoutValidacoesInput
 }
@@ -492,8 +492,8 @@ export type ValidacaoPrevisaoCreateWithoutEquipamentoInput = {
 export type ValidacaoPrevisaoUncheckedCreateWithoutEquipamentoInput = {
   id: string
   previsaoId: string
-  idadeRealMeses: number
-  erroAbsolutoMeses: number
+  idadeRealMeses: runtime.Decimal | runtime.DecimalJsLike | number | string
+  erroAbsolutoMeses: runtime.Decimal | runtime.DecimalJsLike | number | string
   registradaEm?: Date | string
 }
 
@@ -530,15 +530,15 @@ export type ValidacaoPrevisaoScalarWhereInput = {
   id?: Prisma.StringFilter<"ValidacaoPrevisao"> | string
   previsaoId?: Prisma.StringFilter<"ValidacaoPrevisao"> | string
   equipamentoId?: Prisma.StringFilter<"ValidacaoPrevisao"> | string
-  idadeRealMeses?: Prisma.IntFilter<"ValidacaoPrevisao"> | number
-  erroAbsolutoMeses?: Prisma.IntFilter<"ValidacaoPrevisao"> | number
+  idadeRealMeses?: Prisma.DecimalFilter<"ValidacaoPrevisao"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  erroAbsolutoMeses?: Prisma.DecimalFilter<"ValidacaoPrevisao"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   registradaEm?: Prisma.DateTimeFilter<"ValidacaoPrevisao"> | Date | string
 }
 
 export type ValidacaoPrevisaoCreateWithoutPrevisaoInput = {
   id: string
-  idadeRealMeses: number
-  erroAbsolutoMeses: number
+  idadeRealMeses: runtime.Decimal | runtime.DecimalJsLike | number | string
+  erroAbsolutoMeses: runtime.Decimal | runtime.DecimalJsLike | number | string
   registradaEm?: Date | string
   equipamento: Prisma.EquipamentoCreateNestedOneWithoutValidacoesPrevisaoInput
 }
@@ -546,8 +546,8 @@ export type ValidacaoPrevisaoCreateWithoutPrevisaoInput = {
 export type ValidacaoPrevisaoUncheckedCreateWithoutPrevisaoInput = {
   id: string
   equipamentoId: string
-  idadeRealMeses: number
-  erroAbsolutoMeses: number
+  idadeRealMeses: runtime.Decimal | runtime.DecimalJsLike | number | string
+  erroAbsolutoMeses: runtime.Decimal | runtime.DecimalJsLike | number | string
   registradaEm?: Date | string
 }
 
@@ -580,15 +580,15 @@ export type ValidacaoPrevisaoUpdateManyWithWhereWithoutPrevisaoInput = {
 export type ValidacaoPrevisaoCreateManyEquipamentoInput = {
   id: string
   previsaoId: string
-  idadeRealMeses: number
-  erroAbsolutoMeses: number
+  idadeRealMeses: runtime.Decimal | runtime.DecimalJsLike | number | string
+  erroAbsolutoMeses: runtime.Decimal | runtime.DecimalJsLike | number | string
   registradaEm?: Date | string
 }
 
 export type ValidacaoPrevisaoUpdateWithoutEquipamentoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  idadeRealMeses?: Prisma.IntFieldUpdateOperationsInput | number
-  erroAbsolutoMeses?: Prisma.IntFieldUpdateOperationsInput | number
+  idadeRealMeses?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  erroAbsolutoMeses?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   registradaEm?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   previsao?: Prisma.PrevisaoVidaUtilUpdateOneRequiredWithoutValidacoesNestedInput
 }
@@ -596,31 +596,31 @@ export type ValidacaoPrevisaoUpdateWithoutEquipamentoInput = {
 export type ValidacaoPrevisaoUncheckedUpdateWithoutEquipamentoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   previsaoId?: Prisma.StringFieldUpdateOperationsInput | string
-  idadeRealMeses?: Prisma.IntFieldUpdateOperationsInput | number
-  erroAbsolutoMeses?: Prisma.IntFieldUpdateOperationsInput | number
+  idadeRealMeses?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  erroAbsolutoMeses?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   registradaEm?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ValidacaoPrevisaoUncheckedUpdateManyWithoutEquipamentoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   previsaoId?: Prisma.StringFieldUpdateOperationsInput | string
-  idadeRealMeses?: Prisma.IntFieldUpdateOperationsInput | number
-  erroAbsolutoMeses?: Prisma.IntFieldUpdateOperationsInput | number
+  idadeRealMeses?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  erroAbsolutoMeses?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   registradaEm?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ValidacaoPrevisaoCreateManyPrevisaoInput = {
   id: string
   equipamentoId: string
-  idadeRealMeses: number
-  erroAbsolutoMeses: number
+  idadeRealMeses: runtime.Decimal | runtime.DecimalJsLike | number | string
+  erroAbsolutoMeses: runtime.Decimal | runtime.DecimalJsLike | number | string
   registradaEm?: Date | string
 }
 
 export type ValidacaoPrevisaoUpdateWithoutPrevisaoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  idadeRealMeses?: Prisma.IntFieldUpdateOperationsInput | number
-  erroAbsolutoMeses?: Prisma.IntFieldUpdateOperationsInput | number
+  idadeRealMeses?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  erroAbsolutoMeses?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   registradaEm?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   equipamento?: Prisma.EquipamentoUpdateOneRequiredWithoutValidacoesPrevisaoNestedInput
 }
@@ -628,16 +628,16 @@ export type ValidacaoPrevisaoUpdateWithoutPrevisaoInput = {
 export type ValidacaoPrevisaoUncheckedUpdateWithoutPrevisaoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   equipamentoId?: Prisma.StringFieldUpdateOperationsInput | string
-  idadeRealMeses?: Prisma.IntFieldUpdateOperationsInput | number
-  erroAbsolutoMeses?: Prisma.IntFieldUpdateOperationsInput | number
+  idadeRealMeses?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  erroAbsolutoMeses?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   registradaEm?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ValidacaoPrevisaoUncheckedUpdateManyWithoutPrevisaoInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   equipamentoId?: Prisma.StringFieldUpdateOperationsInput | string
-  idadeRealMeses?: Prisma.IntFieldUpdateOperationsInput | number
-  erroAbsolutoMeses?: Prisma.IntFieldUpdateOperationsInput | number
+  idadeRealMeses?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  erroAbsolutoMeses?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   registradaEm?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -709,8 +709,8 @@ export type $ValidacaoPrevisaoPayload<ExtArgs extends runtime.Types.Extensions.I
     id: string
     previsaoId: string
     equipamentoId: string
-    idadeRealMeses: number
-    erroAbsolutoMeses: number
+    idadeRealMeses: runtime.Decimal
+    erroAbsolutoMeses: runtime.Decimal
     registradaEm: Date
   }, ExtArgs["result"]["validacaoPrevisao"]>
   composites: {}
@@ -1140,8 +1140,8 @@ export interface ValidacaoPrevisaoFieldRefs {
   readonly id: Prisma.FieldRef<"ValidacaoPrevisao", 'String'>
   readonly previsaoId: Prisma.FieldRef<"ValidacaoPrevisao", 'String'>
   readonly equipamentoId: Prisma.FieldRef<"ValidacaoPrevisao", 'String'>
-  readonly idadeRealMeses: Prisma.FieldRef<"ValidacaoPrevisao", 'Int'>
-  readonly erroAbsolutoMeses: Prisma.FieldRef<"ValidacaoPrevisao", 'Int'>
+  readonly idadeRealMeses: Prisma.FieldRef<"ValidacaoPrevisao", 'Decimal'>
+  readonly erroAbsolutoMeses: Prisma.FieldRef<"ValidacaoPrevisao", 'Decimal'>
   readonly registradaEm: Prisma.FieldRef<"ValidacaoPrevisao", 'DateTime'>
 }
     

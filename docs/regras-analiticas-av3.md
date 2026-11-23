@@ -62,4 +62,4 @@ O schema armazena o valor realizado e sua data, mas não guarda a referência do
 1. Persistir como a nota fiscal ou o comprovante se relaciona ao valor realizado.
 2. Reutilizar a ordem canônica definida em `Equipamento.ts` sem copiar a lista.
 3. Tratar uma inclinação nula ou negativa e uma previsão fora do intervalo plausível como resultado sem previsão válida, em vez de publicar um número enganoso.
-4. Confirmar se o agrupamento de eficiência por operador deve atribuir o lote ao responsável da conclusão. A duração medida é do lote e inclui espera; ela não mede horas trabalhadas por operador.
+4. O agrupamento de eficiência por operador atribui o lote ao responsável da conclusão. A duração medida é do lote e inclui espera; ela não mede horas trabalhadas por operador.

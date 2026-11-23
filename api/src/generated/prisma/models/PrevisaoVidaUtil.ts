@@ -27,13 +27,13 @@ export type AggregatePrevisaoVidaUtil = {
 }
 
 export type PrevisaoVidaUtilAvgAggregateOutputType = {
-  vidaUtilEstimadaMeses: number | null
+  vidaUtilEstimadaMeses: runtime.Decimal | null
   r2: runtime.Decimal | null
   amostras: number | null
 }
 
 export type PrevisaoVidaUtilSumAggregateOutputType = {
-  vidaUtilEstimadaMeses: number | null
+  vidaUtilEstimadaMeses: runtime.Decimal | null
   r2: runtime.Decimal | null
   amostras: number | null
 }
@@ -45,7 +45,7 @@ export type PrevisaoVidaUtilMinAggregateOutputType = {
   modelo: string | null
   dataPrevisao: Date | null
   metodologia: $Enums.MetodologiaPrevisao | null
-  vidaUtilEstimadaMeses: number | null
+  vidaUtilEstimadaMeses: runtime.Decimal | null
   r2: runtime.Decimal | null
   amostras: number | null
   solicitacaoRelatorioId: string | null
@@ -59,7 +59,7 @@ export type PrevisaoVidaUtilMaxAggregateOutputType = {
   modelo: string | null
   dataPrevisao: Date | null
   metodologia: $Enums.MetodologiaPrevisao | null
-  vidaUtilEstimadaMeses: number | null
+  vidaUtilEstimadaMeses: runtime.Decimal | null
   r2: runtime.Decimal | null
   amostras: number | null
   solicitacaoRelatorioId: string | null
@@ -232,7 +232,7 @@ export type PrevisaoVidaUtilGroupByOutputType = {
   modelo: string | null
   dataPrevisao: Date
   metodologia: $Enums.MetodologiaPrevisao
-  vidaUtilEstimadaMeses: number
+  vidaUtilEstimadaMeses: runtime.Decimal
   r2: runtime.Decimal | null
   amostras: number
   parametros: runtime.JsonValue
@@ -270,7 +270,7 @@ export type PrevisaoVidaUtilWhereInput = {
   modelo?: Prisma.StringNullableFilter<"PrevisaoVidaUtil"> | string | null
   dataPrevisao?: Prisma.DateTimeFilter<"PrevisaoVidaUtil"> | Date | string
   metodologia?: Prisma.EnumMetodologiaPrevisaoFilter<"PrevisaoVidaUtil"> | $Enums.MetodologiaPrevisao
-  vidaUtilEstimadaMeses?: Prisma.IntFilter<"PrevisaoVidaUtil"> | number
+  vidaUtilEstimadaMeses?: Prisma.DecimalFilter<"PrevisaoVidaUtil"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   r2?: Prisma.DecimalNullableFilter<"PrevisaoVidaUtil"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amostras?: Prisma.IntFilter<"PrevisaoVidaUtil"> | number
   parametros?: Prisma.JsonFilter<"PrevisaoVidaUtil">
@@ -309,7 +309,7 @@ export type PrevisaoVidaUtilWhereUniqueInput = Prisma.AtLeast<{
   modelo?: Prisma.StringNullableFilter<"PrevisaoVidaUtil"> | string | null
   dataPrevisao?: Prisma.DateTimeFilter<"PrevisaoVidaUtil"> | Date | string
   metodologia?: Prisma.EnumMetodologiaPrevisaoFilter<"PrevisaoVidaUtil"> | $Enums.MetodologiaPrevisao
-  vidaUtilEstimadaMeses?: Prisma.IntFilter<"PrevisaoVidaUtil"> | number
+  vidaUtilEstimadaMeses?: Prisma.DecimalFilter<"PrevisaoVidaUtil"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   r2?: Prisma.DecimalNullableFilter<"PrevisaoVidaUtil"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amostras?: Prisma.IntFilter<"PrevisaoVidaUtil"> | number
   parametros?: Prisma.JsonFilter<"PrevisaoVidaUtil">
@@ -350,7 +350,7 @@ export type PrevisaoVidaUtilScalarWhereWithAggregatesInput = {
   modelo?: Prisma.StringNullableWithAggregatesFilter<"PrevisaoVidaUtil"> | string | null
   dataPrevisao?: Prisma.DateTimeWithAggregatesFilter<"PrevisaoVidaUtil"> | Date | string
   metodologia?: Prisma.EnumMetodologiaPrevisaoWithAggregatesFilter<"PrevisaoVidaUtil"> | $Enums.MetodologiaPrevisao
-  vidaUtilEstimadaMeses?: Prisma.IntWithAggregatesFilter<"PrevisaoVidaUtil"> | number
+  vidaUtilEstimadaMeses?: Prisma.DecimalWithAggregatesFilter<"PrevisaoVidaUtil"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   r2?: Prisma.DecimalNullableWithAggregatesFilter<"PrevisaoVidaUtil"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amostras?: Prisma.IntWithAggregatesFilter<"PrevisaoVidaUtil"> | number
   parametros?: Prisma.JsonWithAggregatesFilter<"PrevisaoVidaUtil">
@@ -365,7 +365,7 @@ export type PrevisaoVidaUtilCreateInput = {
   modelo?: string | null
   dataPrevisao?: Date | string
   metodologia: $Enums.MetodologiaPrevisao
-  vidaUtilEstimadaMeses: number
+  vidaUtilEstimadaMeses: runtime.Decimal | runtime.DecimalJsLike | number | string
   r2?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amostras: number
   parametros: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -381,7 +381,7 @@ export type PrevisaoVidaUtilUncheckedCreateInput = {
   modelo?: string | null
   dataPrevisao?: Date | string
   metodologia: $Enums.MetodologiaPrevisao
-  vidaUtilEstimadaMeses: number
+  vidaUtilEstimadaMeses: runtime.Decimal | runtime.DecimalJsLike | number | string
   r2?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amostras: number
   parametros: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -397,7 +397,7 @@ export type PrevisaoVidaUtilUpdateInput = {
   modelo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dataPrevisao?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   metodologia?: Prisma.EnumMetodologiaPrevisaoFieldUpdateOperationsInput | $Enums.MetodologiaPrevisao
-  vidaUtilEstimadaMeses?: Prisma.IntFieldUpdateOperationsInput | number
+  vidaUtilEstimadaMeses?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   r2?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amostras?: Prisma.IntFieldUpdateOperationsInput | number
   parametros?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -413,7 +413,7 @@ export type PrevisaoVidaUtilUncheckedUpdateInput = {
   modelo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dataPrevisao?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   metodologia?: Prisma.EnumMetodologiaPrevisaoFieldUpdateOperationsInput | $Enums.MetodologiaPrevisao
-  vidaUtilEstimadaMeses?: Prisma.IntFieldUpdateOperationsInput | number
+  vidaUtilEstimadaMeses?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   r2?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amostras?: Prisma.IntFieldUpdateOperationsInput | number
   parametros?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -429,7 +429,7 @@ export type PrevisaoVidaUtilCreateManyInput = {
   modelo?: string | null
   dataPrevisao?: Date | string
   metodologia: $Enums.MetodologiaPrevisao
-  vidaUtilEstimadaMeses: number
+  vidaUtilEstimadaMeses: runtime.Decimal | runtime.DecimalJsLike | number | string
   r2?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amostras: number
   parametros: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -444,7 +444,7 @@ export type PrevisaoVidaUtilUpdateManyMutationInput = {
   modelo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dataPrevisao?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   metodologia?: Prisma.EnumMetodologiaPrevisaoFieldUpdateOperationsInput | $Enums.MetodologiaPrevisao
-  vidaUtilEstimadaMeses?: Prisma.IntFieldUpdateOperationsInput | number
+  vidaUtilEstimadaMeses?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   r2?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amostras?: Prisma.IntFieldUpdateOperationsInput | number
   parametros?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -457,7 +457,7 @@ export type PrevisaoVidaUtilUncheckedUpdateManyInput = {
   modelo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dataPrevisao?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   metodologia?: Prisma.EnumMetodologiaPrevisaoFieldUpdateOperationsInput | $Enums.MetodologiaPrevisao
-  vidaUtilEstimadaMeses?: Prisma.IntFieldUpdateOperationsInput | number
+  vidaUtilEstimadaMeses?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   r2?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amostras?: Prisma.IntFieldUpdateOperationsInput | number
   parametros?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -644,7 +644,7 @@ export type PrevisaoVidaUtilCreateWithoutExecucaoInput = {
   modelo?: string | null
   dataPrevisao?: Date | string
   metodologia: $Enums.MetodologiaPrevisao
-  vidaUtilEstimadaMeses: number
+  vidaUtilEstimadaMeses: runtime.Decimal | runtime.DecimalJsLike | number | string
   r2?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amostras: number
   parametros: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -659,7 +659,7 @@ export type PrevisaoVidaUtilUncheckedCreateWithoutExecucaoInput = {
   modelo?: string | null
   dataPrevisao?: Date | string
   metodologia: $Enums.MetodologiaPrevisao
-  vidaUtilEstimadaMeses: number
+  vidaUtilEstimadaMeses: runtime.Decimal | runtime.DecimalJsLike | number | string
   r2?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amostras: number
   parametros: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -703,7 +703,7 @@ export type PrevisaoVidaUtilScalarWhereInput = {
   modelo?: Prisma.StringNullableFilter<"PrevisaoVidaUtil"> | string | null
   dataPrevisao?: Prisma.DateTimeFilter<"PrevisaoVidaUtil"> | Date | string
   metodologia?: Prisma.EnumMetodologiaPrevisaoFilter<"PrevisaoVidaUtil"> | $Enums.MetodologiaPrevisao
-  vidaUtilEstimadaMeses?: Prisma.IntFilter<"PrevisaoVidaUtil"> | number
+  vidaUtilEstimadaMeses?: Prisma.DecimalFilter<"PrevisaoVidaUtil"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   r2?: Prisma.DecimalNullableFilter<"PrevisaoVidaUtil"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amostras?: Prisma.IntFilter<"PrevisaoVidaUtil"> | number
   parametros?: Prisma.JsonFilter<"PrevisaoVidaUtil">
@@ -718,7 +718,7 @@ export type PrevisaoVidaUtilCreateWithoutValidacoesInput = {
   modelo?: string | null
   dataPrevisao?: Date | string
   metodologia: $Enums.MetodologiaPrevisao
-  vidaUtilEstimadaMeses: number
+  vidaUtilEstimadaMeses: runtime.Decimal | runtime.DecimalJsLike | number | string
   r2?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amostras: number
   parametros: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -733,7 +733,7 @@ export type PrevisaoVidaUtilUncheckedCreateWithoutValidacoesInput = {
   modelo?: string | null
   dataPrevisao?: Date | string
   metodologia: $Enums.MetodologiaPrevisao
-  vidaUtilEstimadaMeses: number
+  vidaUtilEstimadaMeses: runtime.Decimal | runtime.DecimalJsLike | number | string
   r2?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amostras: number
   parametros: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -764,7 +764,7 @@ export type PrevisaoVidaUtilUpdateWithoutValidacoesInput = {
   modelo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dataPrevisao?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   metodologia?: Prisma.EnumMetodologiaPrevisaoFieldUpdateOperationsInput | $Enums.MetodologiaPrevisao
-  vidaUtilEstimadaMeses?: Prisma.IntFieldUpdateOperationsInput | number
+  vidaUtilEstimadaMeses?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   r2?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amostras?: Prisma.IntFieldUpdateOperationsInput | number
   parametros?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -779,7 +779,7 @@ export type PrevisaoVidaUtilUncheckedUpdateWithoutValidacoesInput = {
   modelo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dataPrevisao?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   metodologia?: Prisma.EnumMetodologiaPrevisaoFieldUpdateOperationsInput | $Enums.MetodologiaPrevisao
-  vidaUtilEstimadaMeses?: Prisma.IntFieldUpdateOperationsInput | number
+  vidaUtilEstimadaMeses?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   r2?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amostras?: Prisma.IntFieldUpdateOperationsInput | number
   parametros?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -794,7 +794,7 @@ export type PrevisaoVidaUtilCreateWithoutSolicitacaoInput = {
   modelo?: string | null
   dataPrevisao?: Date | string
   metodologia: $Enums.MetodologiaPrevisao
-  vidaUtilEstimadaMeses: number
+  vidaUtilEstimadaMeses: runtime.Decimal | runtime.DecimalJsLike | number | string
   r2?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amostras: number
   parametros: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -809,7 +809,7 @@ export type PrevisaoVidaUtilUncheckedCreateWithoutSolicitacaoInput = {
   modelo?: string | null
   dataPrevisao?: Date | string
   metodologia: $Enums.MetodologiaPrevisao
-  vidaUtilEstimadaMeses: number
+  vidaUtilEstimadaMeses: runtime.Decimal | runtime.DecimalJsLike | number | string
   r2?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amostras: number
   parametros: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -850,7 +850,7 @@ export type PrevisaoVidaUtilCreateManyExecucaoInput = {
   modelo?: string | null
   dataPrevisao?: Date | string
   metodologia: $Enums.MetodologiaPrevisao
-  vidaUtilEstimadaMeses: number
+  vidaUtilEstimadaMeses: runtime.Decimal | runtime.DecimalJsLike | number | string
   r2?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amostras: number
   parametros: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -864,7 +864,7 @@ export type PrevisaoVidaUtilUpdateWithoutExecucaoInput = {
   modelo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dataPrevisao?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   metodologia?: Prisma.EnumMetodologiaPrevisaoFieldUpdateOperationsInput | $Enums.MetodologiaPrevisao
-  vidaUtilEstimadaMeses?: Prisma.IntFieldUpdateOperationsInput | number
+  vidaUtilEstimadaMeses?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   r2?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amostras?: Prisma.IntFieldUpdateOperationsInput | number
   parametros?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -879,7 +879,7 @@ export type PrevisaoVidaUtilUncheckedUpdateWithoutExecucaoInput = {
   modelo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dataPrevisao?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   metodologia?: Prisma.EnumMetodologiaPrevisaoFieldUpdateOperationsInput | $Enums.MetodologiaPrevisao
-  vidaUtilEstimadaMeses?: Prisma.IntFieldUpdateOperationsInput | number
+  vidaUtilEstimadaMeses?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   r2?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amostras?: Prisma.IntFieldUpdateOperationsInput | number
   parametros?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -894,7 +894,7 @@ export type PrevisaoVidaUtilUncheckedUpdateManyWithoutExecucaoInput = {
   modelo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dataPrevisao?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   metodologia?: Prisma.EnumMetodologiaPrevisaoFieldUpdateOperationsInput | $Enums.MetodologiaPrevisao
-  vidaUtilEstimadaMeses?: Prisma.IntFieldUpdateOperationsInput | number
+  vidaUtilEstimadaMeses?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   r2?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amostras?: Prisma.IntFieldUpdateOperationsInput | number
   parametros?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -908,7 +908,7 @@ export type PrevisaoVidaUtilCreateManySolicitacaoInput = {
   modelo?: string | null
   dataPrevisao?: Date | string
   metodologia: $Enums.MetodologiaPrevisao
-  vidaUtilEstimadaMeses: number
+  vidaUtilEstimadaMeses: runtime.Decimal | runtime.DecimalJsLike | number | string
   r2?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amostras: number
   parametros: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -922,7 +922,7 @@ export type PrevisaoVidaUtilUpdateWithoutSolicitacaoInput = {
   modelo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dataPrevisao?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   metodologia?: Prisma.EnumMetodologiaPrevisaoFieldUpdateOperationsInput | $Enums.MetodologiaPrevisao
-  vidaUtilEstimadaMeses?: Prisma.IntFieldUpdateOperationsInput | number
+  vidaUtilEstimadaMeses?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   r2?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amostras?: Prisma.IntFieldUpdateOperationsInput | number
   parametros?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -937,7 +937,7 @@ export type PrevisaoVidaUtilUncheckedUpdateWithoutSolicitacaoInput = {
   modelo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dataPrevisao?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   metodologia?: Prisma.EnumMetodologiaPrevisaoFieldUpdateOperationsInput | $Enums.MetodologiaPrevisao
-  vidaUtilEstimadaMeses?: Prisma.IntFieldUpdateOperationsInput | number
+  vidaUtilEstimadaMeses?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   r2?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amostras?: Prisma.IntFieldUpdateOperationsInput | number
   parametros?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -952,7 +952,7 @@ export type PrevisaoVidaUtilUncheckedUpdateManyWithoutSolicitacaoInput = {
   modelo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dataPrevisao?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   metodologia?: Prisma.EnumMetodologiaPrevisaoFieldUpdateOperationsInput | $Enums.MetodologiaPrevisao
-  vidaUtilEstimadaMeses?: Prisma.IntFieldUpdateOperationsInput | number
+  vidaUtilEstimadaMeses?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   r2?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amostras?: Prisma.IntFieldUpdateOperationsInput | number
   parametros?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -1088,7 +1088,7 @@ export type $PrevisaoVidaUtilPayload<ExtArgs extends runtime.Types.Extensions.In
     modelo: string | null
     dataPrevisao: Date
     metodologia: $Enums.MetodologiaPrevisao
-    vidaUtilEstimadaMeses: number
+    vidaUtilEstimadaMeses: runtime.Decimal
     r2: runtime.Decimal | null
     amostras: number
     parametros: runtime.JsonValue
@@ -1526,7 +1526,7 @@ export interface PrevisaoVidaUtilFieldRefs {
   readonly modelo: Prisma.FieldRef<"PrevisaoVidaUtil", 'String'>
   readonly dataPrevisao: Prisma.FieldRef<"PrevisaoVidaUtil", 'DateTime'>
   readonly metodologia: Prisma.FieldRef<"PrevisaoVidaUtil", 'MetodologiaPrevisao'>
-  readonly vidaUtilEstimadaMeses: Prisma.FieldRef<"PrevisaoVidaUtil", 'Int'>
+  readonly vidaUtilEstimadaMeses: Prisma.FieldRef<"PrevisaoVidaUtil", 'Decimal'>
   readonly r2: Prisma.FieldRef<"PrevisaoVidaUtil", 'Decimal'>
   readonly amostras: Prisma.FieldRef<"PrevisaoVidaUtil", 'Int'>
   readonly parametros: Prisma.FieldRef<"PrevisaoVidaUtil", 'Json'>

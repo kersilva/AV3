@@ -6,27 +6,27 @@
 
 ## Fase 0 — Contrato de dados e migrações
 
-- [ ] [Schema Prisma](api/prisma/schema.prisma): alinhar comentários às regras analíticas acordadas; rever precisão dos meses previstos/erro e referência de comprovante.
-- [ ] [Migração AV3](api/prisma/migrations/20261118020013_camada_analitica_av3/migration.sql): inspecionar transições perigosas em `Movimentacao`; não reescrever migração aplicada. Criar migração nova que preserve valores quando necessário.
-- [ ] [Seed](api/prisma/seed.ts) e [dados temporais](api/prisma/seed-data.ts): cobrir falhas, sobreviventes, variação temporal e valores de demonstração para todos os relatórios.
-- [ ] [Planejamento](docs/planejamento-mvp-av3.md) e [regras analíticas](docs/regras-analiticas-av3.md): registrar decisões de eficiência, arredondamento, comprovante, insuficiência e validação.
+- [x] [Schema Prisma](api/prisma/schema.prisma): meses previstos/erro usam Decimal; valor realizado tem referência e estimativa guarda contagem e nível de amostra.
+- [x] [Migração AV3](api/prisma/migrations/20261123120000_precisao_e_comprovante_analises/migration.sql): migração aditiva para precisão, referência e nível da estimativa. Não reescreve migração aplicada.
+- [x] [Seed](api/prisma/seed.ts): cobre seis falhas por tipo, sobreviventes, datas distribuídas, falhas futuras a um corte histórico e valores de demonstração.
+- [x] [Planejamento](docs/planejamento-mvp-av3.md) e [regras analíticas](docs/regras-analiticas-av3.md): eficiência começa no evento RECEBIDO; meses fracionários preservados; agrupamento usa responsável da conclusão.
 - [ ] Antes de qualquer migração destrutiva, confirmar que o alvo é o banco local de desenvolvimento; como contém somente dados do seed, recriação é permitida e o seed deve ser executado novamente.
 
 ## Fase 1 — MVP analítico síncrono
 
-- [ ] Implementar consultas tipadas para histórico de lotes, histórico físico, lotes, equipamentos e valores realizados, respeitando exclusão lógica.
-- [ ] Implementar eficiência por lote de `Lote.dataEntrada` até a primeira conclusão, média, contagens, agrupamento por mês e responsável da conclusão.
-- [ ] Implementar recuperação bruta com amostras válidas e estimativa por correspondência completa com fallback tipo/estado, usando estado conhecido na data da estimativa.
-- [ ] Exportar a ordem canônica de estado de `Equipamento.ts` sem duplicar a lista; implementar regressão OLS com corte temporal, mínimo de falhas e motivos de insuficiência.
-- [ ] Persistir `ExecucaoAnalise`, `ResultadoAnalise` e previsões em transações coerentes; expor execução e consulta histórica em rotas internas autenticadas.
-- [ ] Atualizar Swagger e documentação técnica com unidades, filtros, amostras, limitações e indicação de dados de demonstração.
-- [ ] Adicionar testes unitários e de integração para médias, OLS, limites temporais, dados ausentes, precisão e rollback transacional.
+- [x] Implementar consultas tipadas para históricos de lotes/estado, lotes, equipamentos e valores, respeitando exclusões lógicas e data de referência.
+- [x] Implementar eficiência por lote do primeiro `RECEBIDO` à primeira conclusão, média, contagens e agrupamentos independentes por mês e operador.
+- [x] Implementar recuperação bruta com comprovante, referência à data de estimativa e fallback tipo/estado; registrar estimativa, amostras e nível de correspondência.
+- [x] Reutilizar `ORDEM_ESTADO`; implementar OLS com corte temporal, mínimo de cinco falhas, limites válidos e motivos de insuficiência.
+- [x] Persistir execuções, métricas e previsões; expor execução e consulta histórica em rotas internas autenticadas.
+- [x] Atualizar Swagger e README com unidades, regras, limitações e dados de demonstração.
+- [x] Adicionar testes unitários de cálculo para eficiência, OLS e fallback de recuperação.
 
 ## Fase 2 — Validação e auditabilidade
 
-- [ ] Gravar validações apenas para falhas após `dataPrevisao`, com idade real e erro conforme precisão aprovada.
-- [ ] Adicionar referência persistida para documento comprobatório de valor realizado e validar preenchimento/data.
-- [ ] Testar que itens de treino não são validados na mesma previsão e que recalcular cria execuções históricas separadas.
+- [x] Gravar validações apenas para primeiras falhas posteriores a `dataPrevisao`, com idade e erro Decimal.
+- [x] Adicionar referência persistida para comprovante e validar preenchimento/data no serviço.
+- [ ] Testar integração: itens de treino não são validados na mesma previsão e execuções históricas permanecem separadas.
 
 ## Fase 3 — API pública
 
@@ -60,9 +60,10 @@
 ## Riscos de pontos não verificados
 
 - `[⏳ ACK]` O banco local contém apenas dados do seed, conforme confirmação do usuário. Recriar esses dados é aceitável; ainda identificar o banco-alvo antes de executar comandos para evitar afetar um ambiente diferente.
+- `[⚠️ UNVERIFIED]` `prisma migrate status` falhou porque o PostgreSQL em `localhost:5433` não respondeu; migração e seed ainda não foram aplicados/executados neste ambiente.
 - `[⚠️ UNVERIFIED]` Redis/BullMQ e políticas de deploy ainda não existem no repositório; as opções de armazenamento de arquivo e expiração precisam ser verificadas no ambiente-alvo.
-- `[⏳ ACK]` O início da eficiência seguirá `Lote.dataEntrada` conforme `docs/regras-analiticas-av3.md`; a conclusão é a primeira transição `TRIAGEM_CONCLUIDA`.
-- `[⏳ ACK]` Previsões preservarão frações internamente; arredondamento será apenas de apresentação, salvo limitação fundamentada do schema legado.
+- Início da eficiência: timestamp do primeiro histórico `RECEBIDO`; fim: primeira transição `TRIAGEM_CONCLUIDA`.
+- Previsões e validações preservam frações em colunas `Decimal`; arredondar somente na apresentação.
 
 ## Exclusões acordadas
 

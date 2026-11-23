@@ -30,7 +30,7 @@ export const swaggerOptions: SwaggerOptions = {
       { name: 'Lotes', description: 'Recebimento e triagem de lotes' },
       { name: 'Equipamentos', description: 'Equipamentos e movimentações' },
       { name: 'Auditoria', description: 'Consulta ao journal' },
-      { name: 'Relatórios', description: 'Relatórios e dashboards' },
+      { name: 'Relatórios', description: 'Relatórios operacionais e análises persistidas' },
       { name: 'Configuração', description: 'Configurações do sistema' },
     ],
   },

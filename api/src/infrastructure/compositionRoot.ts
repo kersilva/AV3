@@ -28,6 +28,10 @@ import { PrismaLoteRepository } from '@infra/repositories/PrismaLoteRepository.j
 import { PrismaOrganizacaoRepository } from '@infra/repositories/PrismaOrganizacaoRepository.js';
 import { PrismaUsuarioRepository } from '@infra/repositories/PrismaUsuarioRepository.js';
 import { RelatorioQueryService } from '@infra/queries/RelatorioQueryService.js';
+import { AnaliseService } from '@analise/AnaliseService.js';
+import { AnaliseController } from '@analise/AnaliseController.js';
+import { RecuperacaoController } from '@analise/RecuperacaoController.js';
+import { RecuperacaoService } from '@analise/RecuperacaoService.js';
 import { BcryptHash } from '@infra/crypto/BcryptHash.js';
 import { AutorizacaoService } from '@autenticacao/AutorizacaoService.js';
 import { criarGuardAutorizacao } from '@infra/fastify/AutorizacaoPreHandler.js';
@@ -48,6 +52,8 @@ export async function compositionRoot(app: FastifyInstance): Promise<void> {
   const lote = new LoteService(new PrismaLoteRepository(), unitOfWork);
   const organizacao = new OrganizacaoService(new PrismaOrganizacaoRepository(), unitOfWork);
   const relatorio = new RelatorioService(new RelatorioQueryService());
+  const analise = new AnaliseService();
+  const recuperacao = new RecuperacaoService();
   const usuario = new UsuarioService(usuarioRepository, hash, unitOfWork);
   const admin = exigirPapeis(PapelUsuario.ADMINISTRADOR);
   const cadastro = exigirPapeis(PapelUsuario.ADMINISTRADOR, PapelUsuario.OPERADOR_CADASTRO);
@@ -92,4 +98,6 @@ export async function compositionRoot(app: FastifyInstance): Promise<void> {
   );
   await JournalController(app, journalAccess, journal);
   await RelatorioController(app, relatorioAccess, relatorio);
+  await AnaliseController(app, relatorioAccess, analise);
+  await RecuperacaoController(app, almoxarifado, recuperacao);
 }

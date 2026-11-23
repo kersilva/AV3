@@ -178,7 +178,10 @@ export const EquipamentoScalarFieldEnum = {
   valorEstimadoRecuperacao: 'valorEstimadoRecuperacao',
   valorRealizadoRecuperacao: 'valorRealizadoRecuperacao',
   dataEstimativa: 'dataEstimativa',
-  dataRealizacao: 'dataRealizacao'
+  amostrasEstimativa: 'amostrasEstimativa',
+  nivelEstimativa: 'nivelEstimativa',
+  dataRealizacao: 'dataRealizacao',
+  referenciaComprovante: 'referenciaComprovante'
 } as const
 
 export type EquipamentoScalarFieldEnum = (typeof EquipamentoScalarFieldEnum)[keyof typeof EquipamentoScalarFieldEnum]
