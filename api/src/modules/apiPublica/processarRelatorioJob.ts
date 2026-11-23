@@ -57,7 +57,13 @@ export async function processarRelatorioJob(
   solicitacaoId: string,
   tentativa: number,
   tentativasMaximas: number,
-  hooks: { antesDeExecutarAnalise?: () => Promise<void>; job?: Job } = {},
+  hooks: {
+    antesDeExecutarAnalise?: () => Promise<void>;
+    duranteAnalise?: () => Promise<void>;
+    depoisDaAnalise?: () => Promise<void>;
+    depoisDoArquivoPersistido?: () => Promise<void>;
+    job?: Job;
+  } = {},
 ): Promise<{ solicitacaoId: string; execucaoId?: string; ignorado?: boolean }> {
   const existente = await prisma.solicitacaoRelatorio.findUnique({ where: { id: solicitacaoId } });
   if (!existente) throw new Error('Solicitação de relatório não encontrada.');
@@ -104,8 +110,11 @@ export async function processarRelatorioJob(
       : await (async () => {
         await hooks.antesDeExecutarAnalise?.();
         await atualizarClaim(solicitacaoId, token, claim.claimVersion, {});
-        return analises.executar(parametros.dataReferencia, parametros.organizacaoId, solicitacaoId);
+        return analises.executar(parametros.dataReferencia, parametros.organizacaoId, solicitacaoId, {
+          ...(hooks.duranteAnalise ? { antesDePersistir: hooks.duranteAnalise } : {}),
+        });
       })();
+    await hooks.depoisDaAnalise?.();
     await atualizarClaim(solicitacaoId, token, claim.claimVersion, {});
     const duracaoMs = duracaoDesde(inicioRelogio);
     const diretorio = diretorioSaida();
@@ -114,6 +123,7 @@ export async function processarRelatorioJob(
     const arquivoTemporario = `${arquivoFinal}.${randomUUID()}.tmp`;
     await writeFile(arquivoTemporario, JSON.stringify(resultado, null, 2), { encoding: 'utf8', flag: 'wx' });
     await rename(arquivoTemporario, arquivoFinal);
+    await hooks.depoisDoArquivoPersistido?.();
     const concluidoEm = new Date();
     await atualizarClaim(solicitacaoId, token, claim.claimVersion, {
         status: 'CONCLUIDO',

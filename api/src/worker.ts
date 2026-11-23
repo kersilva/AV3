@@ -11,13 +11,16 @@ import { aoFalharJobRelatorio } from '@apiPublica/RelatorioWorkerEvents.js';
 
 const redisUrl = process.env.REDIS_URL;
 if (!redisUrl) throw new Error('Defina REDIS_URL para iniciar o worker de relatórios.');
+const lockDuration = Number(process.env.RELATORIO_BULL_LOCK_DURATION_MS ?? 120_000);
+const stalledInterval = Number(process.env.RELATORIO_BULL_STALLED_INTERVAL_MS ?? 30_000);
+const maxStalledCount = Number(process.env.RELATORIO_BULL_MAX_STALLED_COUNT ?? 1);
 
 const conexao = new Redis(redisUrl, { maxRetriesPerRequest: null, enableReadyCheck: false });
 const fila = new RelatorioQueueClient();
 const worker = new Worker<{ solicitacaoId: string }>(
   NOME_FILA_RELATORIOS,
   async (job) => processarRelatorioJob(job.data.solicitacaoId, job.attemptsMade + 1, Number(job.opts.attempts ?? 1), { job }),
-  { connection: conexao, concurrency: 2, lockDuration: 120_000, maxStalledCount: 1 },
+  { connection: conexao, concurrency: 2, lockDuration, stalledInterval, maxStalledCount },
 );
 
 worker.on('failed', async (job, erro) => {

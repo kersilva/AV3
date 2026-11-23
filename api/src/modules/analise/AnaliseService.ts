@@ -33,7 +33,12 @@ function inicioDoMesUtc(data: Date): string {
 }
 
 export class AnaliseService {
-  async executar(dataReferencia = new Date(), organizacaoId?: string, solicitacaoRelatorioId?: string) {
+  async executar(
+    dataReferencia = new Date(),
+    organizacaoId?: string,
+    solicitacaoRelatorioId?: string,
+    hooks: { antesDePersistir?: () => Promise<void> } = {},
+  ) {
     if (!Number.isFinite(dataReferencia.getTime())) {
       throw new Error('A data de referência da análise é inválida.');
     }
@@ -274,6 +279,7 @@ export class AnaliseService {
         metricas.push({ metrica: 'VIDA_UTIL_PREVISTA_MESES', chave: `tipo=${tipo}`, valor: resultado.vidaPrevistaMeses, amostras: observacoes.length });
       }
 
+      await hooks.antesDePersistir?.();
       const execucao = await tx.execucaoAnalise.create({
         data: {
           id: randomUUID(),

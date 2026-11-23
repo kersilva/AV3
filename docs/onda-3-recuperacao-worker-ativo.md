@@ -2,7 +2,7 @@
 
 ## Status
 
-Planejada. Depende da Onda 2: não iniciar este teste de recuperação antes de existir reivindicação atômica, lease/expiração e proteção para o worker antigo não confirmar depois de perder a posse.
+Implementada e validada em ambiente efêmero. Três processos BullMQ foram encerrados abruptamente em checkpoints distintos e os jobs foram recuperados sem duplicar a execução analítica.
 
 ## Lógica atual
 
@@ -19,6 +19,7 @@ Provar que uma análise ativa pode ser interrompida abruptamente, retomada por u
 ## Arquivos previstos
 
 - `api/tests/integration/WorkerCrashRecovery.integration.test.ts` — orquestrar os dois processos e verificar recuperação.
+- `api/scripts/workerCrashFixture.ts` — worker filho real usado somente pela suíte de integração, com IPC para sinalizar checkpoint e conclusão.
 - `api/src/worker.ts` — permitir configurar lock/poll/stalled options em teste e garantir encerramento normal; defaults de produção permanecem explícitos.
 - `api/src/modules/apiPublica/processarRelatorioJob.ts` — checkpoints seguros, validação de posse e repetição idempotente do arquivo/estado.
 - `api/src/modules/analise/AnaliseService.ts` — reuso da execução/resultados após retomada.
@@ -56,8 +57,12 @@ Configurar lock/lease curtos exclusivamente no processo de teste. Aguardar o est
 - O teste falha se houver duas execuções analíticas, dois JSONs lógicos, estado preso ou worker antigo sobrescrevendo o novo.
 - O runner limpa processos, containers, volume de Redis e diretório temporário em sucesso ou falha.
 
+Resultado: build, lint, testes unitários e integração validados; a migração foi aplicada pelo runner no Postgres efêmero. Os três checkpoints de crash foram recuperados, com uma execução associada, JSON parseável, sem temporários abandonados e job abaixo do limite de retries.
+
 ## Registro de testes adicionais durante a implementação
 
 Se a implementação revelar um checkpoint adicional entre Redis, Postgres e arquivo, adicionar um teste para essa janela antes de corrigir o código. Registrar nome, arquivo, ponto de crash e invariante esperado.
 
-- Ainda não há testes adicionais registrados; registrar os casos assim que a implementação desta onda começar.
+- `WorkerCrashRecovery.integration.test.ts` — três crashes abruptos reais: dentro da transação analítica antes da persistência, depois do commit analítico e depois da gravação atômica do JSON. Cada retomada deve terminar `CONCLUIDO`, com uma execução associada, JSON válido, sem temporário abandonado e retries abaixo do limite.
+- `AnaliseService.ts` e `processarRelatorioJob.ts` — callback de checkpoint injetável para o teste parar o processo dentro da transação analítica e verificar rollback.
+- `worker.ts` — duração do lock e intervalo de detecção stalled configuráveis por ambiente, com os valores de produção anteriores como padrão.

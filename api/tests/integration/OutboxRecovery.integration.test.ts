@@ -175,7 +175,13 @@ test('recupera outbox após Redis e worker reiniciarem', { timeout: 90_000 }, as
   const resultadoPersistido = solicitacao.resultado as { execucaoId?: string } | null;
   assert.ok(resultadoPersistido?.execucaoId);
   assert.equal(await prisma.execucaoAnalise.count({ where: { id: resultadoPersistido.execucaoId } }), 1);
-  assert.equal(await fila.getJob(aceito.id).then((job) => job?.getState()), 'completed');
+  const limiteConclusaoJob = Date.now() + 5_000;
+  let estadoJob = await fila.getJob(aceito.id).then((job) => job?.getState());
+  while (estadoJob !== 'completed' && Date.now() < limiteConclusaoJob) {
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    estadoJob = await fila.getJob(aceito.id).then((job) => job?.getState());
+  }
+  assert.equal(estadoJob, 'completed');
   const metricas = await relatorioMetrics.registry.metrics();
   assert.match(metricas, /greencode_report_retries_total\s+1/);
   assert.match(metricas, /greencode_report_attempt_duration_seconds_count\{result="retry"\}\s+1/);
