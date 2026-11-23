@@ -5,6 +5,8 @@ import { prisma } from '@infra/database.js';
 import type { ApiParceiroContext } from './ApiKeyService.js';
 import { RelatorioQueueClient } from './RelatorioQueue.js';
 
+type PublicadorRelatorio = Pick<RelatorioQueueClient, 'publicar' | 'consultarJob' | 'removerJobTerminal'>;
+
 function hashCorpo(valor: unknown): string {
   return createHash('sha256').update(JSON.stringify(valor)).digest('hex');
 }
@@ -21,7 +23,7 @@ function codigoPrisma(erro: unknown): string | null {
 }
 
 export class RelatorioApiService {
-  constructor(private readonly fila: RelatorioQueueClient) {}
+  constructor(private readonly fila: PublicadorRelatorio) {}
 
   async solicitar(
     parceiro: ApiParceiroContext,
@@ -109,12 +111,56 @@ export class RelatorioApiService {
       select: { solicitacaoId: true },
     });
     for (const item of pendentes) await this.publicarPendente(item.solicitacaoId);
+    await this.reconciliarPublicados();
+  }
+
+  private async reconciliarPublicados(): Promise<void> {
+    const publicadas = await prisma.outboxRelatorio.findMany({
+      where: {
+        status: 'PUBLICADO',
+        solicitacao: { status: { in: ['PENDENTE', 'PROCESSANDO'] } },
+      },
+      orderBy: { publicadoEm: 'asc' },
+      take: 50,
+      include: {
+        solicitacao: {
+          select: { status: true, criadoEm: true, ultimaTentativaIniciadaEm: true },
+        },
+      },
+    });
+    const agora = Date.now();
+    const idadePublicacaoMinima = Math.max(0, Number(process.env.RELATORIO_OUTBOX_STALE_PUBLISH_MS ?? 5_000) || 5_000);
+    const idadeProcessamentoMaxima = Math.max(0, Number(process.env.RELATORIO_PROCESSAMENTO_STALE_MS ?? 600_000) || 600_000);
+
+    for (const item of publicadas) {
+      const referencia = item.solicitacao.ultimaTentativaIniciadaEm ?? item.publicadoEm ?? item.criadoEm;
+      const limite = item.solicitacao.status === 'PROCESSANDO'
+        ? idadeProcessamentoMaxima
+        : idadePublicacaoMinima;
+      if (agora - referencia.getTime() < limite) continue;
+
+      const job = await this.fila.consultarJob(item.solicitacaoId);
+      if (job && ['active', 'waiting', 'delayed', 'paused', 'waiting-children', 'prioritized'].includes(job.state)) {
+        continue;
+      }
+      if (job) await this.fila.removerJobTerminal(item.solicitacaoId);
+
+      const atualizada = await prisma.outboxRelatorio.updateMany({
+        where: { solicitacaoId: item.solicitacaoId, status: 'PUBLICADO' },
+        data: { status: 'PENDENTE', publicadoEm: null },
+      });
+      if (atualizada.count > 0) await this.publicarPendente(item.solicitacaoId);
+    }
   }
 
   async buscarStatus(id: string, parceiroId: string) {
     const solicitacao = await prisma.solicitacaoRelatorio.findFirst({
       where: { id, parceiroId },
-      select: { id: true, tipoRelatorio: true, status: true, criadoEm: true, concluidoEm: true, resultUrl: true, erroMensagem: true, tentativas: true },
+      select: {
+        id: true, tipoRelatorio: true, status: true, criadoEm: true, concluidoEm: true,
+        resultUrl: true, erroMensagem: true, tentativas: true, processamentoIniciadoEm: true,
+        ultimaTentativaIniciadaEm: true, duracaoProcessamentoMs: true,
+      },
     });
     if (!solicitacao) throw new ErroNaoEncontrado('Solicitação de relatório não encontrada.');
     return solicitacao;

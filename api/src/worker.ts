@@ -1,55 +1,21 @@
 import 'dotenv/config';
-import { randomUUID } from 'node:crypto';
-import { mkdir, rename, writeFile } from 'node:fs/promises';
-import path from 'node:path';
+import { createServer } from 'node:http';
 import { Worker } from 'bullmq';
 import { Redis } from 'ioredis';
 import { prisma } from '@infra/database.js';
-import { AnaliseService } from '@analise/AnaliseService.js';
-import { RelatorioApiService } from '@apiPublica/RelatorioApiService.js';
 import { NOME_FILA_RELATORIOS, RelatorioQueueClient } from '@apiPublica/RelatorioQueue.js';
+import { relatorioMetrics } from '@apiPublica/RelatorioMetrics.js';
+import { RelatorioApiService } from '@apiPublica/RelatorioApiService.js';
+import { processarRelatorioJob } from '@apiPublica/processarRelatorioJob.js';
 
 const redisUrl = process.env.REDIS_URL;
 if (!redisUrl) throw new Error('Defina REDIS_URL para iniciar o worker de relatórios.');
 
 const conexao = new Redis(redisUrl, { maxRetriesPerRequest: null, enableReadyCheck: false });
 const fila = new RelatorioQueueClient();
-const solicitacoes = new RelatorioApiService(fila);
-const analises = new AnaliseService();
-const diretorioRelatorios = process.env.REPORTS_DIR ?? path.resolve(process.cwd(), 'storage', 'relatorios');
-
 const worker = new Worker<{ solicitacaoId: string }>(
   NOME_FILA_RELATORIOS,
-  async (job) => {
-    const { solicitacaoId } = job.data;
-    const existente = await prisma.solicitacaoRelatorio.findUnique({ where: { id: solicitacaoId } });
-    if (!existente) throw new Error('Solicitação de relatório não encontrada.');
-    if (existente.status === 'CONCLUIDO') return { solicitacaoId, ignorado: true };
-    const parametros = await solicitacoes.buscarSolicitacaoParaWorker(solicitacaoId);
-    await prisma.solicitacaoRelatorio.update({
-      where: { id: solicitacaoId },
-      data: { status: 'PROCESSANDO', tentativas: { increment: 1 }, erroMensagem: null },
-    });
-
-    const resultado = existente.resultado
-      ? (existente.resultado as unknown as { execucaoId: string })
-      : await analises.executar(parametros.dataReferencia, parametros.organizacaoId, solicitacaoId);
-    await mkdir(diretorioRelatorios, { recursive: true });
-    const arquivoFinal = path.join(diretorioRelatorios, `${solicitacaoId}.json`);
-    const arquivoTemporario = `${arquivoFinal}.${randomUUID()}.tmp`;
-    await writeFile(arquivoTemporario, JSON.stringify(resultado, null, 2), { encoding: 'utf8', flag: 'wx' });
-    await rename(arquivoTemporario, arquivoFinal);
-    await prisma.solicitacaoRelatorio.update({
-      where: { id: solicitacaoId },
-      data: {
-        status: 'CONCLUIDO',
-        concluidoEm: new Date(),
-        resultUrl: `/api/v1/public/relatorios/${solicitacaoId}/download`,
-        erroMensagem: null,
-      },
-    });
-    return { solicitacaoId, execucaoId: resultado.execucaoId };
-  },
+  async (job) => processarRelatorioJob(job.data.solicitacaoId, job.attemptsMade + 1, Number(job.opts.attempts ?? 1)),
   { connection: conexao, concurrency: 2, lockDuration: 120_000, maxStalledCount: 1 },
 );
 
@@ -59,34 +25,61 @@ worker.on('failed', async (job, erro) => {
   if (job.attemptsMade < tentativasMaximas) return;
   try {
     await prisma.solicitacaoRelatorio.updateMany({
-      where: { id: job.data.solicitacaoId, status: { not: 'CONCLUIDO' } },
-      data: { status: 'FALHOU', erroMensagem: 'Não foi possível gerar o relatório após as tentativas configuradas.', concluidoEm: new Date() },
+      where: { id: job.data.solicitacaoId, status: { notIn: ['CONCLUIDO', 'CANCELADO'] } },
+      data: {
+        status: 'FALHOU',
+        erroMensagem: 'Não foi possível gerar o relatório após as tentativas configuradas.',
+        concluidoEm: new Date(),
+      },
     });
-    console.error('Relatório falhou após tentativas', { solicitacaoId: job.data.solicitacaoId, erro: erro.message });
+    console.error(JSON.stringify({ evento: 'relatorio_job_falhou', solicitacaoId: job.data.solicitacaoId, erro: erro.message }));
   } catch (erroPersistencia) {
-    console.error('Falha ao atualizar solicitação após erro do worker', { solicitacaoId: job.data.solicitacaoId, erro: erroPersistencia });
+    console.error(JSON.stringify({ evento: 'relatorio_falha_status_nao_persistida', solicitacaoId: job.data.solicitacaoId, erro: erroPersistencia }));
   }
 });
 
 const timer = setInterval(() => {
-  void solicitacoes.publicarPendentes().catch((erro: unknown) => {
-    console.error('Falha ao publicar solicitações pendentes da outbox', erro);
+  void publicarPendentes().catch((erro: unknown) => {
+    console.error(JSON.stringify({ evento: 'outbox_despacho_falhou', erro: erro instanceof Error ? erro.message : 'Erro desconhecido' }));
   });
 }, 5_000);
 timer.unref();
-void solicitacoes.publicarPendentes().catch((erro: unknown) => console.error('Falha ao iniciar despacho da outbox', erro));
+function publicarPendentes(): Promise<void> {
+  return new RelatorioApiService(fila).publicarPendentes();
+}
+void publicarPendentes().catch((erro: unknown) => console.error(JSON.stringify({ evento: 'outbox_despacho_inicial_falhou', erro })));
+
+const metricsPort = Number(process.env.METRICS_PORT ?? 9464);
+const metricsHost = process.env.METRICS_HOST ?? '127.0.0.1';
+const servidorMetrics = createServer(async (request, response) => {
+  if (request.url !== '/metrics' || request.method !== 'GET') {
+    response.writeHead(404).end('Not found');
+    return;
+  }
+  try {
+    response.writeHead(200, { 'Content-Type': relatorioMetrics.registry.contentType });
+    response.end(await relatorioMetrics.registry.metrics());
+  } catch (erro) {
+    response.writeHead(500).end('Metrics unavailable');
+    console.error(JSON.stringify({ evento: 'metrics_export_falhou', erro }));
+  }
+});
+servidorMetrics.listen(metricsPort, metricsHost);
 
 let encerrando = false;
 async function encerrar(): Promise<void> {
   if (encerrando) return;
   encerrando = true;
   clearInterval(timer);
-  await worker.close();
-  await fila.fechar();
+  await Promise.all([
+    worker.close(),
+    fila.fechar(),
+    new Promise<void>((resolve) => servidorMetrics.close(() => resolve())),
+  ]);
   await conexao.quit();
   await prisma.$disconnect();
 }
 process.once('SIGINT', () => void encerrar());
 process.once('SIGTERM', () => void encerrar());
 
-console.info(`Worker de relatórios ativo na fila ${NOME_FILA_RELATORIOS}.`);
+console.info(JSON.stringify({ evento: 'worker_relatorios_ativo', fila: NOME_FILA_RELATORIOS, metrics: `http://${metricsHost}:${metricsPort}/metrics` }));

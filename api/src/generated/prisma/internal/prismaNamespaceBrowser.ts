@@ -351,6 +351,9 @@ export const SolicitacaoRelatorioScalarFieldEnum = {
   erroMensagem: 'erroMensagem',
   resultado: 'resultado',
   tentativas: 'tentativas',
+  processamentoIniciadoEm: 'processamentoIniciadoEm',
+  ultimaTentativaIniciadaEm: 'ultimaTentativaIniciadaEm',
+  duracaoProcessamentoMs: 'duracaoProcessamentoMs',
   criadoEm: 'criadoEm',
   concluidoEm: 'concluidoEm',
   chaveIdempotencia: 'chaveIdempotencia'

@@ -558,6 +558,9 @@ model SolicitacaoRelatorio {
   erroMensagem      String?
   resultado         Json? // resumo persistido na mesma transação dos resultados analíticos
   tentativas        Int               @default(0)
+  processamentoIniciadoEm DateTime? // primeira tentativa iniciada
+  ultimaTentativaIniciadaEm DateTime? // início da tentativa atual/mais recente
+  duracaoProcessamentoMs Int @default(0) // soma das tentativas que terminaram
   criadoEm          DateTime          @default(now())
   concluidoEm       DateTime?
   chaveIdempotencia String? // header Idempotency-Key do parceiro

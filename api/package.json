@@ -9,7 +9,9 @@
     "build": "tsc && tsc-alias",
     "start": "node dist/main.js",
     "worker": "node dist/worker.js",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "node scripts/runTests.mjs",
+    "test:integration": "node scripts/runIntegrationTests.mjs"
   },
   "keywords": [
     "logistica-reversa",
@@ -40,6 +42,7 @@
     "@fastify/swagger-ui": "^5.2.6",
     "@prisma/adapter-pg": "^7.10.1",
     "@prisma/client": "^7.10.1",
+    "@prometheus-io/client": "^0.16.1",
     "bcryptjs": "^3.0.3",
     "bullmq": "^6.7.8",
     "dotenv": "^18.0.8",
