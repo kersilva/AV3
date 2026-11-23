@@ -43,7 +43,6 @@ Este documento registra o plano aprovado e o estado da implementação.
 
 ### Pendências residuais
 
-- Aplicar a migração da Onda 2 no Postgres local quando voltar a responder. A validação efêmera passou; o banco local em `localhost:5433` estava indisponível e não foi alterado.
 - Registrar a data de publicação para iniciar a contagem de 90 dias dos aliases internos; o prazo mínimo está documentado no README.
 
 Os cenários de falha permanente, idempotência concorrente, reinício HTTP, consulta/download e autorização por parceiro foram implementados na Onda 1. Os resultados estão em [onda-1-testes-independentes.md](onda-1-testes-independentes.md).

@@ -10,7 +10,7 @@ Implementada e validada. As Ondas 1, 2 e 3 passaram; o runner agora trata sinais
 - `api/scripts/runIntegrationTests.mjs` sobe Compose efêmero, descobre portas, aplica migrações e executa automaticamente todos os arquivos `*.integration.test.ts` em sequência.
 - O Compose efêmero publica Postgres e Redis em portas aleatórias; Redis usa AOF e volume de teste.
 - O runner usa projeto Compose único e remove esse projeto, seu volume Redis e o diretório temporário no bloco `finally`, inclusive após falha controlada ou interrupção.
-- Todas as migrações, incluindo a da Onda 2, foram aplicadas em banco efêmero limpo. O Postgres local não respondeu ao `prisma migrate status`; portanto, não foi tocado e ainda precisa receber a migração quando estiver disponível.
+- Todas as migrações, incluindo a da Onda 2, foram aplicadas em banco efêmero limpo e no Postgres local. A primeira consulta local foi bloqueada pelo sandbox; com acesso Docker autorizado, o serviço `greencode-db` estava saudável e a migração pendente foi aplicada.
 
 ## Objetivo final
 
@@ -60,7 +60,7 @@ Ter uma sequência reproduzível, adequada para desenvolvimento e CI, que valide
 
 - A sequência completa passou duas vezes em ambiente limpo: 7 de 7 integrações em cada execução.
 - Um teste de falha comprova cleanup, e a inspeção final confirma ausência de recursos do projeto de teste.
-- README e planos listam o que foi verificado. Pendências residuais: aplicar a migração no Postgres local quando voltar a responder e registrar a data de publicação para iniciar o prazo dos aliases.
+- README e planos listam o que foi verificado. Pendência residual: registrar a data de publicação para iniciar o prazo dos aliases.
 - Todas as mudanças ficam em commits revisáveis, sem incluir alterações locais preexistentes.
 
 ## Registro de testes adicionais durante a implementação
@@ -69,4 +69,5 @@ Quando aparecer uma necessidade de teste durante a alteração do código ou do 
 
 - `npm run test:integration:cleanup` — introduz falha depois que o Compose efêmero fica pronto e simula SIGTERM pela mesma rotina interna de interrupção; verifica containers, volume e pasta de relatórios removidos. O teste usa simulação porque Windows encerra processos com SIGTERM sem chamar os listeners Node.
 - Duas execuções consecutivas de `npm run test:integration` passaram com 7/7 arquivos; cada execução aplicou migrações limpas e removeu o próprio Compose/volume.
-- `npx prisma migrate status --schema prisma/schema.prisma` — falhou ao conectar ao banco local `greencode` em `localhost:5433`; nenhuma migração local foi aplicada.
+- `npx prisma migrate deploy --schema prisma/schema.prisma` — aplicou `20261123170000_reivindicacao_analise_idempotente` no banco local.
+- `npx prisma migrate status --schema prisma/schema.prisma` — confirmou que o schema local está atualizado.

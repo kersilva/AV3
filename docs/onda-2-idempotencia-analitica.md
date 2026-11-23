@@ -78,7 +78,7 @@ Os testes devem controlar a barreira/relógio ou usar TTLs configuráveis curtos
 - A aquisição é comprovadamente atômica sob concorrência real com PostgreSQL.
 - A regra de lease/expiração e o comportamento da segunda entrega estão documentados.
 - Testes de corrida passam repetidamente sem depender de ordem de agendamento.
-- Build, lint, 8 testes unitários e 6 testes de integração passam; a migração é aplicada em banco efêmero. A aplicação no banco local ainda não foi feita porque a conexão local não estava disponível durante a geração inicial.
+- Build, lint, 8 testes unitários e 6 testes de integração passam; a migração foi aplicada em banco efêmero e no Postgres local (`greencode`, `localhost:5433`). `prisma migrate status` confirma schema atualizado.
 
 ## Registro de testes adicionais durante a implementação
 
