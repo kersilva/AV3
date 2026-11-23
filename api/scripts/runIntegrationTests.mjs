@@ -8,8 +8,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const apiRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const projectRoot = path.resolve(apiRoot, '..');
-const composeFile = path.join(projectRoot, 'compose.integration.yaml');
+const composeFile = path.join(apiRoot, 'compose.integration.yaml');
 const integrationTestsDir = path.join(apiRoot, 'tests', 'integration');
 const projectName = `greencode-av3-it-${process.pid}-${randomUUID().slice(0, 8)}`;
 const reportsDir = await mkdtemp(path.join(os.tmpdir(), 'greencode-av3-reports-'));

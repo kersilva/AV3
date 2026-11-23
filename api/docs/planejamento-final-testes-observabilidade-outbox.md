@@ -111,7 +111,7 @@ As demais atividades da Onda 1 não dependem desse caminho crítico e podem avan
 ## Etapa 1 — Preparar testes de integração
 
 - Criar serviço de teste isolado para Postgres e Redis, com health checks e configuração de portas separadas.
-- Adicionar comando explícito, por exemplo `npm run test:integration --workspace=api`.
+- Adicionar comando explícito, por exemplo `npm run test:integration` na raiz do pacote `api/`.
 - Preparar fixtures pequenas e determinísticas, sem depender da senha ou dos dados do seed de desenvolvimento.
 - Adicionar proteção que recuse execução destrutiva se a URL não apontar para um banco de teste.
 - Exportar uma fábrica do worker/processador para testes. Permitir injetar uma falha temporária e um relógio controlado, sem mudar o comportamento padrão.

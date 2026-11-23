@@ -2,14 +2,14 @@
 
 **Branch:** `av3/entrega`
 **Commit inicial:** `0fea8dd chore: versiona client gerado com modelos de análise`
-**Estado inicial:** `docs/planejamento-mvp-av3.md` e `docs/regras-analiticas-av3.md` estão não rastreados. Preservar e não incluir em commits sem revisar o diff e confirmar que pertencem a esta tarefa. Usuário confirmou que o banco local contém somente dados do seed; perda desses registros é aceitável e eles podem ser recriados.
+**Estado inicial:** `api/docs/planejamento-mvp-av3.md` e `api/docs/regras-analiticas-av3.md` estavam não rastreados. Preservar e revisar antes de incluir em commits. Usuário confirmou que o banco local contém somente dados do seed; perda desses registros é aceitável e eles podem ser recriados.
 
 ## Fase 0 — Contrato de dados e migrações
 
 - [x] [Schema Prisma](api/prisma/schema.prisma): meses previstos/erro usam Decimal; valor realizado tem referência e estimativa guarda contagem e nível de amostra.
 - [x] [Migração AV3](api/prisma/migrations/20261123120000_precisao_e_comprovante_analises/migration.sql): migração aditiva para precisão, referência e nível da estimativa. Não reescreve migração aplicada.
 - [x] [Seed](api/prisma/seed.ts): cobre seis falhas por tipo, sobreviventes, datas distribuídas, falhas futuras a um corte histórico e valores de demonstração.
-- [x] [Planejamento](docs/planejamento-mvp-av3.md) e [regras analíticas](docs/regras-analiticas-av3.md): eficiência começa no evento RECEBIDO; meses fracionários preservados; agrupamento usa responsável da conclusão.
+- [x] [Planejamento](planejamento-mvp-av3.md) e [regras analíticas](regras-analiticas-av3.md): eficiência começa no evento RECEBIDO; meses fracionários preservados; agrupamento usa responsável da conclusão.
 - [x] Banco de desenvolvimento confirmado: PostgreSQL local `localhost:5433`; usuário confirmou que contém apenas seed e autorizou migrações/schema. Migrações AV3 aplicadas sem apagar o volume.
 
 ## Fase 1 — MVP analítico síncrono

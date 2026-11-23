@@ -26,7 +26,7 @@ Provar que uma análise ativa pode ser interrompida abruptamente, retomada por u
 - `api/src/modules/apiPublica/RelatorioApiService.ts` — ajuste da reconciliação se o resultado observar uma janela não coberta.
 - `api/scripts/runIntegrationTests.mjs` — descoberta e execução deste cenário no mesmo ambiente efêmero.
 - `compose.integration.yaml` — só se for necessário controlar persistência ou healthcheck para o cenário; não reutilizar os containers de desenvolvimento.
-- `docs/onda-2-idempotencia-analitica.md` — registrar qualquer mudança na regra de lease/idempotência exigida pelo teste.
+- `api/docs/onda-2-idempotencia-analitica.md` — registrar qualquer mudança na regra de lease/idempotência exigida pelo teste.
 
 ## Estratégia de teste
 

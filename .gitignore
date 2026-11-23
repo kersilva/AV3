@@ -7,7 +7,7 @@ yarn-error.log*
 lerna-debug.log*
 
 # client gerado pelo Prisma (recriado com `npx prisma generate`)
-src/generated/prisma/
+api/src/generated/prisma/
 
 # pastas de ferramentas de IA/editor
 .agents/

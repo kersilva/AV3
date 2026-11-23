@@ -26,7 +26,7 @@ O banco contém apenas a estrutura. No código atual não encontrei usos de `exe
 
 ## Decisões e riscos a resolver antes de codificar análises
 
-1. **Eficiência:** usar o timestamp da transição inicial `RECEBIDO` até a primeira `TRIAGEM_CONCLUIDA`, conforme `docs/regras-analiticas-av3.md`; medir por lote, nunca cruzar eventos. O relatório informa que o total inclui espera. Atribuição ao operador é o responsável pela conclusão.
+1. **Eficiência:** usar o timestamp da transição inicial `RECEBIDO` até a primeira `TRIAGEM_CONCLUIDA`, conforme [regras analíticas](regras-analiticas-av3.md); medir por lote, nunca cruzar eventos. O relatório informa que o total inclui espera. Atribuição ao operador é o responsável pela conclusão.
 2. **Recuperação:** usar o rótulo “recuperação bruta”. Só aceitar valor realizado com data. Estimar por tipo + estado conhecido na data + marca + modelo; fallback para tipo + estado; sem amostra, sem estimativa. Incluir amostras e a origem demonstrativa do seed. Definir como persistir referência do comprovante antes de tratar valores como auditáveis.
 3. **Previsão:** manter `ORDEM_ESTADO` como fonte da escala. Ajustar regressão apenas com eventos até a data de corte; exigir cinco equipamentos com falha; tratar variância zero, inclinação não positiva e previsão fora do intervalo como “sem previsão válida”. Medir vida desde `Lote.dataEntrada`, reportar sobreviventes e viés de sobrevivência.
 4. **Precisão de meses:** decidir se previsões e erros devem aceitar frações (Decimal) ou se o relatório arredondará de forma explícita. Não arredondar em passos intermediários.

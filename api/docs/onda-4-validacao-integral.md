@@ -18,13 +18,13 @@ Ter uma sequência reproduzível, adequada para desenvolvimento e CI, que valide
 
 ## Arquivos previstos
 
-- `api/scripts/runIntegrationTests.mjs` — executar todos os arquivos `*.integration.test.ts`, tratar sinais de interrupção e preservar o código de saída.
-- `api/scripts/verifyIntegrationCleanup.mjs` — provar que falha controlada e SIGTERM removem apenas os recursos de teste.
-- `api/package.json` — scripts de build/test/lint/integration, se forem necessários ajustes.
+- `scripts/runIntegrationTests.mjs` — executar todos os arquivos `*.integration.test.ts`, tratar sinais de interrupção e preservar o código de saída.
+- `scripts/verifyIntegrationCleanup.mjs` — provar que falha controlada e SIGTERM removem apenas os recursos de teste.
+- `package.json` — scripts de build/test/lint/integration.
 - `compose.integration.yaml` — Postgres e Redis efêmeros, healthchecks, AOF e volumes exclusivos.
-- `api/prisma/migrations/**` e `api/prisma/schema.prisma` — todas as migrações novas devem passar em instalação limpa.
-- `api/tests/**` — conjunto final de testes unitários, contrato e integração.
-- `docs/planejamento-final-testes-observabilidade-outbox.md` — sincronizar o resumo, critérios concluídos e pendências.
+- `prisma/migrations/**` e `prisma/schema.prisma` — todas as migrações novas devem passar em instalação limpa.
+- `tests/**` — conjunto final de testes unitários, contrato e integração.
+- `api/docs/planejamento-final-testes-observabilidade-outbox.md` — sincronizar o resumo, critérios concluídos e pendências.
 - `README.md` — comandos atuais, variáveis de métricas e política de aliases, incluindo data da publicação quando conhecida.
 - `.github/workflows/**` ou pipeline existente — considerar CI apenas se já fizer parte do repositório/escopo; não criar fornecedor ou credenciais por suposição.
 

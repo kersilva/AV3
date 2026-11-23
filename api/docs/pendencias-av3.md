@@ -2,7 +2,7 @@
 
 Última atualização: 18/11/2026
 
-Coloque este arquivo em `docs/pendencias-av3.md` na raiz do repositório.
+Este arquivo fica em `api/docs/pendencias-av3.md` no repositório.
 
 ---
 
