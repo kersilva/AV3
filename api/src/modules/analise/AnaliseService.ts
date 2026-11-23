@@ -1,6 +1,5 @@
 import { randomUUID } from 'node:crypto';
 import { EstadoFisico } from '@domain/enums/EstadoFisico.js';
-import { StatusLote } from '@domain/enums/StatusLote.js';
 import { TipoEquipamento } from '@domain/enums/TipoEquipamento.js';
 import { ORDEM_ESTADO } from '@domain/entities/Equipamento.js';
 import {
@@ -34,7 +33,7 @@ function inicioDoMesUtc(data: Date): string {
 }
 
 export class AnaliseService {
-  async executar(dataReferencia = new Date()) {
+  async executar(dataReferencia = new Date(), organizacaoId?: string, solicitacaoRelatorioId?: string) {
     if (!Number.isFinite(dataReferencia.getTime())) {
       throw new Error('A data de referência da análise é inválida.');
     }
@@ -44,6 +43,7 @@ export class AnaliseService {
         where: {
           excluidoEm: null,
           dataEntrada: { lte: dataReferencia },
+          ...(organizacaoId ? { organizacaoId } : {}),
           organizacao: { is: { excluidoEm: null } },
         },
         select: { id: true, dataEntrada: true },
@@ -307,6 +307,7 @@ export class AnaliseService {
           data: previsoes.map((item) => ({
             ...item,
             execucaoAnaliseId: execucao.id,
+            solicitacaoRelatorioId: solicitacaoRelatorioId ?? null,
             parametros: item.parametros,
           })),
         });
@@ -345,7 +346,7 @@ export class AnaliseService {
         await tx.validacaoPrevisao.createMany({ data: validacoes, skipDuplicates: true });
       }
 
-      return {
+      const resultadoCompleto = {
         execucaoId: execucao.id,
         tipoRelatorio: execucao.tipoRelatorio,
         versaoCalculo: execucao.versaoCalculo,
@@ -382,6 +383,13 @@ export class AnaliseService {
         vidaRestantePorEquipamento,
         resultadosPersistidos: resultados.length,
       };
+      if (solicitacaoRelatorioId) {
+        await tx.solicitacaoRelatorio.update({
+          where: { id: solicitacaoRelatorioId },
+          data: { resultado: JSON.parse(JSON.stringify(resultadoCompleto)) },
+        });
+      }
+      return resultadoCompleto;
     }, { timeout: 30_000 });
   }
 

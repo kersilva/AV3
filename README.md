@@ -38,6 +38,8 @@ Abra `.env` e defina os valores secretos:
 - `JWT_SECRET`: segredo com pelo menos 32 bytes. Gere um valor aleatório. Por exemplo: `node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'))"`.
 - `ADMIN_BOOTSTRAP_TOKEN`: token temporário para criar o primeiro administrador.
 - `PORT`: porta da API. O padrão é `3000`.
+- `REDIS_URL`: endereço do Redis usado pela fila. O exemplo usa `redis://localhost:6379`.
+- `REPORTS_DIR`: pasta para relatórios JSON. O padrão é `storage/relatorios`.
 - `SEED_PASSWORD`: senha dos usuários de demonstração, se você executar o seed.
 
 Não compartilhe o `.env` nem envie esse arquivo para o Git.
@@ -45,7 +47,7 @@ Não compartilhe o `.env` nem envie esse arquivo para o Git.
 Inicie o PostgreSQL:
 
 ```bash
-docker compose up -d db
+docker compose up -d db redis
 ```
 
 Crie as tabelas do banco e gere o cliente Prisma:
@@ -204,6 +206,8 @@ Use a mesma lógica para as demais rotas: abra a operação no Swagger, confira 
 - **Configuração:** `GET` e `PUT /configuracao`.
 - **Journal:** `GET /journal`.
 - **Relatórios:** `GET /relatorios/organizacoes/:organizacaoId`, `GET /relatorios/status/:status`, `GET /relatorios/financeiro`, `POST /relatorios/analiticos`, `GET /relatorios/analiticos/:id`.
+- **Parceiros API (administrador):** `GET` e `POST /parceiros-api`; `POST /parceiros-api/:parceiroId/chaves`; `POST /parceiros-api/chaves/:chaveId/revogar`.
+- **API pública (chave de parceiro):** rastreabilidade em `/api/v1/public/equipamentos/:id/rastreabilidade`, criação de lote em `/api/v1/public/lotes` e solicitação/status/download em `/api/v1/public/relatorios`.
 
 As rotas protegidas exigem autenticação. O Swagger informa o papel necessário em cada rota. Os papéis disponíveis são `ADMINISTRADOR`, `OPERADOR_CADASTRO`, `GESTOR_ALMOXARIFADO` e `AUDITOR`.
 
@@ -217,6 +221,27 @@ As rotas protegidas exigem autenticação. O Swagger informa o papel necessário
 - Previsões OLS são agrupadas por tipo. O relatório indica tipos com dados insuficientes ou regressão inválida. A previsão inclui frações de mês; a escala ordinal assume distância igual entre estados e tende a subestimar a vida por não modelar equipamentos censurados.
 
 O seed inclui trajetórias físicas ao longo do tempo, seis falhas por tipo, equipamentos ainda em uso e valores fictícios com referência `DEMO-SEED:`. Para demonstrar validação futura, execute uma análise com corte `2025-12-15T00:00:00.000Z` e depois execute outra com a data atual. Falhas posteriores ao primeiro corte poderão validar a previsão histórica.
+
+### API pública e relatórios em fila
+
+Um administrador cria um parceiro em `POST /parceiros-api`, vinculado a uma organização. Depois, emite uma chave em `POST /parceiros-api/{parceiroId}/chaves` e guarda o segredo retornado: ele aparece apenas uma vez. O banco guarda somente o hash e o prefixo da chave. Use `POST /parceiros-api/chaves/{chaveId}/revogar` para revogar uma chave.
+
+Envie a chave no cabeçalho `x-api-key`. Os escopos controlam leitura de rastreabilidade, criação de lotes e solicitação de relatórios. O parceiro acessa dados somente da própria organização. A API limita chamadas por chave, com contagem local ao processo.
+
+- `GET /api/v1/public/equipamentos/{id}/rastreabilidade`: consulta o histórico do equipamento.
+- `POST /api/v1/public/lotes`: cria lote e exige `Idempotency-Key`. Repetir a chave e o conteúdo devolve a resposta anterior.
+- `POST /api/v1/public/relatorios`: solicita relatório assíncrono e exige `Idempotency-Key`.
+- `GET /api/v1/public/relatorios/{id}`: consulta o status da solicitação.
+- `GET /api/v1/public/relatorios/{id}/download`: baixa o JSON após o status `CONCLUIDO`.
+
+O Postgres grava a solicitação e a outbox antes da publicação. O worker reenvia solicitações pendentes, usa até três tentativas com espera exponencial e salva o resumo na mesma transação dos cálculos. Assim, uma falha antes de gravar o arquivo não repete a análise. Para executar, deixe o banco e Redis ativos e abra dois terminais na pasta do projeto:
+
+```bash
+npm run dev --workspace=api
+npm run dev:worker --workspace=api
+```
+
+Na versão compilada, use `npm run start --workspace=api` e `npm run worker --workspace=api`. O worker grava arquivos em `REPORTS_DIR`. Use armazenamento persistente para essa pasta em implantação.
 
 ### Versões e exclusão
 

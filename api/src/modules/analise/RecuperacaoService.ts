@@ -1,4 +1,3 @@
-import { randomUUID } from 'node:crypto';
 import { EstadoFisico } from '@domain/enums/EstadoFisico.js';
 import { ErroConflito, ErroNaoEncontrado, ErroRegraNegocio, ErroValidacao } from '@/shared/errors/DomainError.js';
 import {

@@ -1,6 +1,6 @@
 import type { FastifyInstance, preHandlerHookHandler } from 'fastify';
 import type { RecuperacaoService } from './RecuperacaoService.js';
-import { erroSchema, respostasErroComuns } from '@infra/swaggerSchemas.js';
+import { erroSchema } from '@infra/swaggerSchemas.js';
 
 export async function RecuperacaoController(
   app: FastifyInstance,

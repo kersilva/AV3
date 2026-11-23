@@ -10,7 +10,7 @@
 - [x] [Migração AV3](api/prisma/migrations/20261123120000_precisao_e_comprovante_analises/migration.sql): migração aditiva para precisão, referência e nível da estimativa. Não reescreve migração aplicada.
 - [x] [Seed](api/prisma/seed.ts): cobre seis falhas por tipo, sobreviventes, datas distribuídas, falhas futuras a um corte histórico e valores de demonstração.
 - [x] [Planejamento](docs/planejamento-mvp-av3.md) e [regras analíticas](docs/regras-analiticas-av3.md): eficiência começa no evento RECEBIDO; meses fracionários preservados; agrupamento usa responsável da conclusão.
-- [ ] Antes de qualquer migração destrutiva, confirmar que o alvo é o banco local de desenvolvimento; como contém somente dados do seed, recriação é permitida e o seed deve ser executado novamente.
+- [x] Banco de desenvolvimento confirmado: PostgreSQL local `localhost:5433`; usuário confirmou que contém apenas seed e autorizou migrações/schema. Migrações AV3 aplicadas sem apagar o volume.
 
 ## Fase 1 — MVP analítico síncrono
 
@@ -26,42 +26,43 @@
 
 - [x] Gravar validações apenas para primeiras falhas posteriores a `dataPrevisao`, com idade e erro Decimal.
 - [x] Adicionar referência persistida para comprovante e validar preenchimento/data no serviço.
-- [ ] Testar integração: itens de treino não são validados na mesma previsão e execuções históricas permanecem separadas.
+- [ ] Teste automatizado de integração para provar separação entre treino e validação e isolamento de execuções históricas; regras de corte têm teste unitário e a API/worker foram exercitados manualmente.
 
 ## Fase 3 — API pública
 
-- [ ] Implementar gestão administrativa de parceiros e emissão/revogação de chave com exibição única do segredo e armazenamento de hash/prefixo.
-- [ ] Implementar `/api/v1/public`, autenticação por chave, escopos, rate limit por chave/parceiro e erros estáveis.
-- [ ] Implementar endpoints versionados de rastreabilidade, lotes e relatórios, com autorização por escopo e parceiro.
-- [ ] Aplicar `Idempotency-Key` a escritas compatíveis; documentar exemplos e respostas no OpenAPI.
-- [ ] Adicionar testes de chave inválida/revogada, escopo, isolamento de rate limit, idempotência e vazamento de segredo.
+- [x] Implementar gestão administrativa de parceiros e emissão/revogação de chave com exibição única do segredo e armazenamento de hash/prefixo.
+- [x] Implementar `/api/v1/public`, autenticação por chave, escopos, rate limit por chave e erros estáveis.
+- [x] Implementar endpoints versionados de rastreabilidade, lotes e relatórios, com autorização por escopo e parceiro.
+- [x] Aplicar `Idempotency-Key` à criação de lotes e solicitações de relatório; documentar contratos no OpenAPI e README.
+- [x] Validar manualmente revogação (401), propriedade de relatório (404), conflito de idempotência (409), replay, isolamento de organização (403) e rate limit separado por chave (429). Testes automatizados de integração continuam recomendados.
 
 ## Fase 4 — Processamento assíncrono e entrega final
 
-- [ ] Adicionar Redis/BullMQ e worker separado; configurar tentativas, backoff, timeout e fila de falhas.
-- [ ] Persistir solicitação antes de publicar job e implementar outbox/reenvio para falha entre Postgres e Redis.
-- [ ] Tornar transições do worker idempotentes; restringir status/arquivo ao dono da solicitação; implementar expiração de resultados.
-- [ ] Gerar e entregar CSV/JSON sem expor caminhos internos; registrar métricas/logs por solicitação.
-- [ ] Atualizar Compose e documentação para Windows 10+ e Ubuntu 24.04.03+.
-- [ ] Verificar instalação limpa, migrações, seed, build e testes em cada plataforma disponível; listar limitações de validação que exijam ambiente externo.
+- [x] Adicionar Redis/BullMQ e worker separado; configurar três tentativas, espera exponencial, lock e retenção de jobs falhos.
+- [x] Persistir solicitação antes de publicar job e implementar outbox/reenvio periódico entre Postgres e Redis.
+- [x] Tornar o worker idempotente e restringir status/arquivo ao dono.
+- [ ] Definir expiração e limpeza automática dos resultados.
+- [x] Gerar e entregar JSON sem expor caminhos internos; logs incluem falhas e IDs de solicitação.
+- [x] Atualizar Compose e documentação com instruções PowerShell e shell POSIX. Verificação executada em Windows; Ubuntu 24.04.03 não estava disponível.
+- [x] Verificar migrações, seed idempotente, build, lint, testes e fluxo API/worker no ambiente Windows. Instalação limpa e Ubuntu continuam sem verificação.
 
 ## Revisão e commits
 
-- [ ] Antes de editar, preservar os diffs existentes e registrar o baseline desta tarefa.
-- [ ] Criar commits de segurança separados nos marcos: contrato/migrações, MVP analítico, validação, API pública e fila/versão final. Revisar staged diff para não incluir alterações alheias.
+- [x] Preservar os diffs existentes e registrar o baseline antes da implementação.
+- [x] Criar commits separados para API pública e fila/versão final; revisar staged diff para não incluir alterações alheias.
 - [ ] Fazer revisão Goldfish do checklist antes da implementação e revisão do diff após cada conjunto funcional.
 
 ## Verificações empíricas adiadas
 
 - [ ] Confirmar migração com uma cópia de banco contendo valores legados de `Movimentacao`; verificar conversão e rollback.
-- [ ] Executar worker com Redis indisponível no momento da publicação e comprovar recuperação por outbox/reenvio.
+- [ ] Interromper Redis durante a publicação e comprovar reenvio pela outbox após recuperação.
 - [ ] Verificar comandos e dependências em Windows e Ubuntu; este ambiente local só confirma a plataforma em que as verificações forem executadas.
 
 ## Riscos de pontos não verificados
 
-- `[⏳ ACK]` O banco local contém apenas dados do seed, conforme confirmação do usuário. Recriar esses dados é aceitável; ainda identificar o banco-alvo antes de executar comandos para evitar afetar um ambiente diferente.
-- `[⚠️ UNVERIFIED]` `prisma migrate status` falhou porque o PostgreSQL em `localhost:5433` não respondeu; migração e seed ainda não foram aplicados/executados neste ambiente.
-- `[⚠️ UNVERIFIED]` Redis/BullMQ e políticas de deploy ainda não existem no repositório; as opções de armazenamento de arquivo e expiração precisam ser verificadas no ambiente-alvo.
+- Migrações aplicadas: 16/16. O seed executou duas vezes; a segunda execução concluiu sem duplicar os dados controlados.
+- Build, lint e seis testes unitários passaram. API e worker passaram por testes integrados locais.
+- `[⚠️ UNVERIFIED]` Ubuntu, instalação limpa, recuperação da outbox com Redis indisponível e expiração dos arquivos não foram verificados ou implementados.
 - Início da eficiência: timestamp do primeiro histórico `RECEBIDO`; fim: primeira transição `TRIAGEM_CONCLUIDA`.
 - Previsões e validações preservam frações em colunas `Decimal`; arredondar somente na apresentação.
 

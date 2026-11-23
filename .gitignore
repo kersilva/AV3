@@ -91,6 +91,7 @@ out
 dist
 dist-tests/
 data/
+**/storage/relatorios/
 .output
 
 # Gatsby files

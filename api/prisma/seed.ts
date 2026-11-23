@@ -74,7 +74,9 @@ const senhaSeed: string = obterSenhaSeed();
 
 const journalRepository = new PrismaJournalTransacaoRepository();
 const journalWriter = new PrismaJournalWriter(journalRepository);
-const unitOfWork = new PrismaUnitOfWork();
+const unitOfWork = new PrismaUnitOfWork(async (transacao) => {
+  await transacao.$queryRaw`SELECT set_config('greencode.seed_mode', 'on', true)`;
+});
 const usuarioRepository = new PrismaUsuarioRepository();
 const loteRepository = new PrismaLoteRepository();
 const equipamentoRepository = new PrismaEquipamentoRepository();
@@ -626,7 +628,7 @@ async function main() {
     );
     for (let indiceFalha = 1; indiceFalha <= 6; indiceFalha += 1) {
       const posicao = indiceFalha;
-      const equipamento = await garantirEquipamento(
+      await garantirEquipamento(
         tipo,
         EstadoFisico.INSERVIVEL,
         StatusRastreamento.EM_DESMONTE,

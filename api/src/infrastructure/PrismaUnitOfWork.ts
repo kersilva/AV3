@@ -13,9 +13,14 @@ import { PrismaOrganizacaoRepository } from '@infra/repositories/PrismaOrganizac
 import { PrismaUsuarioRepository } from '@infra/repositories/PrismaUsuarioRepository.js';
 
 export class PrismaUnitOfWork implements UnitOfWork {
+  constructor(
+    private readonly prepararTransacao?: (transacao: Prisma.TransactionClient) => Promise<void>,
+  ) {}
+
   executar<T>(operacao: (recursos: RecursosTransacao) => Promise<T>): Promise<T> {
     return prisma.$transaction(
       async (transacao) => {
+        await this.prepararTransacao?.(transacao);
         const journalRepository = new PrismaJournalTransacaoRepository(transacao);
 
         return operacao({
