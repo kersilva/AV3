@@ -36,7 +36,7 @@ await compositionRoot(app);
 
 const port = Number(process.env.PORT ?? 3000);
 await app.listen({ port, host: '0.0.0.0' });
-app.log.info(`Documentação disponível em http://localhost:${port}/docs`);
+app.log.info(`Documentacao disponivel em http://localhost:${port}/docs`);
 
 const shutdown = async () => {
   await app.close();
