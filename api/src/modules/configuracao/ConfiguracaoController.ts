@@ -12,7 +12,7 @@ const respostasErroInterno = {
 const configuracaoResponseSchema = {
   type: 'object',
   additionalProperties: false,
-  required: ['aliquotaImposto', 'coeficienteDepreciacao', 'versao'],
+  required: ['aliquotaImposto', 'coeficienteDepreciacao', 'versao', 'mensagemSecreta'],
   properties: {
     aliquotaImposto: {
       type: 'number',
@@ -30,6 +30,10 @@ const configuracaoResponseSchema = {
       type: 'integer',
       minimum: 1,
       description: 'Versão atual da configuração para controle otimista.',
+    },
+    mensagemSecreta: {
+      type: 'string',
+      description: 'Mensagem especial incluída ao consultar as configurações.',
     },
   },
 } as const;
@@ -59,7 +63,10 @@ export async function ConfiguracaoController(
         },
       },
     },
-    async (_req, res) => res.send(await service.obter())
+    async (_req, res) => res.send({
+      ...await service.obter(),
+      mensagemSecreta: '🌱 Easter egg encontrado',
+    })
   );
 
   app.put<{
