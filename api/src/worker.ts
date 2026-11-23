@@ -7,6 +7,7 @@ import { NOME_FILA_RELATORIOS, RelatorioQueueClient } from '@apiPublica/Relatori
 import { relatorioMetrics } from '@apiPublica/RelatorioMetrics.js';
 import { RelatorioApiService } from '@apiPublica/RelatorioApiService.js';
 import { processarRelatorioJob } from '@apiPublica/processarRelatorioJob.js';
+import { aoFalharJobRelatorio } from '@apiPublica/RelatorioWorkerEvents.js';
 
 const redisUrl = process.env.REDIS_URL;
 if (!redisUrl) throw new Error('Defina REDIS_URL para iniciar o worker de relatórios.');
@@ -22,20 +23,7 @@ const worker = new Worker<{ solicitacaoId: string }>(
 worker.on('failed', async (job, erro) => {
   if (!job) return;
   const tentativasMaximas = Number(job.opts.attempts ?? 1);
-  if (job.attemptsMade < tentativasMaximas) return;
-  try {
-    await prisma.solicitacaoRelatorio.updateMany({
-      where: { id: job.data.solicitacaoId, status: { notIn: ['CONCLUIDO', 'CANCELADO'] } },
-      data: {
-        status: 'FALHOU',
-        erroMensagem: 'Não foi possível gerar o relatório após as tentativas configuradas.',
-        concluidoEm: new Date(),
-      },
-    });
-    console.error(JSON.stringify({ evento: 'relatorio_job_falhou', solicitacaoId: job.data.solicitacaoId, erro: erro.message }));
-  } catch (erroPersistencia) {
-    console.error(JSON.stringify({ evento: 'relatorio_falha_status_nao_persistida', solicitacaoId: job.data.solicitacaoId, erro: erroPersistencia }));
-  }
+  await aoFalharJobRelatorio(job.data.solicitacaoId, job.attemptsMade, tentativasMaximas, erro);
 });
 
 const timer = setInterval(() => {

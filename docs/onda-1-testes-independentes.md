@@ -2,7 +2,7 @@
 
 ## Status
 
-Planejada. Esta onda pode ser trabalhada em paralelo em arquivos de teste separados. Os testes devem rodar em sequência no mesmo runner efêmero para não disputar fixtures, fila ou diretório de relatórios.
+Concluída. Os arquivos de teste são separados e o runner descobre todos os `*.integration.test.ts`, executando-os em sequência no mesmo ambiente efêmero.
 
 ## Lógica atual
 
@@ -11,7 +11,7 @@ Planejada. Esta onda pode ser trabalhada em paralelo em arquivos de teste separa
 - `GET /api/v1/public/relatorios/:id` busca status por ID e parceiro dono.
 - `GET /api/v1/public/relatorios/:id/download` só permite download quando o status é `CONCLUIDO` e o parceiro é o dono.
 - O despacho da outbox ocorre no worker, no início e a cada cinco segundos. O processo HTTP não é dono desse ciclo; reiniciar somente a API não deve ser tratado como reinício do dispatcher.
-- O teste de integração existente cobre retry transitório e reinícios do Redis e do worker, mas não cobre falha permanente, concorrência na chave pública, autorização real de download ou reinício do servidor HTTP.
+- A suíte de integração cobre retry transitório, reinícios de Redis/worker, falha permanente, concorrência na chave pública, status/download com autorização real e reinício do servidor HTTP.
 
 ## Objetivo final
 
@@ -26,6 +26,7 @@ Completar os cenários que não dependem da reivindicação concorrente do worke
 - `api/scripts/runIntegrationTests.mjs` — descobrir os arquivos `*.integration.test.ts`, em vez de apontar para um teste único.
 - `api/package.json` — manter o comando `test:integration` como entrada única da suíte.
 - `api/src/worker.ts` — alterar apenas se o teste de falha permanente revelar defeito no estado final.
+- `api/src/modules/apiPublica/RelatorioWorkerEvents.ts` — função compartilhada pelo callback de falha do worker e pelo teste de falha permanente.
 - `api/src/modules/apiPublica/RelatorioApiService.ts` — alterar apenas se o teste concorrente revelar defeito em idempotência/fingerprint.
 - `api/src/modules/apiPublica/RelatorioApiController.ts` — alterar apenas se status/download divergir do contrato esperado.
 
@@ -76,6 +77,15 @@ Esses fluxos exercitam comportamentos diferentes. Cada teste deve ter IDs própr
 - Reiniciar o HTTP não apaga o estado persistido nem quebra a consulta do parceiro.
 - Falhas identificadas nesta onda são corrigidas antes da proteção concorrente da Onda 2.
 
+## Resultado observado
+
+- `ApiIdempotency.integration.test.ts` passou: oito chamadas concorrentes retornaram o mesmo ID; Postgres manteve uma solicitação/outbox; BullMQ manteve um job lógico; corpo diferente com a mesma chave foi recusado.
+- `ApiRestart.integration.test.ts` passou: a consulta pública retornou o mesmo estado antes e depois de reiniciar o processo HTTP; chave inválida foi recusada.
+- `OutboxFailure.integration.test.ts` passou: três tentativas terminaram em `FALHOU`, o job ficou retido como `failed` e a mensagem pública não revelou a exceção interna.
+- `ReportApi.integration.test.ts` passou: parceiro dono consultou status e baixou JSON; parceiro diferente não consultou nem baixou; relatório pendente não foi baixado.
+- O runner executou esses quatro arquivos e `OutboxRecovery.integration.test.ts`: 5 testes passaram, nenhum falhou. Build, lint, testes unitários e `git diff --check` também passaram durante a implementação.
+- O ambiente Compose efêmero, seu volume Redis e a pasta temporária foram removidos ao final da execução.
+
 ## Critério de aceite
 
 - Todos os testes acima passam no banco e Redis efêmeros.
@@ -86,4 +96,4 @@ Esses fluxos exercitam comportamentos diferentes. Cada teste deve ter IDs própr
 
 Ao encontrar um comportamento sem cobertura, primeiro criar o teste que reproduz o caso. Depois da correção, adicionar aqui o nome e o caminho do teste, a regra coberta e o resultado observado. Manter esse registro no mesmo commit da mudança correspondente.
 
-- Ainda não há testes adicionais registrados; registrar os casos assim que a implementação desta onda começar.
+- Nenhum cenário fora da lista planejada foi necessário. O callback final do worker foi extraído para `RelatorioWorkerEvents.ts` para que o teste exercite a mesma regra de produção, sem importar o arquivo que inicia o worker.

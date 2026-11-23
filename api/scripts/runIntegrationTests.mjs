@@ -1,7 +1,7 @@
 import process from 'node:process';
 import { spawnSync } from 'node:child_process';
 import { randomUUID } from 'node:crypto';
-import { mkdtempSync, rmSync } from 'node:fs';
+import { mkdtempSync, readdirSync, rmSync } from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -9,6 +9,7 @@ import { fileURLToPath } from 'node:url';
 const apiRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const projectRoot = path.resolve(apiRoot, '..');
 const composeFile = path.join(projectRoot, 'compose.integration.yaml');
+const integrationTestsDir = path.join(apiRoot, 'tests', 'integration');
 const projectName = `greencode-av3-it-${process.pid}-${randomUUID().slice(0, 8)}`;
 const reportsDir = mkdtempSync(path.join(os.tmpdir(), 'greencode-av3-reports-'));
 const env = {
@@ -51,7 +52,14 @@ try {
   env.REDIS_URL = `redis://127.0.0.1:${redisPort}`;
   const migrate = run(process.execPath, ['node_modules/prisma/build/index.js', 'migrate', 'deploy', '--schema', 'prisma/schema.prisma']);
   if (migrate.status !== 0) throw new Error('As migrações falharam no banco efêmero.');
-const tests = run(process.execPath, ['node_modules/tsx/dist/cli.mjs', '--test-reporter=spec', '--test', 'tests/integration/OutboxRecovery.integration.test.ts']);
+  const testFiles = readdirSync(integrationTestsDir)
+    .filter((name) => name.endsWith('.integration.test.ts'))
+    .sort()
+    .map((name) => path.join('tests', 'integration', name));
+  if (testFiles.length === 0) throw new Error('Nenhum arquivo de integração foi encontrado.');
+  const tests = run(process.execPath, [
+    'node_modules/tsx/dist/cli.mjs', '--test-concurrency=1', '--test-reporter=spec', '--test', ...testFiles,
+  ]);
   status = tests.status ?? 1;
 } catch (erro) {
   process.stderr.write(`${erro instanceof Error ? erro.message : erro}\n`);

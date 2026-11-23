@@ -37,12 +37,11 @@ Este documento registra o plano aprovado e o estado da implementação.
 
 ### Ainda pendente para considerar esta etapa completa
 
-- Teste de falha permanente após esgotar as tentativas.
-- Teste concorrente de idempotência da API pública.
-- Teste de encerramento e reinício da API e interrupção do worker durante uma análise ativa.
-- Garantia transacional/concorrente que impeça dois cálculos analíticos simultâneos para a mesma solicitação se um lock do BullMQ expirar.
-- Validar download do JSON e associação única do resultado analítico no teste de integração.
-- Decidir e aplicar o prazo final de remoção dos aliases internos; o README sugere mínimo de 90 dias.
+- Proteção transacional/concorrente que impeça dois cálculos analíticos simultâneos para a mesma solicitação se um lock BullMQ expirar.
+- Interromper o worker durante uma análise ativa e provar a retomada com uma única execução analítica.
+- Fixar a data de publicação para iniciar a contagem de 90 dias dos aliases internos; o prazo mínimo está documentado no README.
+
+Os cenários de falha permanente, idempotência concorrente, reinício HTTP, consulta/download e autorização por parceiro foram implementados na Onda 1. Os resultados estão em [onda-1-testes-independentes.md](onda-1-testes-independentes.md).
 
 ## Ordem otimizada para concluir os itens pendentes
 
