@@ -10,7 +10,7 @@ Completar três partes da versão final da AV3:
 
 Este documento registra o plano aprovado e o estado da implementação.
 
-## Estado atual relevante
+## Estado anterior à execução do plano
 
 - A API grava `SolicitacaoRelatorio` e `OutboxRelatorio` no Postgres antes de publicar o job.
 - A publicação usa o ID da solicitação como `jobId` BullMQ. Uma publicação repetida tende a usar o mesmo job.
