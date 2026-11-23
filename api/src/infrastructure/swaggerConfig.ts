@@ -39,7 +39,6 @@ export const swaggerOptions: SwaggerOptions = {
       { name: 'Relatórios', description: 'Relatórios operacionais e análises persistidas' },
       { name: 'Configuração', description: 'Configurações do sistema' },
       { name: 'API pública', description: 'Integrações versionadas para parceiros externos' },
-      { name: 'API interna', description: 'Operações versionadas para usuários internos; exige JWT e papel autorizado' },
     ],
   },
 };
