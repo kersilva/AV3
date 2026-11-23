@@ -35,6 +35,7 @@
 - [x] Implementar endpoints versionados de rastreabilidade, lotes e relatórios, com autorização por escopo e parceiro.
 - [x] Aplicar `Idempotency-Key` à criação de lotes e solicitações de relatório; documentar contratos no OpenAPI e README.
 - [x] Validar manualmente revogação (401), propriedade de relatório (404), conflito de idempotência (409), replay, isolamento de organização (403) e rate limit separado por chave (429). Testes automatizados de integração continuam recomendados.
+- [ ] Para a versão final, migrar rotas de usuário interno/gestão para `/api/v1/internal`, manter aliases legados com período de depreciação e preservar `/api/v1/public` como contrato independente.
 
 ## Fase 4 — Processamento assíncrono e entrega final
 

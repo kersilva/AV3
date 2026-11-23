@@ -197,6 +197,10 @@ Use a mesma lógica para as demais rotas: abra a operação no Swagger, confira 
 
 ### Rotas disponíveis
 
+As operações de autenticação, gestão e uso interno também estão disponíveis sob `/api/v1/internal`, com JWT e as mesmas permissões por papel. O contrato público de parceiros permanece sob `/api/v1/public`, com chave de API e escopos próprios; as duas versões podem evoluir separadamente.
+
+Os caminhos internos antigos continuam ativos durante a migração. Eles respondem com `Deprecation: true` e um cabeçalho `Link` para a rota equivalente em `/api/v1/internal`. Planejamos manter esses aliases por pelo menos 90 dias após a publicação desta versão antes de removê-los em uma versão incompatível.
+
 - **Autenticação:** `POST /auth/primeiro-administrador`, `POST /auth/login`.
 - **Usuários:** `GET` e `POST /usuarios`; `PATCH /usuarios/:id/ativo`; `PATCH /usuarios/:id/papel`; `DELETE /usuarios/:id`.
 - **Organizações:** `GET` e `POST /organizacoes`; `GET`, `PATCH` e `DELETE /organizacoes/:id`; `PATCH /organizacoes/:id/reativar`.

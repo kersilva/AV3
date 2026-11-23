@@ -79,41 +79,57 @@ export async function compositionRoot(app: FastifyInstance): Promise<void> {
   const journalAccess = exigirPapeis(PapelUsuario.ADMINISTRADOR, PapelUsuario.AUDITOR);
   const relatorioAccess = exigirPapeis(PapelUsuario.ADMINISTRADOR, PapelUsuario.AUDITOR);
 
-  await AutenticacaoController(app, autenticacao);
-  await OrganizacaoController(
-    app,
-    exigirPapeis(PapelUsuario.ADMINISTRADOR, PapelUsuario.OPERADOR_CADASTRO, PapelUsuario.AUDITOR),
-    cadastro,
-    organizacao
+  const registrarRotasInternas = async (rotas: FastifyInstance) => {
+    await AutenticacaoController(rotas, autenticacao);
+    await OrganizacaoController(
+      rotas,
+      exigirPapeis(PapelUsuario.ADMINISTRADOR, PapelUsuario.OPERADOR_CADASTRO, PapelUsuario.AUDITOR),
+      cadastro,
+      organizacao
+    );
+    await ConfiguracaoController(rotas, admin, configuracao);
+    await ContratoController(rotas, leituraCadastro, cadastro, contrato);
+    await UsuarioController(rotas, admin, usuario);
+    await LoteController(
+      rotas,
+      exigirPapeis(
+        PapelUsuario.ADMINISTRADOR,
+        PapelUsuario.GESTOR_ALMOXARIFADO,
+        PapelUsuario.AUDITOR
+      ),
+      almoxarifado,
+      lote
+    );
+    await EquipamentoController(
+      rotas,
+      exigirPapeis(
+        PapelUsuario.ADMINISTRADOR,
+        PapelUsuario.GESTOR_ALMOXARIFADO,
+        PapelUsuario.AUDITOR
+      ),
+      almoxarifado,
+      equipamento
+    );
+    await JournalController(rotas, journalAccess, journal);
+    await RelatorioController(rotas, relatorioAccess, relatorio);
+    await AnaliseController(rotas, relatorioAccess, analise);
+    await RecuperacaoController(rotas, almoxarifado, recuperacao);
+    await ParceiroApiController(rotas, admin, apiKeys);
+  };
+
+  await app.register(async (rotasLegadas) => {
+    rotasLegadas.addHook('onSend', async (request, reply, payload) => {
+      const caminho = request.url.split('?')[0] ?? request.url;
+      reply.header('Deprecation', 'true');
+      reply.header('Link', `</api/v1/internal${caminho}>; rel="successor-version"`);
+      return payload;
+    });
+    await registrarRotasInternas(rotasLegadas);
+  });
+  await app.register(
+    async (rotasInternas) => registrarRotasInternas(rotasInternas),
+    { prefix: '/api/v1/internal' },
   );
-  await ConfiguracaoController(app, admin, configuracao);
-  await ContratoController(app, leituraCadastro, cadastro, contrato);
-  await UsuarioController(app, admin, usuario);
-  await LoteController(
-    app,
-    exigirPapeis(
-      PapelUsuario.ADMINISTRADOR,
-      PapelUsuario.GESTOR_ALMOXARIFADO,
-      PapelUsuario.AUDITOR
-    ),
-    almoxarifado,
-    lote
-  );
-  await EquipamentoController(
-    app,
-    exigirPapeis(
-      PapelUsuario.ADMINISTRADOR,
-      PapelUsuario.GESTOR_ALMOXARIFADO,
-      PapelUsuario.AUDITOR
-    ),
-    almoxarifado,
-    equipamento
-  );
-  await JournalController(app, journalAccess, journal);
-  await RelatorioController(app, relatorioAccess, relatorio);
-  await AnaliseController(app, relatorioAccess, analise);
-  await RecuperacaoController(app, almoxarifado, recuperacao);
-  await ParceiroApiController(app, admin, apiKeys);
   await ApiPublicaController(app, apiKeys, apiPublica);
   await RelatorioApiController(app, apiKeys, relatoriosPublicos);
 }

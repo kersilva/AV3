@@ -68,11 +68,14 @@ O banco contém apenas a estrutura. No código atual não encontrei usos de `exe
 
 - Criar gestão administrativa de parceiro e emissão/revogação de chave; exibir a chave crua apenas uma vez e persistir somente hash e prefixo.
 - Criar prefixo `/api/v1/public`, pre-handler de autenticação e verificação de escopos.
+- Manter rotas de parceiro em `/api/v1/public` e mover rotas de usuário interno/gestão para `/api/v1/internal`; usar chave de parceiro no público e JWT com papéis no interno.
+- Migrar rotas internas atuais com aliases para os caminhos legados, handlers compartilhados e prazo de depreciação documentado.
+- Versionar contratos públicos e internos de forma independente. Mudanças incompatíveis no contrato de parceiro devem avançar a versão pública.
 - Expor primeiro leitura de rastreabilidade e consulta de relatórios concluídos; adicionar escrita de lotes apenas com validação e idempotência.
 - Adicionar rate limit por parceiro/chave, respostas de erro estáveis e documentação OpenAPI com exemplos.
 - Não reutilizar JWT de usuário para parceiros.
 
-**Critério de aceite:** chaves revogadas falham; escopo insuficiente é negado; limite é isolado por parceiro; chave não aparece em logs nem no banco.
+**Critério de aceite:** chaves revogadas falham; escopo insuficiente é negado; limite é isolado por parceiro; chave não aparece em logs nem no banco; rotas públicas e internas têm prefixos e autenticação próprios, sem remoção inesperada dos aliases legados.
 
 ### Fase 4 — Relatórios assíncronos e versão final
 

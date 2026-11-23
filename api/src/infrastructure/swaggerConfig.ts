@@ -7,7 +7,7 @@ export const swaggerOptions: SwaggerOptions = {
   openapi: {
     info: {
       title: 'GreenCode API',
-      description: 'Sistema de gestão de equipamentos eletrônicos para reciclagem.',
+      description: 'API pública para parceiros em /api/v1/public e API interna para usuários e gestão em /api/v1/internal.',
       version: '1.0.0',
       contact: {
         name: 'Técnicas de Programação - AV2',
@@ -39,6 +39,7 @@ export const swaggerOptions: SwaggerOptions = {
       { name: 'Relatórios', description: 'Relatórios operacionais e análises persistidas' },
       { name: 'Configuração', description: 'Configurações do sistema' },
       { name: 'API pública', description: 'Integrações versionadas para parceiros externos' },
+      { name: 'API interna', description: 'Operações versionadas para usuários internos; exige JWT e papel autorizado' },
     ],
   },
 };
