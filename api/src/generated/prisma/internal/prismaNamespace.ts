@@ -408,6 +408,8 @@ export const ModelName = {
   Organizacao: 'Organizacao',
   HistoricoStatusLote: 'HistoricoStatusLote',
   HistoricoEstadoFisico: 'HistoricoEstadoFisico',
+  ExecucaoAnalise: 'ExecucaoAnalise',
+  ResultadoAnalise: 'ResultadoAnalise',
   PrevisaoVidaUtil: 'PrevisaoVidaUtil',
   ValidacaoPrevisao: 'ValidacaoPrevisao',
   ParceiroApi: 'ParceiroApi',
@@ -428,7 +430,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "usuario" | "journalTransacao" | "configuracaoSistema" | "movimentacao" | "clausulaContrato" | "contrato" | "equipamento" | "lote" | "organizacao" | "historicoStatusLote" | "historicoEstadoFisico" | "previsaoVidaUtil" | "validacaoPrevisao" | "parceiroApi" | "chaveApi" | "solicitacaoRelatorio"
+    modelProps: "usuario" | "journalTransacao" | "configuracaoSistema" | "movimentacao" | "clausulaContrato" | "contrato" | "equipamento" | "lote" | "organizacao" | "historicoStatusLote" | "historicoEstadoFisico" | "execucaoAnalise" | "resultadoAnalise" | "previsaoVidaUtil" | "validacaoPrevisao" | "parceiroApi" | "chaveApi" | "solicitacaoRelatorio"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1246,6 +1248,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ExecucaoAnalise: {
+      payload: Prisma.$ExecucaoAnalisePayload<ExtArgs>
+      fields: Prisma.ExecucaoAnaliseFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ExecucaoAnaliseFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExecucaoAnalisePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ExecucaoAnaliseFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExecucaoAnalisePayload>
+        }
+        findFirst: {
+          args: Prisma.ExecucaoAnaliseFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExecucaoAnalisePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ExecucaoAnaliseFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExecucaoAnalisePayload>
+        }
+        findMany: {
+          args: Prisma.ExecucaoAnaliseFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExecucaoAnalisePayload>[]
+        }
+        create: {
+          args: Prisma.ExecucaoAnaliseCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExecucaoAnalisePayload>
+        }
+        createMany: {
+          args: Prisma.ExecucaoAnaliseCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ExecucaoAnaliseCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExecucaoAnalisePayload>[]
+        }
+        delete: {
+          args: Prisma.ExecucaoAnaliseDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExecucaoAnalisePayload>
+        }
+        update: {
+          args: Prisma.ExecucaoAnaliseUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExecucaoAnalisePayload>
+        }
+        deleteMany: {
+          args: Prisma.ExecucaoAnaliseDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ExecucaoAnaliseUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ExecucaoAnaliseUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExecucaoAnalisePayload>[]
+        }
+        upsert: {
+          args: Prisma.ExecucaoAnaliseUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExecucaoAnalisePayload>
+        }
+        aggregate: {
+          args: Prisma.ExecucaoAnaliseAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateExecucaoAnalise>
+        }
+        groupBy: {
+          args: Prisma.ExecucaoAnaliseGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ExecucaoAnaliseGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ExecucaoAnaliseCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ExecucaoAnaliseCountAggregateOutputType> | number
+        }
+      }
+    }
+    ResultadoAnalise: {
+      payload: Prisma.$ResultadoAnalisePayload<ExtArgs>
+      fields: Prisma.ResultadoAnaliseFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ResultadoAnaliseFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResultadoAnalisePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ResultadoAnaliseFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResultadoAnalisePayload>
+        }
+        findFirst: {
+          args: Prisma.ResultadoAnaliseFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResultadoAnalisePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ResultadoAnaliseFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResultadoAnalisePayload>
+        }
+        findMany: {
+          args: Prisma.ResultadoAnaliseFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResultadoAnalisePayload>[]
+        }
+        create: {
+          args: Prisma.ResultadoAnaliseCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResultadoAnalisePayload>
+        }
+        createMany: {
+          args: Prisma.ResultadoAnaliseCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ResultadoAnaliseCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResultadoAnalisePayload>[]
+        }
+        delete: {
+          args: Prisma.ResultadoAnaliseDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResultadoAnalisePayload>
+        }
+        update: {
+          args: Prisma.ResultadoAnaliseUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResultadoAnalisePayload>
+        }
+        deleteMany: {
+          args: Prisma.ResultadoAnaliseDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ResultadoAnaliseUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ResultadoAnaliseUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResultadoAnalisePayload>[]
+        }
+        upsert: {
+          args: Prisma.ResultadoAnaliseUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResultadoAnalisePayload>
+        }
+        aggregate: {
+          args: Prisma.ResultadoAnaliseAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateResultadoAnalise>
+        }
+        groupBy: {
+          args: Prisma.ResultadoAnaliseGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ResultadoAnaliseGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ResultadoAnaliseCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ResultadoAnaliseCountAggregateOutputType> | number
+        }
+      }
+    }
     PrevisaoVidaUtil: {
       payload: Prisma.$PrevisaoVidaUtilPayload<ExtArgs>
       fields: Prisma.PrevisaoVidaUtilFieldRefs
@@ -1809,6 +1959,30 @@ export const HistoricoEstadoFisicoScalarFieldEnum = {
 export type HistoricoEstadoFisicoScalarFieldEnum = (typeof HistoricoEstadoFisicoScalarFieldEnum)[keyof typeof HistoricoEstadoFisicoScalarFieldEnum]
 
 
+export const ExecucaoAnaliseScalarFieldEnum = {
+  id: 'id',
+  tipoRelatorio: 'tipoRelatorio',
+  parametros: 'parametros',
+  versaoCalculo: 'versaoCalculo',
+  dataReferencia: 'dataReferencia',
+  criadaEm: 'criadaEm'
+} as const
+
+export type ExecucaoAnaliseScalarFieldEnum = (typeof ExecucaoAnaliseScalarFieldEnum)[keyof typeof ExecucaoAnaliseScalarFieldEnum]
+
+
+export const ResultadoAnaliseScalarFieldEnum = {
+  id: 'id',
+  execucaoId: 'execucaoId',
+  metrica: 'metrica',
+  chave: 'chave',
+  valor: 'valor',
+  amostras: 'amostras'
+} as const
+
+export type ResultadoAnaliseScalarFieldEnum = (typeof ResultadoAnaliseScalarFieldEnum)[keyof typeof ResultadoAnaliseScalarFieldEnum]
+
+
 export const PrevisaoVidaUtilScalarFieldEnum = {
   id: 'id',
   tipoEquipamento: 'tipoEquipamento',
@@ -1820,7 +1994,8 @@ export const PrevisaoVidaUtilScalarFieldEnum = {
   r2: 'r2',
   amostras: 'amostras',
   parametros: 'parametros',
-  solicitacaoRelatorioId: 'solicitacaoRelatorioId'
+  solicitacaoRelatorioId: 'solicitacaoRelatorioId',
+  execucaoAnaliseId: 'execucaoAnaliseId'
 } as const
 
 export type PrevisaoVidaUtilScalarFieldEnum = (typeof PrevisaoVidaUtilScalarFieldEnum)[keyof typeof PrevisaoVidaUtilScalarFieldEnum]
@@ -2084,6 +2259,34 @@ export type ListEnumStatusLoteFieldRefInput<$PrismaModel> = FieldRefInputType<$P
 
 
 /**
+ * Reference to a field of type 'TipoRelatorio'
+ */
+export type EnumTipoRelatorioFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoRelatorio'>
+    
+
+
+/**
+ * Reference to a field of type 'TipoRelatorio[]'
+ */
+export type ListEnumTipoRelatorioFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoRelatorio[]'>
+    
+
+
+/**
+ * Reference to a field of type 'MetricaAnalise'
+ */
+export type EnumMetricaAnaliseFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MetricaAnalise'>
+    
+
+
+/**
+ * Reference to a field of type 'MetricaAnalise[]'
+ */
+export type ListEnumMetricaAnaliseFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MetricaAnalise[]'>
+    
+
+
+/**
  * Reference to a field of type 'MetodologiaPrevisao'
  */
 export type EnumMetodologiaPrevisaoFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MetodologiaPrevisao'>
@@ -2108,20 +2311,6 @@ export type ListEnumEscopoApiFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
  * Reference to a field of type 'EscopoApi'
  */
 export type EnumEscopoApiFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EscopoApi'>
-    
-
-
-/**
- * Reference to a field of type 'TipoRelatorio'
- */
-export type EnumTipoRelatorioFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoRelatorio'>
-    
-
-
-/**
- * Reference to a field of type 'TipoRelatorio[]'
- */
-export type ListEnumTipoRelatorioFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoRelatorio[]'>
     
 
 
@@ -2314,6 +2503,8 @@ export type GlobalOmitConfig = {
   organizacao?: Prisma.OrganizacaoOmit
   historicoStatusLote?: Prisma.HistoricoStatusLoteOmit
   historicoEstadoFisico?: Prisma.HistoricoEstadoFisicoOmit
+  execucaoAnalise?: Prisma.ExecucaoAnaliseOmit
+  resultadoAnalise?: Prisma.ResultadoAnaliseOmit
   previsaoVidaUtil?: Prisma.PrevisaoVidaUtilOmit
   validacaoPrevisao?: Prisma.ValidacaoPrevisaoOmit
   parceiroApi?: Prisma.ParceiroApiOmit

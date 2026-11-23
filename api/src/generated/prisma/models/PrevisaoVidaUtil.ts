@@ -49,6 +49,7 @@ export type PrevisaoVidaUtilMinAggregateOutputType = {
   r2: runtime.Decimal | null
   amostras: number | null
   solicitacaoRelatorioId: string | null
+  execucaoAnaliseId: string | null
 }
 
 export type PrevisaoVidaUtilMaxAggregateOutputType = {
@@ -62,6 +63,7 @@ export type PrevisaoVidaUtilMaxAggregateOutputType = {
   r2: runtime.Decimal | null
   amostras: number | null
   solicitacaoRelatorioId: string | null
+  execucaoAnaliseId: string | null
 }
 
 export type PrevisaoVidaUtilCountAggregateOutputType = {
@@ -76,6 +78,7 @@ export type PrevisaoVidaUtilCountAggregateOutputType = {
   amostras: number
   parametros: number
   solicitacaoRelatorioId: number
+  execucaoAnaliseId: number
   _all: number
 }
 
@@ -103,6 +106,7 @@ export type PrevisaoVidaUtilMinAggregateInputType = {
   r2?: true
   amostras?: true
   solicitacaoRelatorioId?: true
+  execucaoAnaliseId?: true
 }
 
 export type PrevisaoVidaUtilMaxAggregateInputType = {
@@ -116,6 +120,7 @@ export type PrevisaoVidaUtilMaxAggregateInputType = {
   r2?: true
   amostras?: true
   solicitacaoRelatorioId?: true
+  execucaoAnaliseId?: true
 }
 
 export type PrevisaoVidaUtilCountAggregateInputType = {
@@ -130,6 +135,7 @@ export type PrevisaoVidaUtilCountAggregateInputType = {
   amostras?: true
   parametros?: true
   solicitacaoRelatorioId?: true
+  execucaoAnaliseId?: true
   _all?: true
 }
 
@@ -231,6 +237,7 @@ export type PrevisaoVidaUtilGroupByOutputType = {
   amostras: number
   parametros: runtime.JsonValue
   solicitacaoRelatorioId: string | null
+  execucaoAnaliseId: string | null
   _count: PrevisaoVidaUtilCountAggregateOutputType | null
   _avg: PrevisaoVidaUtilAvgAggregateOutputType | null
   _sum: PrevisaoVidaUtilSumAggregateOutputType | null
@@ -268,7 +275,9 @@ export type PrevisaoVidaUtilWhereInput = {
   amostras?: Prisma.IntFilter<"PrevisaoVidaUtil"> | number
   parametros?: Prisma.JsonFilter<"PrevisaoVidaUtil">
   solicitacaoRelatorioId?: Prisma.StringNullableFilter<"PrevisaoVidaUtil"> | string | null
+  execucaoAnaliseId?: Prisma.StringNullableFilter<"PrevisaoVidaUtil"> | string | null
   solicitacao?: Prisma.XOR<Prisma.SolicitacaoRelatorioNullableScalarRelationFilter, Prisma.SolicitacaoRelatorioWhereInput> | null
+  execucao?: Prisma.XOR<Prisma.ExecucaoAnaliseNullableScalarRelationFilter, Prisma.ExecucaoAnaliseWhereInput> | null
   validacoes?: Prisma.ValidacaoPrevisaoListRelationFilter
 }
 
@@ -284,7 +293,9 @@ export type PrevisaoVidaUtilOrderByWithRelationInput = {
   amostras?: Prisma.SortOrder
   parametros?: Prisma.SortOrder
   solicitacaoRelatorioId?: Prisma.SortOrderInput | Prisma.SortOrder
+  execucaoAnaliseId?: Prisma.SortOrderInput | Prisma.SortOrder
   solicitacao?: Prisma.SolicitacaoRelatorioOrderByWithRelationInput
+  execucao?: Prisma.ExecucaoAnaliseOrderByWithRelationInput
   validacoes?: Prisma.ValidacaoPrevisaoOrderByRelationAggregateInput
 }
 
@@ -303,7 +314,9 @@ export type PrevisaoVidaUtilWhereUniqueInput = Prisma.AtLeast<{
   amostras?: Prisma.IntFilter<"PrevisaoVidaUtil"> | number
   parametros?: Prisma.JsonFilter<"PrevisaoVidaUtil">
   solicitacaoRelatorioId?: Prisma.StringNullableFilter<"PrevisaoVidaUtil"> | string | null
+  execucaoAnaliseId?: Prisma.StringNullableFilter<"PrevisaoVidaUtil"> | string | null
   solicitacao?: Prisma.XOR<Prisma.SolicitacaoRelatorioNullableScalarRelationFilter, Prisma.SolicitacaoRelatorioWhereInput> | null
+  execucao?: Prisma.XOR<Prisma.ExecucaoAnaliseNullableScalarRelationFilter, Prisma.ExecucaoAnaliseWhereInput> | null
   validacoes?: Prisma.ValidacaoPrevisaoListRelationFilter
 }, "id">
 
@@ -319,6 +332,7 @@ export type PrevisaoVidaUtilOrderByWithAggregationInput = {
   amostras?: Prisma.SortOrder
   parametros?: Prisma.SortOrder
   solicitacaoRelatorioId?: Prisma.SortOrderInput | Prisma.SortOrder
+  execucaoAnaliseId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.PrevisaoVidaUtilCountOrderByAggregateInput
   _avg?: Prisma.PrevisaoVidaUtilAvgOrderByAggregateInput
   _max?: Prisma.PrevisaoVidaUtilMaxOrderByAggregateInput
@@ -341,6 +355,7 @@ export type PrevisaoVidaUtilScalarWhereWithAggregatesInput = {
   amostras?: Prisma.IntWithAggregatesFilter<"PrevisaoVidaUtil"> | number
   parametros?: Prisma.JsonWithAggregatesFilter<"PrevisaoVidaUtil">
   solicitacaoRelatorioId?: Prisma.StringNullableWithAggregatesFilter<"PrevisaoVidaUtil"> | string | null
+  execucaoAnaliseId?: Prisma.StringNullableWithAggregatesFilter<"PrevisaoVidaUtil"> | string | null
 }
 
 export type PrevisaoVidaUtilCreateInput = {
@@ -355,6 +370,7 @@ export type PrevisaoVidaUtilCreateInput = {
   amostras: number
   parametros: Prisma.JsonNullValueInput | runtime.InputJsonValue
   solicitacao?: Prisma.SolicitacaoRelatorioCreateNestedOneWithoutPrevisoesInput
+  execucao?: Prisma.ExecucaoAnaliseCreateNestedOneWithoutPrevisoesInput
   validacoes?: Prisma.ValidacaoPrevisaoCreateNestedManyWithoutPrevisaoInput
 }
 
@@ -370,6 +386,7 @@ export type PrevisaoVidaUtilUncheckedCreateInput = {
   amostras: number
   parametros: Prisma.JsonNullValueInput | runtime.InputJsonValue
   solicitacaoRelatorioId?: string | null
+  execucaoAnaliseId?: string | null
   validacoes?: Prisma.ValidacaoPrevisaoUncheckedCreateNestedManyWithoutPrevisaoInput
 }
 
@@ -385,6 +402,7 @@ export type PrevisaoVidaUtilUpdateInput = {
   amostras?: Prisma.IntFieldUpdateOperationsInput | number
   parametros?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   solicitacao?: Prisma.SolicitacaoRelatorioUpdateOneWithoutPrevisoesNestedInput
+  execucao?: Prisma.ExecucaoAnaliseUpdateOneWithoutPrevisoesNestedInput
   validacoes?: Prisma.ValidacaoPrevisaoUpdateManyWithoutPrevisaoNestedInput
 }
 
@@ -400,6 +418,7 @@ export type PrevisaoVidaUtilUncheckedUpdateInput = {
   amostras?: Prisma.IntFieldUpdateOperationsInput | number
   parametros?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   solicitacaoRelatorioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  execucaoAnaliseId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validacoes?: Prisma.ValidacaoPrevisaoUncheckedUpdateManyWithoutPrevisaoNestedInput
 }
 
@@ -415,6 +434,7 @@ export type PrevisaoVidaUtilCreateManyInput = {
   amostras: number
   parametros: Prisma.JsonNullValueInput | runtime.InputJsonValue
   solicitacaoRelatorioId?: string | null
+  execucaoAnaliseId?: string | null
 }
 
 export type PrevisaoVidaUtilUpdateManyMutationInput = {
@@ -442,6 +462,17 @@ export type PrevisaoVidaUtilUncheckedUpdateManyInput = {
   amostras?: Prisma.IntFieldUpdateOperationsInput | number
   parametros?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   solicitacaoRelatorioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  execucaoAnaliseId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type PrevisaoVidaUtilListRelationFilter = {
+  every?: Prisma.PrevisaoVidaUtilWhereInput
+  some?: Prisma.PrevisaoVidaUtilWhereInput
+  none?: Prisma.PrevisaoVidaUtilWhereInput
+}
+
+export type PrevisaoVidaUtilOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type PrevisaoVidaUtilCountOrderByAggregateInput = {
@@ -456,6 +487,7 @@ export type PrevisaoVidaUtilCountOrderByAggregateInput = {
   amostras?: Prisma.SortOrder
   parametros?: Prisma.SortOrder
   solicitacaoRelatorioId?: Prisma.SortOrder
+  execucaoAnaliseId?: Prisma.SortOrder
 }
 
 export type PrevisaoVidaUtilAvgOrderByAggregateInput = {
@@ -475,6 +507,7 @@ export type PrevisaoVidaUtilMaxOrderByAggregateInput = {
   r2?: Prisma.SortOrder
   amostras?: Prisma.SortOrder
   solicitacaoRelatorioId?: Prisma.SortOrder
+  execucaoAnaliseId?: Prisma.SortOrder
 }
 
 export type PrevisaoVidaUtilMinOrderByAggregateInput = {
@@ -488,6 +521,7 @@ export type PrevisaoVidaUtilMinOrderByAggregateInput = {
   r2?: Prisma.SortOrder
   amostras?: Prisma.SortOrder
   solicitacaoRelatorioId?: Prisma.SortOrder
+  execucaoAnaliseId?: Prisma.SortOrder
 }
 
 export type PrevisaoVidaUtilSumOrderByAggregateInput = {
@@ -501,14 +535,46 @@ export type PrevisaoVidaUtilScalarRelationFilter = {
   isNot?: Prisma.PrevisaoVidaUtilWhereInput
 }
 
-export type PrevisaoVidaUtilListRelationFilter = {
-  every?: Prisma.PrevisaoVidaUtilWhereInput
-  some?: Prisma.PrevisaoVidaUtilWhereInput
-  none?: Prisma.PrevisaoVidaUtilWhereInput
+export type PrevisaoVidaUtilCreateNestedManyWithoutExecucaoInput = {
+  create?: Prisma.XOR<Prisma.PrevisaoVidaUtilCreateWithoutExecucaoInput, Prisma.PrevisaoVidaUtilUncheckedCreateWithoutExecucaoInput> | Prisma.PrevisaoVidaUtilCreateWithoutExecucaoInput[] | Prisma.PrevisaoVidaUtilUncheckedCreateWithoutExecucaoInput[]
+  connectOrCreate?: Prisma.PrevisaoVidaUtilCreateOrConnectWithoutExecucaoInput | Prisma.PrevisaoVidaUtilCreateOrConnectWithoutExecucaoInput[]
+  createMany?: Prisma.PrevisaoVidaUtilCreateManyExecucaoInputEnvelope
+  connect?: Prisma.PrevisaoVidaUtilWhereUniqueInput | Prisma.PrevisaoVidaUtilWhereUniqueInput[]
 }
 
-export type PrevisaoVidaUtilOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
+export type PrevisaoVidaUtilUncheckedCreateNestedManyWithoutExecucaoInput = {
+  create?: Prisma.XOR<Prisma.PrevisaoVidaUtilCreateWithoutExecucaoInput, Prisma.PrevisaoVidaUtilUncheckedCreateWithoutExecucaoInput> | Prisma.PrevisaoVidaUtilCreateWithoutExecucaoInput[] | Prisma.PrevisaoVidaUtilUncheckedCreateWithoutExecucaoInput[]
+  connectOrCreate?: Prisma.PrevisaoVidaUtilCreateOrConnectWithoutExecucaoInput | Prisma.PrevisaoVidaUtilCreateOrConnectWithoutExecucaoInput[]
+  createMany?: Prisma.PrevisaoVidaUtilCreateManyExecucaoInputEnvelope
+  connect?: Prisma.PrevisaoVidaUtilWhereUniqueInput | Prisma.PrevisaoVidaUtilWhereUniqueInput[]
+}
+
+export type PrevisaoVidaUtilUpdateManyWithoutExecucaoNestedInput = {
+  create?: Prisma.XOR<Prisma.PrevisaoVidaUtilCreateWithoutExecucaoInput, Prisma.PrevisaoVidaUtilUncheckedCreateWithoutExecucaoInput> | Prisma.PrevisaoVidaUtilCreateWithoutExecucaoInput[] | Prisma.PrevisaoVidaUtilUncheckedCreateWithoutExecucaoInput[]
+  connectOrCreate?: Prisma.PrevisaoVidaUtilCreateOrConnectWithoutExecucaoInput | Prisma.PrevisaoVidaUtilCreateOrConnectWithoutExecucaoInput[]
+  upsert?: Prisma.PrevisaoVidaUtilUpsertWithWhereUniqueWithoutExecucaoInput | Prisma.PrevisaoVidaUtilUpsertWithWhereUniqueWithoutExecucaoInput[]
+  createMany?: Prisma.PrevisaoVidaUtilCreateManyExecucaoInputEnvelope
+  set?: Prisma.PrevisaoVidaUtilWhereUniqueInput | Prisma.PrevisaoVidaUtilWhereUniqueInput[]
+  disconnect?: Prisma.PrevisaoVidaUtilWhereUniqueInput | Prisma.PrevisaoVidaUtilWhereUniqueInput[]
+  delete?: Prisma.PrevisaoVidaUtilWhereUniqueInput | Prisma.PrevisaoVidaUtilWhereUniqueInput[]
+  connect?: Prisma.PrevisaoVidaUtilWhereUniqueInput | Prisma.PrevisaoVidaUtilWhereUniqueInput[]
+  update?: Prisma.PrevisaoVidaUtilUpdateWithWhereUniqueWithoutExecucaoInput | Prisma.PrevisaoVidaUtilUpdateWithWhereUniqueWithoutExecucaoInput[]
+  updateMany?: Prisma.PrevisaoVidaUtilUpdateManyWithWhereWithoutExecucaoInput | Prisma.PrevisaoVidaUtilUpdateManyWithWhereWithoutExecucaoInput[]
+  deleteMany?: Prisma.PrevisaoVidaUtilScalarWhereInput | Prisma.PrevisaoVidaUtilScalarWhereInput[]
+}
+
+export type PrevisaoVidaUtilUncheckedUpdateManyWithoutExecucaoNestedInput = {
+  create?: Prisma.XOR<Prisma.PrevisaoVidaUtilCreateWithoutExecucaoInput, Prisma.PrevisaoVidaUtilUncheckedCreateWithoutExecucaoInput> | Prisma.PrevisaoVidaUtilCreateWithoutExecucaoInput[] | Prisma.PrevisaoVidaUtilUncheckedCreateWithoutExecucaoInput[]
+  connectOrCreate?: Prisma.PrevisaoVidaUtilCreateOrConnectWithoutExecucaoInput | Prisma.PrevisaoVidaUtilCreateOrConnectWithoutExecucaoInput[]
+  upsert?: Prisma.PrevisaoVidaUtilUpsertWithWhereUniqueWithoutExecucaoInput | Prisma.PrevisaoVidaUtilUpsertWithWhereUniqueWithoutExecucaoInput[]
+  createMany?: Prisma.PrevisaoVidaUtilCreateManyExecucaoInputEnvelope
+  set?: Prisma.PrevisaoVidaUtilWhereUniqueInput | Prisma.PrevisaoVidaUtilWhereUniqueInput[]
+  disconnect?: Prisma.PrevisaoVidaUtilWhereUniqueInput | Prisma.PrevisaoVidaUtilWhereUniqueInput[]
+  delete?: Prisma.PrevisaoVidaUtilWhereUniqueInput | Prisma.PrevisaoVidaUtilWhereUniqueInput[]
+  connect?: Prisma.PrevisaoVidaUtilWhereUniqueInput | Prisma.PrevisaoVidaUtilWhereUniqueInput[]
+  update?: Prisma.PrevisaoVidaUtilUpdateWithWhereUniqueWithoutExecucaoInput | Prisma.PrevisaoVidaUtilUpdateWithWhereUniqueWithoutExecucaoInput[]
+  updateMany?: Prisma.PrevisaoVidaUtilUpdateManyWithWhereWithoutExecucaoInput | Prisma.PrevisaoVidaUtilUpdateManyWithWhereWithoutExecucaoInput[]
+  deleteMany?: Prisma.PrevisaoVidaUtilScalarWhereInput | Prisma.PrevisaoVidaUtilScalarWhereInput[]
 }
 
 export type EnumMetodologiaPrevisaoFieldUpdateOperationsInput = {
@@ -571,6 +637,80 @@ export type PrevisaoVidaUtilUncheckedUpdateManyWithoutSolicitacaoNestedInput = {
   deleteMany?: Prisma.PrevisaoVidaUtilScalarWhereInput | Prisma.PrevisaoVidaUtilScalarWhereInput[]
 }
 
+export type PrevisaoVidaUtilCreateWithoutExecucaoInput = {
+  id: string
+  tipoEquipamento: $Enums.TipoEquipamento
+  marca?: string | null
+  modelo?: string | null
+  dataPrevisao?: Date | string
+  metodologia: $Enums.MetodologiaPrevisao
+  vidaUtilEstimadaMeses: number
+  r2?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  amostras: number
+  parametros: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  solicitacao?: Prisma.SolicitacaoRelatorioCreateNestedOneWithoutPrevisoesInput
+  validacoes?: Prisma.ValidacaoPrevisaoCreateNestedManyWithoutPrevisaoInput
+}
+
+export type PrevisaoVidaUtilUncheckedCreateWithoutExecucaoInput = {
+  id: string
+  tipoEquipamento: $Enums.TipoEquipamento
+  marca?: string | null
+  modelo?: string | null
+  dataPrevisao?: Date | string
+  metodologia: $Enums.MetodologiaPrevisao
+  vidaUtilEstimadaMeses: number
+  r2?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  amostras: number
+  parametros: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  solicitacaoRelatorioId?: string | null
+  validacoes?: Prisma.ValidacaoPrevisaoUncheckedCreateNestedManyWithoutPrevisaoInput
+}
+
+export type PrevisaoVidaUtilCreateOrConnectWithoutExecucaoInput = {
+  where: Prisma.PrevisaoVidaUtilWhereUniqueInput
+  create: Prisma.XOR<Prisma.PrevisaoVidaUtilCreateWithoutExecucaoInput, Prisma.PrevisaoVidaUtilUncheckedCreateWithoutExecucaoInput>
+}
+
+export type PrevisaoVidaUtilCreateManyExecucaoInputEnvelope = {
+  data: Prisma.PrevisaoVidaUtilCreateManyExecucaoInput | Prisma.PrevisaoVidaUtilCreateManyExecucaoInput[]
+  skipDuplicates?: boolean
+}
+
+export type PrevisaoVidaUtilUpsertWithWhereUniqueWithoutExecucaoInput = {
+  where: Prisma.PrevisaoVidaUtilWhereUniqueInput
+  update: Prisma.XOR<Prisma.PrevisaoVidaUtilUpdateWithoutExecucaoInput, Prisma.PrevisaoVidaUtilUncheckedUpdateWithoutExecucaoInput>
+  create: Prisma.XOR<Prisma.PrevisaoVidaUtilCreateWithoutExecucaoInput, Prisma.PrevisaoVidaUtilUncheckedCreateWithoutExecucaoInput>
+}
+
+export type PrevisaoVidaUtilUpdateWithWhereUniqueWithoutExecucaoInput = {
+  where: Prisma.PrevisaoVidaUtilWhereUniqueInput
+  data: Prisma.XOR<Prisma.PrevisaoVidaUtilUpdateWithoutExecucaoInput, Prisma.PrevisaoVidaUtilUncheckedUpdateWithoutExecucaoInput>
+}
+
+export type PrevisaoVidaUtilUpdateManyWithWhereWithoutExecucaoInput = {
+  where: Prisma.PrevisaoVidaUtilScalarWhereInput
+  data: Prisma.XOR<Prisma.PrevisaoVidaUtilUpdateManyMutationInput, Prisma.PrevisaoVidaUtilUncheckedUpdateManyWithoutExecucaoInput>
+}
+
+export type PrevisaoVidaUtilScalarWhereInput = {
+  AND?: Prisma.PrevisaoVidaUtilScalarWhereInput | Prisma.PrevisaoVidaUtilScalarWhereInput[]
+  OR?: Prisma.PrevisaoVidaUtilScalarWhereInput[]
+  NOT?: Prisma.PrevisaoVidaUtilScalarWhereInput | Prisma.PrevisaoVidaUtilScalarWhereInput[]
+  id?: Prisma.StringFilter<"PrevisaoVidaUtil"> | string
+  tipoEquipamento?: Prisma.EnumTipoEquipamentoFilter<"PrevisaoVidaUtil"> | $Enums.TipoEquipamento
+  marca?: Prisma.StringNullableFilter<"PrevisaoVidaUtil"> | string | null
+  modelo?: Prisma.StringNullableFilter<"PrevisaoVidaUtil"> | string | null
+  dataPrevisao?: Prisma.DateTimeFilter<"PrevisaoVidaUtil"> | Date | string
+  metodologia?: Prisma.EnumMetodologiaPrevisaoFilter<"PrevisaoVidaUtil"> | $Enums.MetodologiaPrevisao
+  vidaUtilEstimadaMeses?: Prisma.IntFilter<"PrevisaoVidaUtil"> | number
+  r2?: Prisma.DecimalNullableFilter<"PrevisaoVidaUtil"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  amostras?: Prisma.IntFilter<"PrevisaoVidaUtil"> | number
+  parametros?: Prisma.JsonFilter<"PrevisaoVidaUtil">
+  solicitacaoRelatorioId?: Prisma.StringNullableFilter<"PrevisaoVidaUtil"> | string | null
+  execucaoAnaliseId?: Prisma.StringNullableFilter<"PrevisaoVidaUtil"> | string | null
+}
+
 export type PrevisaoVidaUtilCreateWithoutValidacoesInput = {
   id: string
   tipoEquipamento: $Enums.TipoEquipamento
@@ -583,6 +723,7 @@ export type PrevisaoVidaUtilCreateWithoutValidacoesInput = {
   amostras: number
   parametros: Prisma.JsonNullValueInput | runtime.InputJsonValue
   solicitacao?: Prisma.SolicitacaoRelatorioCreateNestedOneWithoutPrevisoesInput
+  execucao?: Prisma.ExecucaoAnaliseCreateNestedOneWithoutPrevisoesInput
 }
 
 export type PrevisaoVidaUtilUncheckedCreateWithoutValidacoesInput = {
@@ -597,6 +738,7 @@ export type PrevisaoVidaUtilUncheckedCreateWithoutValidacoesInput = {
   amostras: number
   parametros: Prisma.JsonNullValueInput | runtime.InputJsonValue
   solicitacaoRelatorioId?: string | null
+  execucaoAnaliseId?: string | null
 }
 
 export type PrevisaoVidaUtilCreateOrConnectWithoutValidacoesInput = {
@@ -627,6 +769,7 @@ export type PrevisaoVidaUtilUpdateWithoutValidacoesInput = {
   amostras?: Prisma.IntFieldUpdateOperationsInput | number
   parametros?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   solicitacao?: Prisma.SolicitacaoRelatorioUpdateOneWithoutPrevisoesNestedInput
+  execucao?: Prisma.ExecucaoAnaliseUpdateOneWithoutPrevisoesNestedInput
 }
 
 export type PrevisaoVidaUtilUncheckedUpdateWithoutValidacoesInput = {
@@ -641,6 +784,7 @@ export type PrevisaoVidaUtilUncheckedUpdateWithoutValidacoesInput = {
   amostras?: Prisma.IntFieldUpdateOperationsInput | number
   parametros?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   solicitacaoRelatorioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  execucaoAnaliseId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type PrevisaoVidaUtilCreateWithoutSolicitacaoInput = {
@@ -654,6 +798,7 @@ export type PrevisaoVidaUtilCreateWithoutSolicitacaoInput = {
   r2?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amostras: number
   parametros: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  execucao?: Prisma.ExecucaoAnaliseCreateNestedOneWithoutPrevisoesInput
   validacoes?: Prisma.ValidacaoPrevisaoCreateNestedManyWithoutPrevisaoInput
 }
 
@@ -668,6 +813,7 @@ export type PrevisaoVidaUtilUncheckedCreateWithoutSolicitacaoInput = {
   r2?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amostras: number
   parametros: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  execucaoAnaliseId?: string | null
   validacoes?: Prisma.ValidacaoPrevisaoUncheckedCreateNestedManyWithoutPrevisaoInput
 }
 
@@ -697,21 +843,62 @@ export type PrevisaoVidaUtilUpdateManyWithWhereWithoutSolicitacaoInput = {
   data: Prisma.XOR<Prisma.PrevisaoVidaUtilUpdateManyMutationInput, Prisma.PrevisaoVidaUtilUncheckedUpdateManyWithoutSolicitacaoInput>
 }
 
-export type PrevisaoVidaUtilScalarWhereInput = {
-  AND?: Prisma.PrevisaoVidaUtilScalarWhereInput | Prisma.PrevisaoVidaUtilScalarWhereInput[]
-  OR?: Prisma.PrevisaoVidaUtilScalarWhereInput[]
-  NOT?: Prisma.PrevisaoVidaUtilScalarWhereInput | Prisma.PrevisaoVidaUtilScalarWhereInput[]
-  id?: Prisma.StringFilter<"PrevisaoVidaUtil"> | string
-  tipoEquipamento?: Prisma.EnumTipoEquipamentoFilter<"PrevisaoVidaUtil"> | $Enums.TipoEquipamento
-  marca?: Prisma.StringNullableFilter<"PrevisaoVidaUtil"> | string | null
-  modelo?: Prisma.StringNullableFilter<"PrevisaoVidaUtil"> | string | null
-  dataPrevisao?: Prisma.DateTimeFilter<"PrevisaoVidaUtil"> | Date | string
-  metodologia?: Prisma.EnumMetodologiaPrevisaoFilter<"PrevisaoVidaUtil"> | $Enums.MetodologiaPrevisao
-  vidaUtilEstimadaMeses?: Prisma.IntFilter<"PrevisaoVidaUtil"> | number
-  r2?: Prisma.DecimalNullableFilter<"PrevisaoVidaUtil"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  amostras?: Prisma.IntFilter<"PrevisaoVidaUtil"> | number
-  parametros?: Prisma.JsonFilter<"PrevisaoVidaUtil">
-  solicitacaoRelatorioId?: Prisma.StringNullableFilter<"PrevisaoVidaUtil"> | string | null
+export type PrevisaoVidaUtilCreateManyExecucaoInput = {
+  id: string
+  tipoEquipamento: $Enums.TipoEquipamento
+  marca?: string | null
+  modelo?: string | null
+  dataPrevisao?: Date | string
+  metodologia: $Enums.MetodologiaPrevisao
+  vidaUtilEstimadaMeses: number
+  r2?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  amostras: number
+  parametros: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  solicitacaoRelatorioId?: string | null
+}
+
+export type PrevisaoVidaUtilUpdateWithoutExecucaoInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tipoEquipamento?: Prisma.EnumTipoEquipamentoFieldUpdateOperationsInput | $Enums.TipoEquipamento
+  marca?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  modelo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dataPrevisao?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  metodologia?: Prisma.EnumMetodologiaPrevisaoFieldUpdateOperationsInput | $Enums.MetodologiaPrevisao
+  vidaUtilEstimadaMeses?: Prisma.IntFieldUpdateOperationsInput | number
+  r2?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  amostras?: Prisma.IntFieldUpdateOperationsInput | number
+  parametros?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  solicitacao?: Prisma.SolicitacaoRelatorioUpdateOneWithoutPrevisoesNestedInput
+  validacoes?: Prisma.ValidacaoPrevisaoUpdateManyWithoutPrevisaoNestedInput
+}
+
+export type PrevisaoVidaUtilUncheckedUpdateWithoutExecucaoInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tipoEquipamento?: Prisma.EnumTipoEquipamentoFieldUpdateOperationsInput | $Enums.TipoEquipamento
+  marca?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  modelo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dataPrevisao?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  metodologia?: Prisma.EnumMetodologiaPrevisaoFieldUpdateOperationsInput | $Enums.MetodologiaPrevisao
+  vidaUtilEstimadaMeses?: Prisma.IntFieldUpdateOperationsInput | number
+  r2?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  amostras?: Prisma.IntFieldUpdateOperationsInput | number
+  parametros?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  solicitacaoRelatorioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  validacoes?: Prisma.ValidacaoPrevisaoUncheckedUpdateManyWithoutPrevisaoNestedInput
+}
+
+export type PrevisaoVidaUtilUncheckedUpdateManyWithoutExecucaoInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tipoEquipamento?: Prisma.EnumTipoEquipamentoFieldUpdateOperationsInput | $Enums.TipoEquipamento
+  marca?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  modelo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dataPrevisao?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  metodologia?: Prisma.EnumMetodologiaPrevisaoFieldUpdateOperationsInput | $Enums.MetodologiaPrevisao
+  vidaUtilEstimadaMeses?: Prisma.IntFieldUpdateOperationsInput | number
+  r2?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  amostras?: Prisma.IntFieldUpdateOperationsInput | number
+  parametros?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  solicitacaoRelatorioId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type PrevisaoVidaUtilCreateManySolicitacaoInput = {
@@ -725,6 +912,7 @@ export type PrevisaoVidaUtilCreateManySolicitacaoInput = {
   r2?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amostras: number
   parametros: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  execucaoAnaliseId?: string | null
 }
 
 export type PrevisaoVidaUtilUpdateWithoutSolicitacaoInput = {
@@ -738,6 +926,7 @@ export type PrevisaoVidaUtilUpdateWithoutSolicitacaoInput = {
   r2?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amostras?: Prisma.IntFieldUpdateOperationsInput | number
   parametros?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  execucao?: Prisma.ExecucaoAnaliseUpdateOneWithoutPrevisoesNestedInput
   validacoes?: Prisma.ValidacaoPrevisaoUpdateManyWithoutPrevisaoNestedInput
 }
 
@@ -752,6 +941,7 @@ export type PrevisaoVidaUtilUncheckedUpdateWithoutSolicitacaoInput = {
   r2?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amostras?: Prisma.IntFieldUpdateOperationsInput | number
   parametros?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  execucaoAnaliseId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   validacoes?: Prisma.ValidacaoPrevisaoUncheckedUpdateManyWithoutPrevisaoNestedInput
 }
 
@@ -766,6 +956,7 @@ export type PrevisaoVidaUtilUncheckedUpdateManyWithoutSolicitacaoInput = {
   r2?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   amostras?: Prisma.IntFieldUpdateOperationsInput | number
   parametros?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  execucaoAnaliseId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -811,7 +1002,9 @@ export type PrevisaoVidaUtilSelect<ExtArgs extends runtime.Types.Extensions.Inte
   amostras?: boolean
   parametros?: boolean
   solicitacaoRelatorioId?: boolean
+  execucaoAnaliseId?: boolean
   solicitacao?: boolean | Prisma.PrevisaoVidaUtil$solicitacaoArgs<ExtArgs>
+  execucao?: boolean | Prisma.PrevisaoVidaUtil$execucaoArgs<ExtArgs>
   validacoes?: boolean | Prisma.PrevisaoVidaUtil$validacoesArgs<ExtArgs>
   _count?: boolean | Prisma.PrevisaoVidaUtilCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["previsaoVidaUtil"]>
@@ -828,7 +1021,9 @@ export type PrevisaoVidaUtilSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   amostras?: boolean
   parametros?: boolean
   solicitacaoRelatorioId?: boolean
+  execucaoAnaliseId?: boolean
   solicitacao?: boolean | Prisma.PrevisaoVidaUtil$solicitacaoArgs<ExtArgs>
+  execucao?: boolean | Prisma.PrevisaoVidaUtil$execucaoArgs<ExtArgs>
 }, ExtArgs["result"]["previsaoVidaUtil"]>
 
 export type PrevisaoVidaUtilSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -843,7 +1038,9 @@ export type PrevisaoVidaUtilSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   amostras?: boolean
   parametros?: boolean
   solicitacaoRelatorioId?: boolean
+  execucaoAnaliseId?: boolean
   solicitacao?: boolean | Prisma.PrevisaoVidaUtil$solicitacaoArgs<ExtArgs>
+  execucao?: boolean | Prisma.PrevisaoVidaUtil$execucaoArgs<ExtArgs>
 }, ExtArgs["result"]["previsaoVidaUtil"]>
 
 export type PrevisaoVidaUtilSelectScalar = {
@@ -858,25 +1055,30 @@ export type PrevisaoVidaUtilSelectScalar = {
   amostras?: boolean
   parametros?: boolean
   solicitacaoRelatorioId?: boolean
+  execucaoAnaliseId?: boolean
 }
 
-export type PrevisaoVidaUtilOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tipoEquipamento" | "marca" | "modelo" | "dataPrevisao" | "metodologia" | "vidaUtilEstimadaMeses" | "r2" | "amostras" | "parametros" | "solicitacaoRelatorioId", ExtArgs["result"]["previsaoVidaUtil"]>
+export type PrevisaoVidaUtilOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tipoEquipamento" | "marca" | "modelo" | "dataPrevisao" | "metodologia" | "vidaUtilEstimadaMeses" | "r2" | "amostras" | "parametros" | "solicitacaoRelatorioId" | "execucaoAnaliseId", ExtArgs["result"]["previsaoVidaUtil"]>
 export type PrevisaoVidaUtilInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   solicitacao?: boolean | Prisma.PrevisaoVidaUtil$solicitacaoArgs<ExtArgs>
+  execucao?: boolean | Prisma.PrevisaoVidaUtil$execucaoArgs<ExtArgs>
   validacoes?: boolean | Prisma.PrevisaoVidaUtil$validacoesArgs<ExtArgs>
   _count?: boolean | Prisma.PrevisaoVidaUtilCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type PrevisaoVidaUtilIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   solicitacao?: boolean | Prisma.PrevisaoVidaUtil$solicitacaoArgs<ExtArgs>
+  execucao?: boolean | Prisma.PrevisaoVidaUtil$execucaoArgs<ExtArgs>
 }
 export type PrevisaoVidaUtilIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   solicitacao?: boolean | Prisma.PrevisaoVidaUtil$solicitacaoArgs<ExtArgs>
+  execucao?: boolean | Prisma.PrevisaoVidaUtil$execucaoArgs<ExtArgs>
 }
 
 export type $PrevisaoVidaUtilPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "PrevisaoVidaUtil"
   objects: {
     solicitacao: Prisma.$SolicitacaoRelatorioPayload<ExtArgs> | null
+    execucao: Prisma.$ExecucaoAnalisePayload<ExtArgs> | null
     validacoes: Prisma.$ValidacaoPrevisaoPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -891,6 +1093,7 @@ export type $PrevisaoVidaUtilPayload<ExtArgs extends runtime.Types.Extensions.In
     amostras: number
     parametros: runtime.JsonValue
     solicitacaoRelatorioId: string | null
+    execucaoAnaliseId: string | null
   }, ExtArgs["result"]["previsaoVidaUtil"]>
   composites: {}
 }
@@ -1286,6 +1489,7 @@ readonly fields: PrevisaoVidaUtilFieldRefs;
 export interface Prisma__PrevisaoVidaUtilClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   solicitacao<T extends Prisma.PrevisaoVidaUtil$solicitacaoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PrevisaoVidaUtil$solicitacaoArgs<ExtArgs>>): Prisma.Prisma__SolicitacaoRelatorioClient<runtime.Types.Result.GetResult<Prisma.$SolicitacaoRelatorioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  execucao<T extends Prisma.PrevisaoVidaUtil$execucaoArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PrevisaoVidaUtil$execucaoArgs<ExtArgs>>): Prisma.Prisma__ExecucaoAnaliseClient<runtime.Types.Result.GetResult<Prisma.$ExecucaoAnalisePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   validacoes<T extends Prisma.PrevisaoVidaUtil$validacoesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PrevisaoVidaUtil$validacoesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ValidacaoPrevisaoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1327,6 +1531,7 @@ export interface PrevisaoVidaUtilFieldRefs {
   readonly amostras: Prisma.FieldRef<"PrevisaoVidaUtil", 'Int'>
   readonly parametros: Prisma.FieldRef<"PrevisaoVidaUtil", 'Json'>
   readonly solicitacaoRelatorioId: Prisma.FieldRef<"PrevisaoVidaUtil", 'String'>
+  readonly execucaoAnaliseId: Prisma.FieldRef<"PrevisaoVidaUtil", 'String'>
 }
     
 
@@ -1744,6 +1949,25 @@ export type PrevisaoVidaUtil$solicitacaoArgs<ExtArgs extends runtime.Types.Exten
    */
   include?: Prisma.SolicitacaoRelatorioInclude<ExtArgs> | null
   where?: Prisma.SolicitacaoRelatorioWhereInput
+}
+
+/**
+ * PrevisaoVidaUtil.execucao
+ */
+export type PrevisaoVidaUtil$execucaoArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ExecucaoAnalise
+   */
+  select?: Prisma.ExecucaoAnaliseSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ExecucaoAnalise
+   */
+  omit?: Prisma.ExecucaoAnaliseOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ExecucaoAnaliseInclude<ExtArgs> | null
+  where?: Prisma.ExecucaoAnaliseWhereInput
 }
 
 /**

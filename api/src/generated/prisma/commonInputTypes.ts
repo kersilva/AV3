@@ -399,11 +399,11 @@ export type EnumEstadoFisicoNullableWithAggregatesFilter<$PrismaModel = never> =
   _max?: Prisma.NestedEnumEstadoFisicoNullableFilter<$PrismaModel>
 }
 
-export type EnumMetodologiaPrevisaoFilter<$PrismaModel = never> = {
-  equals?: $Enums.MetodologiaPrevisao | Prisma.EnumMetodologiaPrevisaoFieldRefInput<$PrismaModel>
-  in?: $Enums.MetodologiaPrevisao[] | Prisma.ListEnumMetodologiaPrevisaoFieldRefInput<$PrismaModel>
-  notIn?: $Enums.MetodologiaPrevisao[] | Prisma.ListEnumMetodologiaPrevisaoFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumMetodologiaPrevisaoFilter<$PrismaModel> | $Enums.MetodologiaPrevisao
+export type EnumTipoRelatorioFilter<$PrismaModel = never> = {
+  equals?: $Enums.TipoRelatorio | Prisma.EnumTipoRelatorioFieldRefInput<$PrismaModel>
+  in?: $Enums.TipoRelatorio[] | Prisma.ListEnumTipoRelatorioFieldRefInput<$PrismaModel>
+  notIn?: $Enums.TipoRelatorio[] | Prisma.ListEnumTipoRelatorioFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumTipoRelatorioFilter<$PrismaModel> | $Enums.TipoRelatorio
 }
 
 export type JsonFilter<$PrismaModel = never> =
@@ -430,14 +430,14 @@ export type JsonFilterBase<$PrismaModel = never> = {
   not?: runtime.InputJsonValue | Prisma.JsonFieldRefInput<$PrismaModel> | Prisma.JsonNullValueFilter
 }
 
-export type EnumMetodologiaPrevisaoWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.MetodologiaPrevisao | Prisma.EnumMetodologiaPrevisaoFieldRefInput<$PrismaModel>
-  in?: $Enums.MetodologiaPrevisao[] | Prisma.ListEnumMetodologiaPrevisaoFieldRefInput<$PrismaModel>
-  notIn?: $Enums.MetodologiaPrevisao[] | Prisma.ListEnumMetodologiaPrevisaoFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumMetodologiaPrevisaoWithAggregatesFilter<$PrismaModel> | $Enums.MetodologiaPrevisao
+export type EnumTipoRelatorioWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.TipoRelatorio | Prisma.EnumTipoRelatorioFieldRefInput<$PrismaModel>
+  in?: $Enums.TipoRelatorio[] | Prisma.ListEnumTipoRelatorioFieldRefInput<$PrismaModel>
+  notIn?: $Enums.TipoRelatorio[] | Prisma.ListEnumTipoRelatorioFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumTipoRelatorioWithAggregatesFilter<$PrismaModel> | $Enums.TipoRelatorio
   _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumMetodologiaPrevisaoFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumMetodologiaPrevisaoFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumTipoRelatorioFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumTipoRelatorioFilter<$PrismaModel>
 }
 
 export type JsonWithAggregatesFilter<$PrismaModel = never> =
@@ -467,11 +467,38 @@ export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
   _max?: Prisma.NestedJsonFilter<$PrismaModel>
 }
 
-export type EnumTipoRelatorioFilter<$PrismaModel = never> = {
-  equals?: $Enums.TipoRelatorio | Prisma.EnumTipoRelatorioFieldRefInput<$PrismaModel>
-  in?: $Enums.TipoRelatorio[] | Prisma.ListEnumTipoRelatorioFieldRefInput<$PrismaModel>
-  notIn?: $Enums.TipoRelatorio[] | Prisma.ListEnumTipoRelatorioFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumTipoRelatorioFilter<$PrismaModel> | $Enums.TipoRelatorio
+export type EnumMetricaAnaliseFilter<$PrismaModel = never> = {
+  equals?: $Enums.MetricaAnalise | Prisma.EnumMetricaAnaliseFieldRefInput<$PrismaModel>
+  in?: $Enums.MetricaAnalise[] | Prisma.ListEnumMetricaAnaliseFieldRefInput<$PrismaModel>
+  notIn?: $Enums.MetricaAnalise[] | Prisma.ListEnumMetricaAnaliseFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMetricaAnaliseFilter<$PrismaModel> | $Enums.MetricaAnalise
+}
+
+export type EnumMetricaAnaliseWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.MetricaAnalise | Prisma.EnumMetricaAnaliseFieldRefInput<$PrismaModel>
+  in?: $Enums.MetricaAnalise[] | Prisma.ListEnumMetricaAnaliseFieldRefInput<$PrismaModel>
+  notIn?: $Enums.MetricaAnalise[] | Prisma.ListEnumMetricaAnaliseFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMetricaAnaliseWithAggregatesFilter<$PrismaModel> | $Enums.MetricaAnalise
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumMetricaAnaliseFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumMetricaAnaliseFilter<$PrismaModel>
+}
+
+export type EnumMetodologiaPrevisaoFilter<$PrismaModel = never> = {
+  equals?: $Enums.MetodologiaPrevisao | Prisma.EnumMetodologiaPrevisaoFieldRefInput<$PrismaModel>
+  in?: $Enums.MetodologiaPrevisao[] | Prisma.ListEnumMetodologiaPrevisaoFieldRefInput<$PrismaModel>
+  notIn?: $Enums.MetodologiaPrevisao[] | Prisma.ListEnumMetodologiaPrevisaoFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMetodologiaPrevisaoFilter<$PrismaModel> | $Enums.MetodologiaPrevisao
+}
+
+export type EnumMetodologiaPrevisaoWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.MetodologiaPrevisao | Prisma.EnumMetodologiaPrevisaoFieldRefInput<$PrismaModel>
+  in?: $Enums.MetodologiaPrevisao[] | Prisma.ListEnumMetodologiaPrevisaoFieldRefInput<$PrismaModel>
+  notIn?: $Enums.MetodologiaPrevisao[] | Prisma.ListEnumMetodologiaPrevisaoFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMetodologiaPrevisaoWithAggregatesFilter<$PrismaModel> | $Enums.MetodologiaPrevisao
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumMetodologiaPrevisaoFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumMetodologiaPrevisaoFilter<$PrismaModel>
 }
 
 export type EnumStatusSolicitacaoFilter<$PrismaModel = never> = {
@@ -479,16 +506,6 @@ export type EnumStatusSolicitacaoFilter<$PrismaModel = never> = {
   in?: $Enums.StatusSolicitacao[] | Prisma.ListEnumStatusSolicitacaoFieldRefInput<$PrismaModel>
   notIn?: $Enums.StatusSolicitacao[] | Prisma.ListEnumStatusSolicitacaoFieldRefInput<$PrismaModel>
   not?: Prisma.NestedEnumStatusSolicitacaoFilter<$PrismaModel> | $Enums.StatusSolicitacao
-}
-
-export type EnumTipoRelatorioWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.TipoRelatorio | Prisma.EnumTipoRelatorioFieldRefInput<$PrismaModel>
-  in?: $Enums.TipoRelatorio[] | Prisma.ListEnumTipoRelatorioFieldRefInput<$PrismaModel>
-  notIn?: $Enums.TipoRelatorio[] | Prisma.ListEnumTipoRelatorioFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumTipoRelatorioWithAggregatesFilter<$PrismaModel> | $Enums.TipoRelatorio
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumTipoRelatorioFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumTipoRelatorioFilter<$PrismaModel>
 }
 
 export type EnumStatusSolicitacaoWithAggregatesFilter<$PrismaModel = never> = {
@@ -872,21 +889,21 @@ export type NestedEnumEstadoFisicoNullableWithAggregatesFilter<$PrismaModel = ne
   _max?: Prisma.NestedEnumEstadoFisicoNullableFilter<$PrismaModel>
 }
 
-export type NestedEnumMetodologiaPrevisaoFilter<$PrismaModel = never> = {
-  equals?: $Enums.MetodologiaPrevisao | Prisma.EnumMetodologiaPrevisaoFieldRefInput<$PrismaModel>
-  in?: $Enums.MetodologiaPrevisao[] | Prisma.ListEnumMetodologiaPrevisaoFieldRefInput<$PrismaModel>
-  notIn?: $Enums.MetodologiaPrevisao[] | Prisma.ListEnumMetodologiaPrevisaoFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumMetodologiaPrevisaoFilter<$PrismaModel> | $Enums.MetodologiaPrevisao
+export type NestedEnumTipoRelatorioFilter<$PrismaModel = never> = {
+  equals?: $Enums.TipoRelatorio | Prisma.EnumTipoRelatorioFieldRefInput<$PrismaModel>
+  in?: $Enums.TipoRelatorio[] | Prisma.ListEnumTipoRelatorioFieldRefInput<$PrismaModel>
+  notIn?: $Enums.TipoRelatorio[] | Prisma.ListEnumTipoRelatorioFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumTipoRelatorioFilter<$PrismaModel> | $Enums.TipoRelatorio
 }
 
-export type NestedEnumMetodologiaPrevisaoWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.MetodologiaPrevisao | Prisma.EnumMetodologiaPrevisaoFieldRefInput<$PrismaModel>
-  in?: $Enums.MetodologiaPrevisao[] | Prisma.ListEnumMetodologiaPrevisaoFieldRefInput<$PrismaModel>
-  notIn?: $Enums.MetodologiaPrevisao[] | Prisma.ListEnumMetodologiaPrevisaoFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumMetodologiaPrevisaoWithAggregatesFilter<$PrismaModel> | $Enums.MetodologiaPrevisao
+export type NestedEnumTipoRelatorioWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.TipoRelatorio | Prisma.EnumTipoRelatorioFieldRefInput<$PrismaModel>
+  in?: $Enums.TipoRelatorio[] | Prisma.ListEnumTipoRelatorioFieldRefInput<$PrismaModel>
+  notIn?: $Enums.TipoRelatorio[] | Prisma.ListEnumTipoRelatorioFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumTipoRelatorioWithAggregatesFilter<$PrismaModel> | $Enums.TipoRelatorio
   _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumMetodologiaPrevisaoFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumMetodologiaPrevisaoFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumTipoRelatorioFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumTipoRelatorioFilter<$PrismaModel>
 }
 
 export type NestedJsonFilter<$PrismaModel = never> =
@@ -913,11 +930,38 @@ export type NestedJsonFilterBase<$PrismaModel = never> = {
   not?: runtime.InputJsonValue | Prisma.JsonFieldRefInput<$PrismaModel> | Prisma.JsonNullValueFilter
 }
 
-export type NestedEnumTipoRelatorioFilter<$PrismaModel = never> = {
-  equals?: $Enums.TipoRelatorio | Prisma.EnumTipoRelatorioFieldRefInput<$PrismaModel>
-  in?: $Enums.TipoRelatorio[] | Prisma.ListEnumTipoRelatorioFieldRefInput<$PrismaModel>
-  notIn?: $Enums.TipoRelatorio[] | Prisma.ListEnumTipoRelatorioFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumTipoRelatorioFilter<$PrismaModel> | $Enums.TipoRelatorio
+export type NestedEnumMetricaAnaliseFilter<$PrismaModel = never> = {
+  equals?: $Enums.MetricaAnalise | Prisma.EnumMetricaAnaliseFieldRefInput<$PrismaModel>
+  in?: $Enums.MetricaAnalise[] | Prisma.ListEnumMetricaAnaliseFieldRefInput<$PrismaModel>
+  notIn?: $Enums.MetricaAnalise[] | Prisma.ListEnumMetricaAnaliseFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMetricaAnaliseFilter<$PrismaModel> | $Enums.MetricaAnalise
+}
+
+export type NestedEnumMetricaAnaliseWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.MetricaAnalise | Prisma.EnumMetricaAnaliseFieldRefInput<$PrismaModel>
+  in?: $Enums.MetricaAnalise[] | Prisma.ListEnumMetricaAnaliseFieldRefInput<$PrismaModel>
+  notIn?: $Enums.MetricaAnalise[] | Prisma.ListEnumMetricaAnaliseFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMetricaAnaliseWithAggregatesFilter<$PrismaModel> | $Enums.MetricaAnalise
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumMetricaAnaliseFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumMetricaAnaliseFilter<$PrismaModel>
+}
+
+export type NestedEnumMetodologiaPrevisaoFilter<$PrismaModel = never> = {
+  equals?: $Enums.MetodologiaPrevisao | Prisma.EnumMetodologiaPrevisaoFieldRefInput<$PrismaModel>
+  in?: $Enums.MetodologiaPrevisao[] | Prisma.ListEnumMetodologiaPrevisaoFieldRefInput<$PrismaModel>
+  notIn?: $Enums.MetodologiaPrevisao[] | Prisma.ListEnumMetodologiaPrevisaoFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMetodologiaPrevisaoFilter<$PrismaModel> | $Enums.MetodologiaPrevisao
+}
+
+export type NestedEnumMetodologiaPrevisaoWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.MetodologiaPrevisao | Prisma.EnumMetodologiaPrevisaoFieldRefInput<$PrismaModel>
+  in?: $Enums.MetodologiaPrevisao[] | Prisma.ListEnumMetodologiaPrevisaoFieldRefInput<$PrismaModel>
+  notIn?: $Enums.MetodologiaPrevisao[] | Prisma.ListEnumMetodologiaPrevisaoFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMetodologiaPrevisaoWithAggregatesFilter<$PrismaModel> | $Enums.MetodologiaPrevisao
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumMetodologiaPrevisaoFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumMetodologiaPrevisaoFilter<$PrismaModel>
 }
 
 export type NestedEnumStatusSolicitacaoFilter<$PrismaModel = never> = {
@@ -925,16 +969,6 @@ export type NestedEnumStatusSolicitacaoFilter<$PrismaModel = never> = {
   in?: $Enums.StatusSolicitacao[] | Prisma.ListEnumStatusSolicitacaoFieldRefInput<$PrismaModel>
   notIn?: $Enums.StatusSolicitacao[] | Prisma.ListEnumStatusSolicitacaoFieldRefInput<$PrismaModel>
   not?: Prisma.NestedEnumStatusSolicitacaoFilter<$PrismaModel> | $Enums.StatusSolicitacao
-}
-
-export type NestedEnumTipoRelatorioWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.TipoRelatorio | Prisma.EnumTipoRelatorioFieldRefInput<$PrismaModel>
-  in?: $Enums.TipoRelatorio[] | Prisma.ListEnumTipoRelatorioFieldRefInput<$PrismaModel>
-  notIn?: $Enums.TipoRelatorio[] | Prisma.ListEnumTipoRelatorioFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumTipoRelatorioWithAggregatesFilter<$PrismaModel> | $Enums.TipoRelatorio
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumTipoRelatorioFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumTipoRelatorioFilter<$PrismaModel>
 }
 
 export type NestedEnumStatusSolicitacaoWithAggregatesFilter<$PrismaModel = never> = {

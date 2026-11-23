@@ -73,6 +73,16 @@ export type HistoricoStatusLote = Prisma.HistoricoStatusLoteModel
  */
 export type HistoricoEstadoFisico = Prisma.HistoricoEstadoFisicoModel
 /**
+ * Model ExecucaoAnalise
+ * 
+ */
+export type ExecucaoAnalise = Prisma.ExecucaoAnaliseModel
+/**
+ * Model ResultadoAnalise
+ * 
+ */
+export type ResultadoAnalise = Prisma.ResultadoAnaliseModel
+/**
  * Model PrevisaoVidaUtil
  * 
  */

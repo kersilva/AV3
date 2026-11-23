@@ -62,6 +62,8 @@ export const ModelName = {
   Organizacao: 'Organizacao',
   HistoricoStatusLote: 'HistoricoStatusLote',
   HistoricoEstadoFisico: 'HistoricoEstadoFisico',
+  ExecucaoAnalise: 'ExecucaoAnalise',
+  ResultadoAnalise: 'ResultadoAnalise',
   PrevisaoVidaUtil: 'PrevisaoVidaUtil',
   ValidacaoPrevisao: 'ValidacaoPrevisao',
   ParceiroApi: 'ParceiroApi',
@@ -239,6 +241,30 @@ export const HistoricoEstadoFisicoScalarFieldEnum = {
 export type HistoricoEstadoFisicoScalarFieldEnum = (typeof HistoricoEstadoFisicoScalarFieldEnum)[keyof typeof HistoricoEstadoFisicoScalarFieldEnum]
 
 
+export const ExecucaoAnaliseScalarFieldEnum = {
+  id: 'id',
+  tipoRelatorio: 'tipoRelatorio',
+  parametros: 'parametros',
+  versaoCalculo: 'versaoCalculo',
+  dataReferencia: 'dataReferencia',
+  criadaEm: 'criadaEm'
+} as const
+
+export type ExecucaoAnaliseScalarFieldEnum = (typeof ExecucaoAnaliseScalarFieldEnum)[keyof typeof ExecucaoAnaliseScalarFieldEnum]
+
+
+export const ResultadoAnaliseScalarFieldEnum = {
+  id: 'id',
+  execucaoId: 'execucaoId',
+  metrica: 'metrica',
+  chave: 'chave',
+  valor: 'valor',
+  amostras: 'amostras'
+} as const
+
+export type ResultadoAnaliseScalarFieldEnum = (typeof ResultadoAnaliseScalarFieldEnum)[keyof typeof ResultadoAnaliseScalarFieldEnum]
+
+
 export const PrevisaoVidaUtilScalarFieldEnum = {
   id: 'id',
   tipoEquipamento: 'tipoEquipamento',
@@ -250,7 +276,8 @@ export const PrevisaoVidaUtilScalarFieldEnum = {
   r2: 'r2',
   amostras: 'amostras',
   parametros: 'parametros',
-  solicitacaoRelatorioId: 'solicitacaoRelatorioId'
+  solicitacaoRelatorioId: 'solicitacaoRelatorioId',
+  execucaoAnaliseId: 'execucaoAnaliseId'
 } as const
 
 export type PrevisaoVidaUtilScalarFieldEnum = (typeof PrevisaoVidaUtilScalarFieldEnum)[keyof typeof PrevisaoVidaUtilScalarFieldEnum]

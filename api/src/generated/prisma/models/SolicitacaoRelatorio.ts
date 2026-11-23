@@ -651,10 +651,6 @@ export type SolicitacaoRelatorioUncheckedUpdateManyWithoutParceiroNestedInput = 
   deleteMany?: Prisma.SolicitacaoRelatorioScalarWhereInput | Prisma.SolicitacaoRelatorioScalarWhereInput[]
 }
 
-export type EnumTipoRelatorioFieldUpdateOperationsInput = {
-  set?: $Enums.TipoRelatorio
-}
-
 export type EnumStatusSolicitacaoFieldUpdateOperationsInput = {
   set?: $Enums.StatusSolicitacao
 }
